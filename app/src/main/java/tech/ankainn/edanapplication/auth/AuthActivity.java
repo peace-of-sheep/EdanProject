@@ -1,4 +1,4 @@
-package tech.ankainn.edanapplication.ui;
+package tech.ankainn.edanapplication.auth;
 
 import androidx.appcompat.app.AppCompatActivity;
 
