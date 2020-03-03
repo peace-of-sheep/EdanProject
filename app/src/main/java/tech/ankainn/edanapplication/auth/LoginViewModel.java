@@ -13,9 +13,19 @@ public class LoginViewModel extends BaseViewModel {
     private State state = State.INIT;
 
     private MutableLiveData<Boolean> loading = new MutableLiveData<>(false);
+    private CharSequence userInputTemp = "";
+    private CharSequence passInputTemp = "";
 
     public LoginViewModel(@NonNull Application application) {
         super(application);
+    }
+
+    public void changeUserInput(CharSequence userInput) {
+        userInputTemp = userInput;
+    }
+
+    public void changePassInput(CharSequence passInput) {
+        passInputTemp = passInput;
     }
 
     public void loadUser() {

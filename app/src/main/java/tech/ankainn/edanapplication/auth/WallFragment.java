@@ -1,4 +1,4 @@
-package tech.ankainn.edanapplication.util;
+package tech.ankainn.edanapplication.auth;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

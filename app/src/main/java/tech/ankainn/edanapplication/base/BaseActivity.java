@@ -13,7 +13,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        allowFullscreen();
+        if(shouldFullscreen()) {
+            allowFullscreen();
+        }
     }
 
     @Override
@@ -22,7 +24,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
     }
 
-    protected void allowFullscreen() {
+    protected boolean shouldFullscreen() {
+        return true;
+    }
+
+    private void allowFullscreen() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             boolean lightMode = getResources().getBoolean(R.bool.light_mode);
             if(lightMode) {

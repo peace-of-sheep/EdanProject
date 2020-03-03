@@ -16,13 +16,11 @@ public class SplashActivity extends BaseActivity {
 
         startActivity(new Intent(this, AuthActivity.class));
         finish();
-
-
     }
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-
+        //TODO adding some kind of animation (?)
     }
 }

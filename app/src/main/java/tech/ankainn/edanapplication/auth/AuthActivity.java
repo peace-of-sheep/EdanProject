@@ -6,7 +6,6 @@ import androidx.annotation.Nullable;
 
 import tech.ankainn.edanapplication.R;
 import tech.ankainn.edanapplication.base.BaseActivity;
-import tech.ankainn.edanapplication.util.WallFragment;
 
 public class AuthActivity extends BaseActivity {
 

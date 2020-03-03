@@ -1,0 +1,172 @@
+{
+  "project_info": {
+    "project_number": "811216361326",
+    "firebase_url": "https://edan-aa5cc.firebaseio.com",
+    "project_id": "edan-aa5cc",
+    "storage_bucket": "edan-aa5cc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:811216361326:android:9251ba4c514ec062",
+        "android_client_info": {
+          "package_name": "com.anka.edanciudadano"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "811216361326-doocfpp6aj6tcciso88hgg9ond2rdu17.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.anka.edanciudadano",
+            "certificate_hash": "94e899c96838de0965ed0667e7f93803df5e1105"
+          }
+        },
+        {
+          "client_id": "811216361326-lok1qjsr2fuepcpj463odp9djq1oddlg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeDvHwGMKfws7pDqVI5RebEk9ctPbHMPY"
+        },
+        {
+          "current_key": "AIzaSyDEWmXrRo63THjKwni4MFC4wmBScXQhuPM"
+        },
+        {
+          "current_key": "AIzaSyCD3AI1Jg7twbi79uT-4QoDDbhrvz4YBV4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "811216361326-lok1qjsr2fuepcpj463odp9djq1oddlg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:811216361326:android:848603d75b9b7dc5",
+        "android_client_info": {
+          "package_name": "org.anka.pe.edanproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "811216361326-accilo70slkus2fkur44c66omklnur9t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.anka.pe.edanproject",
+            "certificate_hash": "3ed303410ede6c39d1999cd66c86707c10691976"
+          }
+        },
+        {
+          "client_id": "811216361326-b7732363eaqm8gl55d7bvats0umti2qi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.anka.pe.edanproject",
+            "certificate_hash": "94e899c96838de0965ed0667e7f93803df5e1105"
+          }
+        },
+        {
+          "client_id": "811216361326-it0doq40aqlce7s661v5i54ubhapob8o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.anka.pe.edanproject",
+            "certificate_hash": "4247b53a8263c59c513cf49878616f02f3531616"
+          }
+        },
+        {
+          "client_id": "811216361326-uli7kque4o2ied8al8a31bi98c7co2m8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.anka.pe.edanproject",
+            "certificate_hash": "ede33f09b7b65217b4ecc0fab32b0bb634f161fc"
+          }
+        },
+        {
+          "client_id": "811216361326-ov4c7b7de4b85smbsh6vkj1rbf088f72.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.anka.pe.edanproject",
+            "certificate_hash": "523f029b15bd631394422ddcc23d9b790af7bea1"
+          }
+        },
+        {
+          "client_id": "811216361326-lok1qjsr2fuepcpj463odp9djq1oddlg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeDvHwGMKfws7pDqVI5RebEk9ctPbHMPY"
+        },
+        {
+          "current_key": "AIzaSyDEWmXrRo63THjKwni4MFC4wmBScXQhuPM"
+        },
+        {
+          "current_key": "AIzaSyCD3AI1Jg7twbi79uT-4QoDDbhrvz4YBV4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "811216361326-lok1qjsr2fuepcpj463odp9djq1oddlg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:811216361326:android:bc6b0d70472181db4e537f",
+        "android_client_info": {
+          "package_name": "tech.ankainn.edanapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "811216361326-jprsm3di8nrg3oa6qc2jq2aqabpvnlja.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "tech.ankainn.edanapplication",
+            "certificate_hash": "523f029b15bd631394422ddcc23d9b790af7bea1"
+          }
+        },
+        {
+          "client_id": "811216361326-lok1qjsr2fuepcpj463odp9djq1oddlg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeDvHwGMKfws7pDqVI5RebEk9ctPbHMPY"
+        },
+        {
+          "current_key": "AIzaSyDEWmXrRo63THjKwni4MFC4wmBScXQhuPM"
+        },
+        {
+          "current_key": "AIzaSyCD3AI1Jg7twbi79uT-4QoDDbhrvz4YBV4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "811216361326-lok1qjsr2fuepcpj463odp9djq1oddlg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

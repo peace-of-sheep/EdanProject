@@ -1,10 +1,8 @@
 package tech.ankainn.edanapplication.auth;
 
 import android.os.Bundle;
-import android.view.KeyEvent;
-import android.view.View;
+import android.text.Editable;
 import android.view.inputmethod.EditorInfo;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.ViewDataBinding;
@@ -14,6 +12,7 @@ import tech.ankainn.edanapplication.R;
 import tech.ankainn.edanapplication.base.BaseFragment;
 import tech.ankainn.edanapplication.databinding.FragmentLoginBinding;
 import tech.ankainn.edanapplication.util.AutoClearedValue;
+import tech.ankainn.edanapplication.util.OnAfterTextChanged;
 
 public class LoginFragment extends BaseFragment {
 
@@ -41,6 +40,20 @@ public class LoginFragment extends BaseFragment {
                 new ViewModelProvider(this).get(LoginViewModel.class);
 
         setupHideSoftKeyboard(binding.get().getRoot());
+
+        binding.get().userInput.addTextChangedListener(new OnAfterTextChanged() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                viewModel.changeUserInput(s);
+            }
+        });
+
+        binding.get().passInput.addTextChangedListener(new OnAfterTextChanged() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                viewModel.changePassInput(s);
+            }
+        });
 
         binding.get().passInput.setOnEditorActionListener((v, actionId, event) -> {
             boolean handled = false;
