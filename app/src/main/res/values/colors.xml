@@ -4,5 +4,8 @@
     <color name="colorPrimaryDark">#db915c</color>
     <color name="colorAccent">#54a4cc</color>
 
-    <color name="colorBackground">#dedede</color>
+    <color name="colorBackground">#fff</color>
+    <color name="colorBackgroundSecondary">#dedede</color>
+
+    <color name="colorProgressBarTextBackground">#70ffffff</color>
 </resources>

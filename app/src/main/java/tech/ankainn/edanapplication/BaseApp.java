@@ -11,12 +11,22 @@ import tech.ankainn.edanapplication.util.NoLogTree;
 import timber.log.Timber;
 
 public class BaseApp extends Application {
+
+    private AppExecutors appExecutors;
+
     @Override
     public void onCreate() {
         super.onCreate();
+
         Timber.plant(BuildConfig.DEBUG ? new Timber.DebugTree() : new NoLogTree());
 
+        appExecutors = new AppExecutors();
+
         registerActivities();
+    }
+
+    public AppExecutors getExecutors() {
+        return appExecutors;
     }
 
     private void registerActivities() {

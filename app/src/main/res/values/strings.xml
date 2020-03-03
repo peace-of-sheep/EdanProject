@@ -3,4 +3,8 @@
     <string name="app_name" translatable="false">EdanApp</string>
 
     <string name="hello">Hello</string>
+    <string name="user_input">User</string>
+    <string name="pass_input">Password</string>
+
+    <string name="default_loading">Loading</string>
 </resources>

@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="hello">Hola</string>
+    <string name="user_input">Usuario</string>
+    <string name="pass_input">Contraseña</string>
+
+    <string name="default_loading">Cargando</string>
 </resources>

@@ -11,8 +11,10 @@
             android:layout_marginStart="@dimen/dim_nor"
             android:layout_marginEnd="@dimen/dim_nor"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/user_text_layout"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -34,8 +36,10 @@
             android:layout_marginStart="@dimen/dim_nor"
             android:layout_marginEnd="@dimen/dim_nor"
             app:layout_constraintTop_toBottomOf="@id/user_text_layout"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/pass_text_layout"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -57,8 +61,17 @@
             android:layout_marginStart="@dimen/dim_xxxxbig"
             android:layout_marginEnd="@dimen/dim_xxxxbig"
             app:layout_constraintTop_toBottomOf="@id/pass_text_layout"
-            android:layout_width="match_parent"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="420dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

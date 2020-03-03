@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:parentTag="android.widget.FrameLayout"
+    tools:layout_width="match_parent"
+    tools:layout_height="wrap_content">
+
+    <androidx.core.widget.ContentLoadingProgressBar
+        android:scaleY="1.5"
+        android:layout_gravity="center_horizontal|bottom"
+        android:id="@+id/progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:indeterminate="true" />
+
+    <FrameLayout
+        android:layout_marginBottom="@dimen/dim_sma"
+        android:background="@drawable/round_shape"
+        android:id="@+id/hint_text_layout"
+        android:layout_gravity="center_horizontal|top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:background="@android:color/transparent"
+            android:textStyle="bold"
+            android:id="@+id/hint_text"
+            android:paddingStart="@dimen/dim_nor"
+            android:paddingEnd="@dimen/dim_nor"
+            android:paddingTop="@dimen/dim_sma"
+            android:paddingBottom="@dimen/dim_sma"
+            android:textSize="@dimen/text_small"
+            tools:text="Hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
+
+</merge>
