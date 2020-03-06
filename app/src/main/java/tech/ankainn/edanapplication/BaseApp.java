@@ -7,26 +7,29 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import tech.ankainn.edanapplication.util.NoLogTree;
+import tech.ankainn.edanapplication.repositories.UserRepository;
+import tech.ankainn.edanapplication.retrofit.ApiService;
+import tech.ankainn.edanapplication.retrofit.RetrofitUtil;
+import tech.ankainn.edanapplication.util.CrashReportingTree;
 import timber.log.Timber;
 
 public class BaseApp extends Application {
 
     private AppExecutors appExecutors;
 
+    private ApiService apiService;
+
     @Override
     public void onCreate() {
         super.onCreate();
 
-        Timber.plant(BuildConfig.DEBUG ? new Timber.DebugTree() : new NoLogTree());
+        Timber.plant(BuildConfig.DEBUG ? new Timber.DebugTree() : new CrashReportingTree());
 
         appExecutors = new AppExecutors();
 
-        registerActivities();
-    }
+        apiService = RetrofitUtil.createApiService();
 
-    public AppExecutors getExecutors() {
-        return appExecutors;
+        registerActivities();
     }
 
     private void registerActivities() {
@@ -65,5 +68,10 @@ public class BaseApp extends Application {
 
             }
         });
+    }
+
+    // public methods
+    public UserRepository getUserRepository() {
+        return UserRepository.getInstance(appExecutors, apiService);
     }
 }

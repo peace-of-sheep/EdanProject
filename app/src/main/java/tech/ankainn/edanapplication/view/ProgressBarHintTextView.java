@@ -41,6 +41,12 @@ public class ProgressBarHintTextView extends FrameLayout {
         setHintText(hintText);
     }
 
+    @Override
+    protected void onDetachedFromWindow() {
+        binding = null;
+        super.onDetachedFromWindow();
+    }
+
     public void setHintText(String hintText) {
         binding.hintText.setText(hintText);
     }

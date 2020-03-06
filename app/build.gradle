@@ -15,8 +15,15 @@ android {
     }
     buildTypes {
         release {
+            // enable crashlytics on release mode
+            manifestPlaceholders = [crashlyticsEnabled: true]
+
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            // disable crashlytics on debug mode
+            manifestPlaceholders = [crashlyticsEnabled: false]
         }
     }
 
@@ -55,6 +62,11 @@ dependencies {
     // Timber log
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
+    // retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.7.2'
+    implementation 'com.squareup.retrofit2:converter-gson:2.7.2'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.0'
+
     // json library
     implementation 'com.google.code.gson:gson:2.8.6'
 
@@ -74,4 +86,7 @@ dependencies {
     // glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+
+    // maps
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
 }

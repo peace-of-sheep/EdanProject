@@ -16,7 +16,6 @@ public class AutoClearedValue<T> implements LifecycleObserver {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     public void clearValue() {
-        Timber.i("clearValue:");
         value = null;
     }
 

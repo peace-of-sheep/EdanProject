@@ -10,6 +10,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
 
+        <!-- disable crashlytics on debug -->
+        <meta-data android:name="firebase_crashlytics_collection_enabled"
+            android:value="${crashlyticsEnabled}" />
+
+        <!-- map api key -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_api_key" />
+
+        <!-- activities -->
         <activity android:name=".splash.SplashActivity"
             android:theme="@style/SplashTheme" >
             <intent-filter>
@@ -20,6 +30,7 @@
         </activity>
 
         <activity android:name=".auth.AuthActivity" />
+        <activity android:name=".form.CommonFormActivity" />
 
     </application>
 </manifest>

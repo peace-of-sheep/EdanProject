@@ -35,8 +35,12 @@ public abstract class BaseFragment extends Fragment {
         setViewDataBinding(binding);
         binding.getRoot().setFocusableInTouchMode(true);
         binding.getRoot().setClickable(true);
-        binding.getRoot().setFitsSystemWindows(true);
+        binding.getRoot().setFitsSystemWindows(shouldFitsSystemWindows());
         return binding.getRoot();
+    }
+
+    protected boolean shouldFitsSystemWindows() {
+        return true;
     }
 
     @SuppressLint("ClickableViewAccessibility")
