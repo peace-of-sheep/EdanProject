@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorBackground">#262626</color>
-    <color name="colorBackgroundSecondary">#000</color>
+    <color name="colorNavigationBar">#000</color>
+
+    <color name="colorStroke">#000</color>
 
     <color name="colorProgressBarTextBackground">#70000000</color>
 </resources>

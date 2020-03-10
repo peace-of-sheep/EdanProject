@@ -7,20 +7,21 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.android.gms.maps.model.LatLng;
+
 public class SharedCommonFormViewModel extends AndroidViewModel {
 
-    private MutableLiveData<Boolean> fullscreen = new MutableLiveData<>();
-    private boolean immersiveMode = false;
+    private MutableLiveData<LatLng> location = new MutableLiveData<>();
 
     public SharedCommonFormViewModel(@NonNull Application application) {
         super(application);
     }
 
-    public void setFullscreen(boolean fullscreen) {
-        this.fullscreen.postValue(fullscreen);
+    public void setLocation(LatLng center) {
+        location.postValue(center);
     }
 
-    public LiveData<Boolean> getFullscreen() {
-        return fullscreen;
+    public LiveData<LatLng> getLocation() {
+        return location;
     }
 }

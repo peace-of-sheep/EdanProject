@@ -1,30 +1,22 @@
 package tech.ankainn.edanapplication.form;
 
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.ViewDataBinding;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-
 import tech.ankainn.edanapplication.R;
 import tech.ankainn.edanapplication.base.BaseFragment;
 import tech.ankainn.edanapplication.databinding.FragmentLocationBinding;
 import tech.ankainn.edanapplication.util.AutoClearedValue;
-import tech.ankainn.edanapplication.util.MapViewHolder;
 import timber.log.Timber;
 
-public class LocationFragment extends BaseFragment implements OnMapReadyCallback {
-
-    private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
-
-    private SharedCommonFormViewModel sharedViewModel;
+public class LocationFragment extends BaseFragment {
 
     private AutoClearedValue<FragmentLocationBinding> binding;
-
-    private MapViewHolder mapViewHolder;
 
     @Override
     protected int getLayoutRes() {
@@ -38,7 +30,7 @@ public class LocationFragment extends BaseFragment implements OnMapReadyCallback
     }
 
     @Override
-    protected boolean shouldFitsSystemWindows() {
+    protected boolean isClickable() {
         return false;
     }
 
@@ -46,45 +38,28 @@ public class LocationFragment extends BaseFragment implements OnMapReadyCallback
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedCommonFormViewModel.class);
+        SharedCommonFormViewModel sharedViewModel =
+                new ViewModelProvider(requireActivity()).get(SharedCommonFormViewModel.class);
 
-        initMapViewBundle(savedInstanceState);
-        mapViewHolder.get().getMapAsync(this);
+        sharedViewModel.getLocation().observe(getViewLifecycleOwner(),
+                location -> binding.get().setLatLng(location));
 
-        sharedViewModel.setFullscreen(true);
+        binding.get().btnNext.setOnClickListener(v -> {
+            navigateToGenInfo();
+        });
+
+        Timber.tag("GeneralInformationFrag").d("onViewCreated: %s", requireActivity().getWindow().getDecorView().getSystemUiVisibility());
     }
 
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        sharedViewModel.setFullscreen(!hidden);
-    }
+    private void navigateToGenInfo() {
+        /*NavigatorController.navigateTo(requireActivity(), new GeneralInformationFragment());*/
+        /*getParentFragmentManager()
+                .beginTransaction()
+                .hide(this)
+                .hide(getParentFragmentManager().findFragmentByTag(FragmentTag.MAP_LOCATION.toString()))
+                .add(R.id.container, new GeneralInformationFragment(), FragmentTag.GEN_INFO.toString())
+                .commit();*/
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if(!requireActivity().isChangingConfigurations()) {
-            sharedViewModel.setFullscreen(false);
-        }
-    }
-
-    private void initMapViewBundle(Bundle savedInstanceState) {
-        Bundle mapViewBundle = null;
-        if(savedInstanceState != null) {
-            mapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY);
-        }
-
-        mapViewHolder = new MapViewHolder(binding.get().mapView, mapViewBundle);
-        getViewLifecycleOwner().getLifecycle().addObserver(mapViewHolder);
-    }
-
-    @Override
-    public void onMapReady(GoogleMap map) {
-    }
-
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        mapViewHolder.get().onLowMemory();
+        ((CommonFormActivity) requireActivity()).navigateToGenInfo();
     }
 }

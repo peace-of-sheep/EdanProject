@@ -7,7 +7,6 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.ViewDataBinding;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import tech.ankainn.edanapplication.R;
@@ -19,11 +18,6 @@ import tech.ankainn.edanapplication.util.OnAfterTextChanged;
 public class LoginFragment extends BaseFragment {
 
     private AutoClearedValue<FragmentLoginBinding> binding;
-
-    public static LoginFragment newInstance() {
-        return new LoginFragment();
-    }
-
     @Override
     protected int getLayoutRes() {
         return R.layout.fragment_login;
@@ -76,7 +70,7 @@ public class LoginFragment extends BaseFragment {
                 binding.get().getRoot().requestFocus();
                 binding.get().userInput.setEnabled(false);
                 binding.get().passInput.setEnabled(false);*/
-                sharedViewModel.navigatePassAuth(null);
+                navigateToPassAuth();
                 handled = true;
             }
             return handled;
@@ -84,5 +78,8 @@ public class LoginFragment extends BaseFragment {
 
         viewModel.getAuthToken().observe(getViewLifecycleOwner(),
                 authToken -> Toast.makeText(getContext(), authToken, Toast.LENGTH_SHORT).show());
+    }
+
+    private void navigateToPassAuth() {
     }
 }

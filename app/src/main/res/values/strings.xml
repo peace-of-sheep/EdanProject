@@ -7,4 +7,18 @@
     <string name="pass_input">Password</string>
 
     <string name="default_loading">Loading</string>
+
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
+    <string name="next">Next</string>
+
+    <string name="danger_group">Danger group</string>
+    <string name="danger_type">Danger type</string>
+    <string name="occurrence_date">Date of occurrence</string>
+    <string name="occurrence_time">Time of occurrence</string>
+    <string name="department">Department</string>
+    <string name="province">Province</string>
+    <string name="district">District</string>
+    <string name="place">Place</string>
+    <string name="zone_type">Zone type</string>
 </resources>

@@ -11,6 +11,11 @@ import tech.ankainn.edanapplication.base.BaseActivity;
 public class SplashActivity extends BaseActivity {
 
     @Override
+    protected int getLayoutRes() {
+        return 0;
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 

@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import tech.ankainn.edanapplication.R;
+import timber.log.Timber;
 
 public class WallFragment extends Fragment {
     @Nullable

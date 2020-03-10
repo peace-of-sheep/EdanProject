@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="latLng"
+            type="com.google.android.gms.maps.model.LatLng" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:elevation="@dimen/dim_sma"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/dim_nor"
+            android:layout_marginStart="@dimen/dim_nor"
+            android:layout_marginEnd="@dimen/dim_nor"
+            android:id="@+id/layout_latitude"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_latitude"
+                android:hint="@string/latitude"
+                android:text="@{Double.toString(latLng.latitude)}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:elevation="@dimen/dim_sma"
+            app:layout_constraintTop_toBottomOf="@id/layout_latitude"
+            app:layout_constraintStart_toEndOf="@id/guideline"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/dim_nor"
+            android:layout_marginStart="@dimen/dim_nor"
+            android:layout_marginEnd="@dimen/dim_nor"
+            android:id="@+id/layout_longitude"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_longitude"
+                android:hint="@string/longitude"
+                android:text="@{Double.toString(latLng.longitude)}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/btn_next"
+            android:layout_marginStart="@dimen/dim_sma"
+            android:layout_marginEnd="@dimen/dim_sma"
+            android:text="@string/next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="380dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
