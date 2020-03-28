@@ -1,20 +1,22 @@
 package tech.ankainn.edanapplication.model;
 
+import com.google.gson.annotations.JsonAdapter;
+import com.google.gson.annotations.SerializedName;
+
+import tech.ankainn.edanapplication.util.CharSequenceSerializer;
+
 public class AuthCredentials {
 
-    private String username;
-    private String password;
+    @SerializedName("username")
+    @JsonAdapter(CharSequenceSerializer.class)
+    private CharSequence charSequence;
 
-    public AuthCredentials(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
+    @SerializedName("password")
+    @JsonAdapter(CharSequenceSerializer.class)
+    private CharSequence charArray;
 
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
+    public AuthCredentials(CharSequence charSequence, CharSequence charArray) {
+        this.charSequence = charSequence;
+        this.charArray = charArray;
     }
 }

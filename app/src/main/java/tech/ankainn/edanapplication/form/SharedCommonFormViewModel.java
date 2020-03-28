@@ -9,9 +9,13 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import tech.ankainn.edanapplication.util.LiveEvent;
+
 public class SharedCommonFormViewModel extends AndroidViewModel {
 
     private MutableLiveData<LatLng> location = new MutableLiveData<>();
+
+    private LiveEvent<Enum> event = new LiveEvent<>();
 
     public SharedCommonFormViewModel(@NonNull Application application) {
         super(application);
@@ -23,5 +27,13 @@ public class SharedCommonFormViewModel extends AndroidViewModel {
 
     public LiveData<LatLng> getLocation() {
         return location;
+    }
+
+    public LiveData<Enum> getEvent() {
+        return event;
+    }
+
+    public void sendEvent(Enum eventName) {
+        event.postValue(eventName);
     }
 }

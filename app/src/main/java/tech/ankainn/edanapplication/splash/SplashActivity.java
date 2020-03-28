@@ -5,8 +5,10 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 
+import tech.ankainn.edanapplication.BuildConfig;
 import tech.ankainn.edanapplication.auth.AuthActivity;
 import tech.ankainn.edanapplication.base.BaseActivity;
+import tech.ankainn.edanapplication.form.CommonFormActivity;
 
 public class SplashActivity extends BaseActivity {
 
@@ -16,8 +18,16 @@ public class SplashActivity extends BaseActivity {
     }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onResume() {
+        super.onResume();
+
+        //TODO debug
+        if(BuildConfig.DEBUG) {
+            startActivity(new Intent(this, AuthActivity.class));
+            finish();
+            return;
+        }
+
 
         startActivity(new Intent(this, AuthActivity.class));
         finish();

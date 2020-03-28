@@ -2,6 +2,10 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <import type="android.text.InputType"/>
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -11,14 +15,14 @@
             android:layout_marginStart="@dimen/dim_nor"
             android:layout_marginEnd="@dimen/dim_nor"
             app:layout_constraintTop_toTopOf="parent"
+            android:hint="@string/user_input"
             android:id="@+id/user_text_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/user_input"
-                android:hint="@string/user_input"
-                android:inputType="textAutoComplete"
+                android:inputType="@{InputType.TYPE_NULL}"
                 android:maxLength="24"
                 android:maxLines="1"
                 android:imeOptions="actionNext"
@@ -29,19 +33,18 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            app:passwordToggleEnabled="true"
+            app:endIconMode="password_toggle"
             android:layout_marginTop="@dimen/dim_nor"
             android:layout_marginStart="@dimen/dim_nor"
             android:layout_marginEnd="@dimen/dim_nor"
             app:layout_constraintTop_toBottomOf="@id/user_text_layout"
+            android:hint="@string/pass_input"
             android:id="@+id/pass_text_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/pass_input"
-                android:hint="@string/pass_input"
-                android:inputType="textPassword"
                 android:maxLength="24"
                 android:maxLines="1"
                 android:imeOptions="actionSend"
@@ -51,12 +54,22 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.button.MaterialButton
+            android:layout_marginTop="@dimen/dim_nor"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/pass_text_layout"
+            android:id="@+id/btn_login"
+            android:text="@string/login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
         <tech.ankainn.edanapplication.view.ProgressBarHintTextView
             android:id="@+id/progress_text"
             android:layout_marginTop="@dimen/dim_xbig"
             android:layout_marginStart="@dimen/dim_xxxxbig"
             android:layout_marginEnd="@dimen/dim_xxxxbig"
-            app:layout_constraintTop_toBottomOf="@id/pass_text_layout"
+            app:layout_constraintTop_toBottomOf="@id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 

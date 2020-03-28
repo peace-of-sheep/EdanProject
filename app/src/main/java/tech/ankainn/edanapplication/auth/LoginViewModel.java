@@ -16,10 +16,9 @@ public class LoginViewModel extends BaseViewModel {
 
     private UserRepository userRepository;
 
-    private State state = State.WAIT;
+    private MutableLiveData<Boolean> viewFocusState = new MutableLiveData<>(true);
 
-    private CharSequence userInputTemp = "";
-    private CharSequence passInputTemp = "";
+    private State state = State.WAIT;
 
     private MutableLiveData<Boolean> loading = new MutableLiveData<>(false);
     private MutableLiveData<AuthCredentials> authCredentials = new MutableLiveData<>();
@@ -32,21 +31,12 @@ public class LoginViewModel extends BaseViewModel {
                 input -> userRepository.loadUser(input));
     }
 
-    public void changeUserInput(CharSequence userInput) {
-        userInputTemp = userInput;
+    public LiveData<Boolean> isFocusable() {
+        return viewFocusState;
     }
 
-    public void changePassInput(CharSequence passInput) {
-        passInputTemp = passInput;
-    }
-
-    public void sendCredentials() {
-        //TODO start connection to backend
-        if(state != State.LOADING) {
-            state = State.LOADING;
-            authCredentials.setValue(new AuthCredentials(userInputTemp.toString(), passInputTemp.toString()));
-            loading.postValue(true);
-        }
+    public void setFocusableView(boolean focusable) {
+        viewFocusState.postValue(focusable);
     }
 
     public LiveData<Boolean> getLoading() {

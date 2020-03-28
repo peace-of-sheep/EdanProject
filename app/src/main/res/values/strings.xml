@@ -5,6 +5,7 @@
     <string name="hello">Hello</string>
     <string name="user_input">User</string>
     <string name="pass_input">Password</string>
+    <string name="login">Login</string>
 
     <string name="default_loading">Loading</string>
 

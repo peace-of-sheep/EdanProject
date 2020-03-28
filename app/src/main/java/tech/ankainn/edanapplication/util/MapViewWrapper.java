@@ -8,17 +8,21 @@ import androidx.lifecycle.OnLifecycleEvent;
 
 import com.google.android.gms.maps.MapView;
 
-public class MapViewHolder implements LifecycleObserver {
+public class MapViewWrapper implements LifecycleObserver {
+
+    private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
 
     private MapView mapView;
 
-    public MapViewHolder(MapView mapView, Bundle savedInstanceState) {
+    public MapViewWrapper(MapView mapView, Bundle savedInstanceState) {
         this.mapView = mapView;
-        mapView.onCreate(savedInstanceState);
-    }
 
-    public MapView get() {
-        return mapView;
+        Bundle mapViewBundle = null;
+        if(savedInstanceState != null) {
+            mapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY);
+        }
+
+        mapView.onCreate(mapViewBundle);
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
@@ -45,5 +49,15 @@ public class MapViewHolder implements LifecycleObserver {
     private void destroy() {
         mapView.onDestroy();
         mapView = null;
+    }
+
+    public void onLowMemory() {
+        if(mapView != null) {
+            mapView.onLowMemory();
+        }
+    }
+
+    public MapView get() {
+        return mapView;
     }
 }

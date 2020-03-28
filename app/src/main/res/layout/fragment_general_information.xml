@@ -2,20 +2,18 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <import type="android.text.InputType" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <View
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:background="@color/colorAccent" />
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/layout_danger_group"
             app:layout_constraintTop_toTopOf="parent"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
             android:layout_marginTop="@dimen/dim_nor"
             android:layout_marginStart="@dimen/dim_nor"
             android:layout_marginEnd="@dimen/dim_nor"
@@ -23,6 +21,7 @@
             android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:inputType="@{InputType.TYPE_NULL}"
                 android:id="@+id/text_danger_group"
                 android:hint="@string/danger_group"
                 android:layout_width="match_parent"
@@ -33,6 +32,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/layout_danger_type"
             app:layout_constraintTop_toBottomOf="@id/layout_danger_group"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
             android:layout_marginTop="@dimen/dim_nor"
             android:layout_marginStart="@dimen/dim_nor"
             android:layout_marginEnd="@dimen/dim_nor"
@@ -40,6 +40,7 @@
             android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:enabled="false"
                 android:id="@+id/text_danger_type"
                 android:hint="@string/danger_type"
                 android:layout_width="match_parent"
