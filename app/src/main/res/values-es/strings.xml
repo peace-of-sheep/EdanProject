@@ -7,19 +7,64 @@
     <string name="pass_input">Contraseña</string>
     <string name="login">Ingresar</string>
 
+    <string name="done">Listo</string>
+    <string name="yes">Sí</string>
+    <string name="no">No</string>
+    <string name="next">Siguiente</string>
+
     <string name="default_loading">Cargando</string>
+
+    <string name="quantity">Cantidad</string>
 
     <string name="latitude">Latitud</string>
     <string name="longitude">Longitud</string>
-    <string name="next">Siguiente</string>
+    <string name="altitude">Altitud (m.s.n.m.)</string>
 
     <string name="danger_group">Grupo peligro</string>
     <string name="danger_type">Tipo peligro</string>
     <string name="occurrence_date">Fecha de ocurrencia</string>
-    <string name="occurrence_time">Hora de ocurrencia</string>
+    <string name="occurrence_hour">Hora de ocurrencia</string>
     <string name="department">Departamento</string>
     <string name="province">Provincia</string>
     <string name="district">Distrito</string>
     <string name="place">Localidad</string>
     <string name="zone_type">Tipo de zona</string>
+
+    <string name="add_form">Agregar nuevo formulario</string>
+
+    <string name="title_damage_one">Vida y Salud</string>
+    <string name="injured_people">Lesionados (Heridos)</string>
+    <string name="trapped_people">Personas atrapadas</string>
+    <string name="isolated_people">Personas aisladas</string>
+    <string name="missing_people">Desaparecidos</string>
+    <string name="deceased_people">Fallecidos</string>
+
+    <string name="title_damage_two">Servicios Básicos</string>
+    <string name="water">Agua</string>
+    <string name="drainage">Desagüe</string>
+    <string name="electric_power">Energía eléctrica</string>
+    <string name="telephony">Telefonía</string>
+    <string name="gas">Gas</string>
+
+    <string name="title_damage_three">Infraestructura</string>
+    <string name="households">Viviendas</string>
+    <string name="roads">Carreteras</string>
+    <string name="bridges">Puentes</string>
+    <string name="health_establishments">Establecimientos de salud</string>
+
+    <string name="title_activities">Actividades a realizar</string>
+    <string name="search_rescue">Búsqueda y rescate</string>
+    <string name="evacuation">Evacuación</string>
+    <string name="health_care">Atención de salud</string>
+    <string name="edan_team">Equipo Edan</string>
+    <string name="control_measures">Medidas de control</string>
+
+    <string name="title_needs">Necesidades de apoyo externo</string>
+    <string name="humanitarian_goods">Bienes de ayuda humanitaria</string>
+    <string name="heavy_machinery">Maquinaria pesada</string>
+    <string name="technical_assistance">Asistencia técnica</string>
+
+    <string name="observation">Observación</string>
+    <string name="other_activities">Otras actividades</string>
+    <string name="other_needs">Otras necesidades</string>
 </resources>

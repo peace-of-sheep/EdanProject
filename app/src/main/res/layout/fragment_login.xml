@@ -4,6 +4,9 @@
 
     <data>
         <import type="android.text.InputType"/>
+        <variable
+            name="viewModel"
+            type="tech.ankainn.edanapplication.ui.auth.LoginViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,8 +28,7 @@
                 android:inputType="@{InputType.TYPE_NULL}"
                 android:maxLength="24"
                 android:maxLines="1"
-                android:imeOptions="actionNext"
-                android:nextFocusForward="@id/pass_input"
+                android:onFocusChange="@{(v, focus) -> viewModel.onTextViewFocused(v.getId(), focus)}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
@@ -47,8 +49,7 @@
                 android:id="@+id/pass_input"
                 android:maxLength="24"
                 android:maxLines="1"
-                android:imeOptions="actionSend"
-                android:nextFocusForward="@null"
+                android:onFocusChange="@{(v, focus) -> viewModel.onTextViewFocused(v.getId(), focus)}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
@@ -65,6 +66,7 @@
             android:layout_height="wrap_content" />
 
         <tech.ankainn.edanapplication.view.ProgressBarHintTextView
+            app:showHide="@{viewModel.loading}"
             android:id="@+id/progress_text"
             android:layout_marginTop="@dimen/dim_xbig"
             android:layout_marginStart="@dimen/dim_xxxxbig"
@@ -74,4 +76,5 @@
             android:layout_height="wrap_content" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

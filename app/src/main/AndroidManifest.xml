@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="LockedOrientationActivity"
     package="tech.ankainn.edanapplication">
 
     <application
@@ -9,7 +10,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
 
         <!-- disable crashlytics on debug -->
         <meta-data android:name="firebase_crashlytics_collection_enabled"
@@ -21,10 +22,9 @@
             android:value="@string/google_api_key" />
 
         <!-- activities -->
-        <activity android:name=".splash.SplashActivity"
+        <activity android:name=".SplashActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/SplashTheme"
-            tools:ignore="LockedOrientationActivity">
+            android:theme="@style/SplashTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,13 +32,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".auth.AuthActivity"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity" />
+        <activity android:name=".ui.auth.AuthActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".form.CommonFormActivity"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity" />
+        <activity android:name=".ui.form.CommonFormActivity"
+            android:screenOrientation="portrait" />
 
     </application>
 </manifest>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.text.InputType" />
+        <variable
+            name="title"
+            type="String" />
+        <variable
+            name="quantityVisibility"
+            type="boolean" />
+        <variable
+            name="switchVisibility"
+            type="boolean" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_gravity="start"
+            android:text="@{title, default= TITLE}"
+            android:layout_marginEnd="@dimen/dim_nor"
+            android:maxLines="3"
+            android:minLines="3"
+            android:gravity="center_vertical"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_gravity="start"
+            android:layout_marginEnd="@dimen/dim_nor"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            app:visibleGone="@{quantityVisibility}"
+            android:hint="@string/quantity"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/text_quantity"
+                android:maxLength="5"
+                android:inputType="@{InputType.TYPE_NULL}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:layout_gravity="start"
+            android:paddingTop="@dimen/dim_nor"
+            app:visibleGone="@{switchVisibility}"
+            app:useMaterialThemeColors="false"
+            app:track="@drawable/switch_track"
+            android:thumb="@drawable/switch_thumb"
+            app:showText="true"
+            android:textOn="@string/yes"
+            android:textOff="@string/no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</layout>

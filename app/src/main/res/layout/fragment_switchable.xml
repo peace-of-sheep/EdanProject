@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.text.InputType" />
+        <variable
+            name="title"
+            type="String" />
+        <variable
+            name="adapter"
+            type="androidx.recyclerview.widget.RecyclerView.Adapter" />
+        <variable
+            name="btnText"
+            type="String" />
+        <variable
+            name="bottomVisibility"
+            type="boolean" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_margin="@dimen/dim_nor"
+            android:textStyle="bold"
+            android:textSize="@dimen/text_xxbig"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="@{title, default=Default_title}"
+            android:id="@+id/title_switchable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:isScrollContainer="false"
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="tech.ankainn.edanapplication.ui.formOne.SwitchableFragment$NoScrollLayoutManager"
+            app:adapter="@{adapter}"
+            tools:listitem="@layout/layout_item_switch"
+            tools:itemCount="5"
+            app:layout_constraintTop_toBottomOf="@id/title_switchable" />
+
+        <com.google.android.material.button.MaterialButton
+            app:visibleGone="@{bottomVisibility}"
+            android:text="@{btnText}"
+            android:layout_margin="@dimen/dim_nor"
+            app:layout_constraintTop_toBottomOf="@id/recycler_view"
+            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/btn_activities"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            app:visibleGone="@{bottomVisibility}"
+            android:id="@+id/layout_observation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/observation"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_activities"
+            app:layout_constraintVertical_bias="0.0">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/text_observation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:inputType="@{InputType.TYPE_NULL}"
+                android:maxLines="3"
+                android:minLines="3" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

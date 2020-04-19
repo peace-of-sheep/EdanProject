@@ -7,19 +7,64 @@
     <string name="pass_input">Password</string>
     <string name="login">Login</string>
 
+    <string name="done">Done</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="next">Next</string>
+
     <string name="default_loading">Loading</string>
+
+    <string name="quantity">Quantity</string>
 
     <string name="latitude">Latitude</string>
     <string name="longitude">Longitude</string>
-    <string name="next">Next</string>
+    <string name="altitude">Altitude (m.a.s.l.)</string>
 
     <string name="danger_group">Danger group</string>
     <string name="danger_type">Danger type</string>
     <string name="occurrence_date">Date of occurrence</string>
-    <string name="occurrence_time">Time of occurrence</string>
+    <string name="occurrence_hour">Time of occurrence</string>
     <string name="department">Department</string>
     <string name="province">Province</string>
     <string name="district">District</string>
     <string name="place">Place</string>
     <string name="zone_type">Zone type</string>
+
+    <string name="add_form">Add new form</string>
+
+    <string name="title_damage_one">Life and Health</string>
+    <string name="injured_people">Injured people</string>
+    <string name="trapped_people">Trapped people</string>
+    <string name="isolated_people">Isolated people</string>
+    <string name="missing_people">Missing people</string>
+    <string name="deceased_people">Deceased people</string>
+
+    <string name="title_damage_two">Basic Services</string>
+    <string name="water">Water</string>
+    <string name="drainage">Drainage</string>
+    <string name="electric_power">Electric power</string>
+    <string name="telephony">Telephony</string>
+    <string name="gas">Gas</string>
+
+    <string name="title_damage_three">Infrastructure</string>
+    <string name="households">Households</string>
+    <string name="roads">Roads</string>
+    <string name="bridges">Bridges</string>
+    <string name="health_establishments">Health establishments</string>
+
+    <string name="title_activities">Activities to do</string>
+    <string name="search_rescue">Search and rescue</string>
+    <string name="evacuation">Evacuation</string>
+    <string name="health_care">Health care</string>
+    <string name="edan_team">Edan team</string>
+    <string name="control_measures">Control measures</string>
+
+    <string name="title_needs">External support needs</string>
+    <string name="humanitarian_goods">Humanitarian aid goods</string>
+    <string name="heavy_machinery">Heavy machinery</string>
+    <string name="technical_assistance">Technical assistance</string>
+
+    <string name="observation">Observation</string>
+    <string name="other_activities">Other activities</string>
+    <string name="other_needs">Other needs</string>
 </resources>

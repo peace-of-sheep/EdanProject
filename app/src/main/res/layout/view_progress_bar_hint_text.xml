@@ -14,26 +14,15 @@
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:indeterminate="true" />
 
-    <FrameLayout
-        android:layout_marginBottom="@dimen/dim_sma"
-        android:background="@drawable/round_shape"
-        android:id="@+id/hint_text_layout"
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_marginBottom="@dimen/dim_nor"
         android:layout_gravity="center_horizontal|top"
+        android:background="@android:color/transparent"
+        android:textStyle="bold"
+        android:id="@+id/hint_text"
+        android:textSize="@dimen/text_small"
+        tools:text="Hint"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.textview.MaterialTextView
-            android:background="@android:color/transparent"
-            android:textStyle="bold"
-            android:id="@+id/hint_text"
-            android:paddingStart="@dimen/dim_nor"
-            android:paddingEnd="@dimen/dim_nor"
-            android:paddingTop="@dimen/dim_sma"
-            android:paddingBottom="@dimen/dim_sma"
-            android:textSize="@dimen/text_small"
-            tools:text="Hint"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </FrameLayout>
+        android:layout_height="wrap_content" />
 
 </merge>

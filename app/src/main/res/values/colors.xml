@@ -4,10 +4,5 @@
     <color name="colorPrimaryDark">#db915c</color>
     <color name="colorAccent">#54a4cc</color>
 
-    <color name="colorBackground">#fff</color>
-    <color name="colorNavigationBar">#fff</color>
-
-    <color name="colorStroke">#878787</color>
-
-    <color name="colorProgressBarTextBackground">#70ffffff</color>
+    <color name="colorDefaultBackground">#fff</color>
 </resources>

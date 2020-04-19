@@ -7,6 +7,8 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 
 import tech.ankainn.edanapplication.R;
 import tech.ankainn.edanapplication.databinding.ViewProgressBarHintTextBinding;
@@ -16,18 +18,15 @@ public class ProgressBarHintTextView extends FrameLayout {
     private ViewProgressBarHintTextBinding binding;
 
     public ProgressBarHintTextView(@NonNull Context context) {
-        super(context);
-        init(context);
+        this(context, null);
     }
 
     public ProgressBarHintTextView(@NonNull Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-        init(context);
+        this(context, attrs, 0);
     }
 
     public ProgressBarHintTextView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init(context);
+        this(context, attrs, defStyleAttr, 0);
     }
 
     public ProgressBarHintTextView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
@@ -51,15 +50,13 @@ public class ProgressBarHintTextView extends FrameLayout {
         binding.hintText.setText(hintText);
     }
 
-    public void hide() {
-        binding.hintTextLayout.setVisibility(GONE);
-        binding.progressBar.hide();
-        setVisibility(GONE);
-    }
-
-    public void show() {
-        binding.hintTextLayout.setVisibility(VISIBLE);
-        binding.progressBar.show();
-        setVisibility(VISIBLE);
+    public void setShowHide(boolean show) {
+        if(show) {
+            setVisibility(VISIBLE);
+            binding.progressBar.show();
+        } else {
+            setVisibility(GONE);
+            binding.progressBar.hide();
+        }
     }
 }

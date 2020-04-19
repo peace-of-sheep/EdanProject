@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.text.InputType" />
         <variable
             name="latLng"
             type="com.google.android.gms.maps.model.LatLng" />
@@ -30,43 +31,34 @@
             android:layout_height="20dp" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:elevation="@dimen/dim_sma"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="@dimen/dim_nor"
-            android:layout_marginStart="@dimen/dim_nor"
-            android:layout_marginEnd="@dimen/dim_nor"
+            style="@style/TextInputDense"
             android:id="@+id/layout_latitude"
+            android:hint="@string/latitude"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/input_latitude"
-                android:focusable="false"
-                android:hint="@string/latitude"
                 android:text="@{Double.toString(latLng.latitude)}"
-                android:maxLines="1"
                 android:maxLength="11"
-                android:inputType="number|numberDecimal"
+                android:inputType="@{InputType.TYPE_NULL}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:elevation="@dimen/dim_sma"
             app:layout_constraintTop_toBottomOf="@id/layout_latitude"
-            android:layout_marginTop="@dimen/dim_nor"
-            android:layout_marginStart="@dimen/dim_nor"
-            android:layout_marginEnd="@dimen/dim_nor"
+            style="@style/TextInputDense"
             android:id="@+id/layout_longitude"
+            android:hint="@string/longitude"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/input_longitude"
-                android:hint="@string/longitude"
-                android:focusable="false"
                 android:text="@{Double.toString(latLng.longitude)}"
-                android:maxLines="1"
                 android:maxLength="11"
-                android:inputType="number|numberDecimal"
+                android:inputType="@{InputType.TYPE_NULL}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </com.google.android.material.textfield.TextInputLayout>

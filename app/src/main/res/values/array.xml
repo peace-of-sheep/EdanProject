@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="damage_one">
+        <item>@string/injured_people</item>
+        <item>@string/trapped_people</item>
+        <item>@string/isolated_people</item>
+        <item>@string/missing_people</item>
+        <item>@string/deceased_people</item>
+    </string-array>
+
+    <string-array name="damage_two">
+        <item>@string/water</item>
+        <item>@string/drainage</item>
+        <item>@string/electric_power</item>
+        <item>@string/telephony</item>
+        <item>@string/gas</item>
+    </string-array>
+
+    <string-array name="damage_three">
+        <item>@string/households</item>
+        <item>@string/roads</item>
+        <item>@string/bridges</item>
+        <item>@string/health_establishments</item>
+    </string-array>
+
+    <string-array name="activities">
+        <item>@string/search_rescue</item>
+        <item>@string/evacuation</item>
+        <item>@string/health_care</item>
+        <item>@string/edan_team</item>
+        <item>@string/control_measures</item>
+    </string-array>
+
+    <string-array name="needs">
+        <item>@string/humanitarian_goods</item>
+        <item>@string/heavy_machinery</item>
+        <item>@string/technical_assistance</item>
+    </string-array>
+
+</resources>
