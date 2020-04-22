@@ -49,7 +49,7 @@ public interface ViewFinder {
      * @return A child {@link View}
      */
     @Nullable
-    default View findViewById(int viewId) {
+    default <T extends View> T findViewById(int viewId) {
         View root = rootView();
         if(root != null)
             root.findViewById(viewId);

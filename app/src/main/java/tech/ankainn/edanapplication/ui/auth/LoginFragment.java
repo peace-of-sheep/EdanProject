@@ -6,13 +6,10 @@ import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
-
-import com.google.android.material.snackbar.Snackbar;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -20,9 +17,10 @@ import tech.ankainn.edanapplication.R;
 import tech.ankainn.edanapplication.ui.base.BaseFragment;
 import tech.ankainn.edanapplication.databinding.FragmentLoginBinding;
 import tech.ankainn.edanapplication.ui.bottomsheets.InputDialogFragment;
+import tech.ankainn.edanapplication.ui.bottomsheets.InputDialogState;
 import tech.ankainn.edanapplication.util.AutoClearedValue;
 
-public class LoginFragment extends BaseFragment implements InputDialogFragment.Listener{
+public class LoginFragment extends BaseFragment {
 
     private AutoClearedValue<FragmentLoginBinding> binding;
 
@@ -46,26 +44,25 @@ public class LoginFragment extends BaseFragment implements InputDialogFragment.L
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
-        sharedViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
-
         binding.get().passInput.setRawInputType(InputType.TYPE_NULL);
         binding.get().passInput.setTransformationMethod(PasswordTransformationMethod.getInstance());
 
+        viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
+
         binding.get().setViewModel(viewModel);
 
-        viewModel.viewId.observe(getViewLifecycleOwner(), viewId -> {
-            if(viewId != LoginViewModel.NO_VIEW) {
-                tempTextView = (TextView) findViewById(viewId);
+        viewModel.getViewId().observe(getViewLifecycleOwner(), viewId -> {
+            Integer state = InputDialogState.getInstance().getState().getValue();
 
-                boolean opened = InputDialogFragment.Util.showInputDialog(getParentFragmentManager(),
-                        tempTextView, this);
-
-                tempTextView = opened ? tempTextView : null;
+            if(viewId != LoginViewModel.NO_VIEW && state != null && state == InputDialogState.CLOSED) {
+                InputDialogFragment.create(getParentFragmentManager(), this, viewId);
             }
         });
     }
 
+    @SuppressWarnings("unchecked")
+    @Nullable
     @Override
     public View findViewById(int viewId) {
         switch (viewId) {
@@ -73,12 +70,5 @@ public class LoginFragment extends BaseFragment implements InputDialogFragment.L
             case R.id.pass_input: return binding.get().passInput;
             default: return super.findViewById(viewId);
         }
-    }
-
-
-    @Nullable
-    @Override
-    public TextView getViewListener() {
-        return tempTextView;
     }
 }

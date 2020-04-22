@@ -4,6 +4,9 @@
 
     <data>
         <variable
+            name="viewModel"
+            type="tech.ankainn.edanapplication.ui.bottomsheets.InputDialogViewModel" />
+        <variable
             name="btnListener"
             type="android.view.View.OnClickListener" />
     </data>
@@ -24,6 +27,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:background="@android:color/transparent"
                 android:id="@+id/text_input"
+                android:text="@={viewModel.data}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -37,7 +41,7 @@
             android:layout_margin="@dimen/dim_nor"
             android:padding="@dimen/dim_nor"
             android:background="@drawable/ripple_oval"
-            android:tint="@color/colorPrimary"
+            android:tint="@{viewModel.color ? @color/colorPrimary : @color/colorAccent}"
             android:id="@+id/btn_done"
             android:onClick="@{btnListener}"
             android:layout_width="wrap_content"

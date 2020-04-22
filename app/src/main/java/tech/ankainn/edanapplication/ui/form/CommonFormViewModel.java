@@ -9,9 +9,11 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import tech.ankainn.edanapplication.BaseApp;
+import tech.ankainn.edanapplication.ui.base.BaseViewModel;
 import tech.ankainn.edanapplication.util.LiveEvent;
 
-public class CommonFormViewModel extends AndroidViewModel {
+public class CommonFormViewModel extends BaseViewModel {
 
     private MutableLiveData<LatLng> location = new MutableLiveData<>();
 
