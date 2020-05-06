@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import tech.ankainn.edanapplication.R;
+import timber.log.Timber;
 
 public class WallFragment extends Fragment {
     @Nullable
@@ -20,6 +21,19 @@ public class WallFragment extends Fragment {
         ImageView view = new ImageView(requireContext());
         view.setScaleType(ImageView.ScaleType.CENTER_CROP);
         view.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.wall_image));
+        Timber.tag("MapLocationFragment").d("onCreateView: %s", this);
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Timber.tag("MapLocationFragment").d("onDestroyView: %s", this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Timber.tag("MapLocationFragment").d("onDestroy: %s", this);
     }
 }

@@ -1,4 +1,4 @@
-package tech.ankainn.edanapplication.ui.bottomsheets;
+package tech.ankainn.edanapplication.ui.dialogs;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

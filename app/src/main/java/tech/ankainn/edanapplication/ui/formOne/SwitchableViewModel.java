@@ -20,7 +20,7 @@ public class SwitchableViewModel extends BaseViewModel {
 
     MutableLiveData<String> text = new MutableLiveData<>();
 
-    public SwitchableViewModel(@NonNull BaseApp application) {
+    public SwitchableViewModel(@NonNull Application application) {
         super(application);
     }
 

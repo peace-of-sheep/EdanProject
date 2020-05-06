@@ -160,8 +160,14 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout
-            >
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_next"
+                android:text="@string/next"
+                app:layout_constraintTop_toBottomOf="@id/layout_zone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
 

@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class DataBoundViewHolder<T extends ViewDataBinding> extends RecyclerView.ViewHolder {
 
-    private T binding;
+    public T binding;
 
     public DataBoundViewHolder(@NonNull T binding) {
         super(binding.getRoot());

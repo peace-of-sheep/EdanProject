@@ -43,5 +43,11 @@ public class GeneralInformationFragment extends BaseFragment {
 
         binding.get().textDangerGroup.setAdapter(adapter);
         binding.get().textDangerType.setAdapter(adapter);
+
+        binding.get().btnNext.setOnClickListener(v ->
+                getParentFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.container, new NewFormsFragment())
+                        .commit());
     }
 }

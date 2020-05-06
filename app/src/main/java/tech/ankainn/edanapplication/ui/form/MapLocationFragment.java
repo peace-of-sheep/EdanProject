@@ -20,13 +20,13 @@ import tech.ankainn.edanapplication.ui.base.BaseFragment;
 import tech.ankainn.edanapplication.databinding.FragmentMapLocationBinding;
 import tech.ankainn.edanapplication.util.AutoClearedValue;
 import tech.ankainn.edanapplication.util.MapViewWrapper;
+import timber.log.Timber;
 
 public class MapLocationFragment extends BaseFragment implements OnMapReadyCallback {
 
     private AutoClearedValue<FragmentMapLocationBinding> binding;
     private MapViewWrapper mapViewWrapper;
 
-    private CommonFormViewModel sharedViewModel;
     private MapLocationViewModel viewModel;
 
     @NotNull
@@ -35,21 +35,28 @@ public class MapLocationFragment extends BaseFragment implements OnMapReadyCallb
         FragmentMapLocationBinding bindingTemp =
                 FragmentMapLocationBinding.inflate(inflater, container, false);
         binding = new AutoClearedValue<>(bindingTemp);
+        getViewLifecycleOwner().getLifecycle().addObserver(binding);
         return bindingTemp.getRoot();
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getViewLifecycleOwner().getLifecycle().addObserver(binding);
 
-        sharedViewModel = new ViewModelProvider(requireActivity()).get(CommonFormViewModel.class);
         viewModel = new ViewModelProvider(this).get(MapLocationViewModel.class);
 
         mapViewWrapper = new MapViewWrapper(binding.get().mapView, savedInstanceState);
         getViewLifecycleOwner().getLifecycle().addObserver(mapViewWrapper);
 
         binding.get().mapView.getMapAsync(this);
+
+        binding.get().btnNext.setOnClickListener(v ->
+                getParentFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.container, new GeneralInformationFragment())
+                        .commit());
+
+        Timber.i("onActivityCreated: %s", this);
     }
 
     @Override
@@ -63,7 +70,7 @@ public class MapLocationFragment extends BaseFragment implements OnMapReadyCallb
         map.setPadding(0, 0, 0, bottomPadding);
 
         LatLng currentLagLng = viewModel.getCurrentLatLng();
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLagLng, 4.5f));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLagLng, 5.5f));
 
         map.setOnCameraIdleListener(() -> {
             LatLng center = map.getCameraPosition().target;

@@ -1,13 +1,10 @@
-package tech.ankainn.edanapplication.ui.bottomsheets;
+package tech.ankainn.edanapplication.ui.dialogs;
 
 import androidx.annotation.IntDef;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-
-import timber.log.Timber;
 
 public final class InputDialogState {
 

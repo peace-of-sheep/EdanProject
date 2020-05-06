@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="tech.ankainn.edanapplication.ui.bottomsheets.InputDialogViewModel" />
+            type="tech.ankainn.edanapplication.ui.dialogs.InputDialogViewModel" />
         <variable
             name="btnListener"
             type="android.view.View.OnClickListener" />

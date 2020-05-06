@@ -5,7 +5,7 @@ import android.app.Application;
 import tech.ankainn.edanapplication.repositories.UserRepository;
 import tech.ankainn.edanapplication.retrofit.ApiService;
 import tech.ankainn.edanapplication.retrofit.RetrofitUtil;
-import tech.ankainn.edanapplication.ui.bottomsheets.InputDialogState;
+import tech.ankainn.edanapplication.ui.dialogs.InputDialogState;
 import tech.ankainn.edanapplication.util.CrashReportingTree;
 import timber.log.Timber;
 

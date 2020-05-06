@@ -7,9 +7,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import tech.ankainn.edanapplication.BaseApp;
 import tech.ankainn.edanapplication.ui.base.BaseViewModel;
-import tech.ankainn.edanapplication.ui.bottomsheets.InputDialogState;
+import tech.ankainn.edanapplication.ui.dialogs.InputDialogState;
 
 public class LoginViewModel extends BaseViewModel {
 

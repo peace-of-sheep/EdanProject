@@ -1,17 +1,16 @@
-package tech.ankainn.edanapplication.ui.bottomsheets;
+package tech.ankainn.edanapplication.ui.dialogs;
 
 import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
 import tech.ankainn.edanapplication.ui.base.BaseViewModel;
 
-import static tech.ankainn.edanapplication.ui.bottomsheets.InputDialogState.CLOSED;
-import static tech.ankainn.edanapplication.ui.bottomsheets.InputDialogState.OPENED;
+import static tech.ankainn.edanapplication.ui.dialogs.InputDialogState.CLOSED;
+import static tech.ankainn.edanapplication.ui.dialogs.InputDialogState.OPENED;
 
 public class InputDialogViewModel extends BaseViewModel {
 

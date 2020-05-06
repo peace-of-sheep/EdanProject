@@ -1,4 +1,4 @@
-package tech.ankainn.edanapplication.ui.bottomsheets;
+package tech.ankainn.edanapplication.ui.dialogs;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 

@@ -35,6 +35,8 @@
             android:layout_height="wrap_content" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginStart="@dimen/dim_nor"
+            android:layout_marginEnd="@dimen/dim_nor"
             android:isScrollContainer="false"
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
@@ -56,14 +58,14 @@
             android:layout_height="wrap_content" />
 
         <com.google.android.material.textfield.TextInputLayout
-            app:visibleGone="@{bottomVisibility}"
             android:id="@+id/layout_observation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/observation"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/btn_next"
             app:layout_constraintTop_toBottomOf="@id/btn_activities"
-            app:layout_constraintVertical_bias="0.0">
+            app:layout_constraintVertical_bias="0.0"
+            app:visibleGone="@{bottomVisibility}">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/text_observation"
@@ -75,6 +77,15 @@
                 android:minLines="3" />
 
         </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_marginStart="@dimen/dim_sma"
+            android:layout_marginEnd="@dimen/dim_sma"
+            android:id="@+id/btn_next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/next"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

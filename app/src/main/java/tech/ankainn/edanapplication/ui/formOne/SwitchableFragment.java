@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import tech.ankainn.edanapplication.databinding.FragmentSwitchableBinding;
 import tech.ankainn.edanapplication.ui.base.BaseFragment;
+import tech.ankainn.edanapplication.ui.common.NavController;
 import tech.ankainn.edanapplication.util.AutoClearedValue;
 
 public class SwitchableFragment extends BaseFragment {
@@ -26,6 +27,7 @@ public class SwitchableFragment extends BaseFragment {
     private static final String SWITCH_VISIBILITY_KEY = "switch_key";
     private static final String BOTTOM_VISIBILITY_KEY = "bottom_key";
     private static final String BTN_TEXT_KEY = "btn_key";
+    private static final String GO_TO = "go_to";
 
     @ArrayRes
     private int arrayId;
@@ -36,7 +38,10 @@ public class SwitchableFragment extends BaseFragment {
     private boolean switchVisibility;
 
     private boolean bottomVisibility;
-    private String btnText;
+    @StringRes
+    private int idBtnText;
+
+    private int goTo;
 
     private AutoClearedValue<FragmentSwitchableBinding> binding;
 
@@ -50,7 +55,8 @@ public class SwitchableFragment extends BaseFragment {
             quantityVisibility = args.getBoolean(QUANTITY_VISIBILITY_KEY);
             switchVisibility = args.getBoolean(SWITCH_VISIBILITY_KEY);
             bottomVisibility = args.getBoolean(BOTTOM_VISIBILITY_KEY);
-            if(bottomVisibility) btnText = args.getString(BTN_TEXT_KEY);
+            if(bottomVisibility) idBtnText = args.getInt(BTN_TEXT_KEY);
+            goTo = args.getInt(GO_TO);
         }
     }
 
@@ -73,17 +79,19 @@ public class SwitchableFragment extends BaseFragment {
 
         SwitchableViewModel viewModel = new ViewModelProvider(this).get(SwitchableViewModel.class);
 
-
-
         String title = getString(titleId);
 
         String[] strings = getResources().getStringArray(arrayId);
         SwitchableAdapter adapter = new SwitchableAdapter(strings, quantityVisibility, switchVisibility);
 
         binding.get().setBottomVisibility(bottomVisibility);
-        if(bottomVisibility) binding.get().setBtnText(btnText);
+        if(bottomVisibility) {
+            String btnText = getString(idBtnText);
+            binding.get().setBtnText(btnText);
+        }
         binding.get().setTitle(title);
         binding.get().setAdapter(adapter);
+        binding.get().btnNext.setOnClickListener(v -> NavController.openSwitchable(requireActivity(), goTo));
     }
 
     private static class NoScrollLayoutManager extends LinearLayoutManager {
@@ -107,16 +115,17 @@ public class SwitchableFragment extends BaseFragment {
     }
 
     public static SwitchableFragment create(@StringRes int titleId, @ArrayRes int arrayId,
-                                            boolean bottomVisibility, String btnText,
+                                            boolean bottomVisibility, @StringRes int btnText,
                                             boolean quantityVisibility,
-                                            boolean switchVisibility) {
+                                            boolean switchVisibility, int goTo) {
         Bundle args = new Bundle();
         args.putInt(ARRAY_KEY, arrayId);
         args.putInt(TITLE_KEY, titleId);
         args.putBoolean(QUANTITY_VISIBILITY_KEY, quantityVisibility);
         args.putBoolean(SWITCH_VISIBILITY_KEY, switchVisibility);
         args.putBoolean(BOTTOM_VISIBILITY_KEY, bottomVisibility);
-        if(bottomVisibility) args.putString(BTN_TEXT_KEY, btnText);
+        args.putInt(GO_TO, goTo);
+        if(bottomVisibility) args.putInt(BTN_TEXT_KEY, btnText);
 
         SwitchableFragment fragment = new SwitchableFragment();
         fragment.setArguments(args);

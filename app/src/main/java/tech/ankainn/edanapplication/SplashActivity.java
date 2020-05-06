@@ -2,27 +2,17 @@ package tech.ankainn.edanapplication;
 
 import android.content.Intent;
 
-import tech.ankainn.edanapplication.ui.auth.AuthActivity;
-import tech.ankainn.edanapplication.ui.base.BaseActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
-public class SplashActivity extends BaseActivity {
-
-    @Override
-    protected int getLayoutRes() {
-        return 0;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        startActivity(new Intent(this, AuthActivity.class));
-        finish();
-    }
+public class SplashActivity extends AppCompatActivity {
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
+        if(hasFocus) {
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        }
         //TODO adding some kind of animation (?)
     }
 }

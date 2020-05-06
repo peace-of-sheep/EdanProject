@@ -31,6 +31,8 @@
     <string name="zone_type">Zone type</string>
 
     <string name="add_form">Add new form</string>
+    <string name="form_one">Form One</string>
+    <string name="form_two">Form Two</string>
 
     <string name="title_damage_one">Life and Health</string>
     <string name="injured_people">Injured people</string>

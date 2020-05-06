@@ -35,6 +35,7 @@
             android:layout_gravity="start"
             android:layout_marginEnd="@dimen/dim_nor"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:visibility="gone"
             app:visibleGone="@{quantityVisibility}"
             android:hint="@string/quantity"
             android:layout_width="100dp"

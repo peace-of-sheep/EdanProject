@@ -31,6 +31,8 @@
     <string name="zone_type">Tipo de zona</string>
 
     <string name="add_form">Agregar nuevo formulario</string>
+    <string name="form_one">Formulario Uno</string>
+    <string name="form_two">Formulario Dos</string>
 
     <string name="title_damage_one">Vida y Salud</string>
     <string name="injured_people">Lesionados (Heridos)</string>
