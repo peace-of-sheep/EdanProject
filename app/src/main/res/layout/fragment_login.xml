@@ -24,11 +24,12 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:inputType="text"
+                android:imeOptions="actionNext"
+                android:nextFocusForward="@id/pass_input"
                 android:id="@+id/user_input"
-                android:inputType="@{InputType.TYPE_NULL}"
                 android:maxLength="24"
                 android:maxLines="1"
-                android:onFocusChange="@{(v, focus) -> viewModel.onTextViewFocused(v.getId(), focus)}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
@@ -47,9 +48,10 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/pass_input"
+                android:inputType="text|textPassword"
+                android:imeOptions="actionDone"
                 android:maxLength="24"
                 android:maxLines="1"
-                android:onFocusChange="@{(v, focus) -> viewModel.onTextViewFocused(v.getId(), focus)}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 

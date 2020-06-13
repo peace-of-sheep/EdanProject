@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat;
 import tech.ankainn.edanapplication.databinding.ActivityFragmentContainerBinding;
 import tech.ankainn.edanapplication.ui.auth.LoginFragment;
 import tech.ankainn.edanapplication.ui.auth.WallFragment;
+import tech.ankainn.edanapplication.ui.common.NavController;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,15 +29,8 @@ public class MainActivity extends AppCompatActivity {
             enableNavigationBarLightMode();
         }
 
-        int containerId = binding.container.getId();
-
         if(savedInstanceState == null) {
-
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(containerId, new WallFragment())
-                    .add(containerId, new LoginFragment())
-                    .commit();
+            NavController.openInit(this);
         }
     }
 

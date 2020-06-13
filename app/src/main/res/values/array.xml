@@ -36,5 +36,50 @@
         <item>@string/heavy_machinery</item>
         <item>@string/technical_assistance</item>
     </string-array>
+    
+    <string-array name="household_condition">
+        <item>@string/affected</item>
+        <item>@string/uninhabitable</item>
+        <item>@string/destroyed</item>
+    </string-array>
+
+    <string-array name="wall_types">
+        <item>@string/brick</item>
+        <item>@string/stone_ashlar</item>
+        <item>@string/adobe</item>
+        <item>@string/quincha</item>
+        <item>@string/stone_mud</item>
+        <item>@string/wood</item>
+        <item>@string/mat</item>
+        <item>@string/other_material</item>
+    </string-array>
+
+    <string-array name="roof_types">
+        <item>@string/concrete</item>
+        <item>@string/wood</item>
+        <item>@string/roof_tiles</item>
+        <item>@string/calamine_sheet</item>
+        <item>@string/cane_mat</item>
+        <item>@string/mat</item>
+        <item>@string/straw_palm</item>
+        <item>@string/other_material</item>
+    </string-array>
+
+    <string-array name="floor_types">
+        <item>@string/parquet</item>
+        <item>@string/asphalt_sheets</item>
+        <item>@string/tile_terrazzo_ceramic</item>
+        <item>@string/wood</item>
+        <item>@string/cement</item>
+        <item>@string/dirt</item>
+        <item>@string/other_material</item>
+    </string-array>
+
+    <string-array name="id_types">
+        <item>@string/dni</item>
+        <item>@string/passport</item>
+        <item>@string/immigration_card</item>
+        <item>@string/another_document</item>
+    </string-array>
 
 </resources>

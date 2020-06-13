@@ -69,4 +69,51 @@
     <string name="observation">Observación</string>
     <string name="other_activities">Otras actividades</string>
     <string name="other_needs">Otras necesidades</string>
+
+    <string name="household_info">Información de la Vivienda</string>
+    <string name="household_lot_number">N°/Lote</string>
+    <string name="household_owner">Propietario</string>
+    <string name="household_condition">Condición de la vivienda</string>
+    <string name="household_material_type">Tipo de material</string>
+    <string name="roof">Techo</string>
+    <string name="wall">Paredes</string>
+    <string name="floor">Piso</string>
+
+    <string name="affected">Afectado</string>
+    <string name="uninhabitable">Inhabitable</string>
+    <string name="destroyed">Destruido</string>
+
+    <string name="family_info">Información por familia</string>
+    <string name="family_head">Jefe de familia</string>
+    <string name="full_name">Apellidos, Nombre</string>
+    <string name="age">Edad</string>
+    <string name="identity_document">Documento de identidad</string>
+    <string name="type">Tipo</string>
+    <string name="number">Número</string>
+
+    <string name="brick">Ladrillo o bloque de cemento</string>
+    <string name="stone_ashlar">Piedra o sillar con cal o cemento</string>
+    <string name="adobe">Adobe o tapial</string>
+    <string name="quincha">Quincha (caña con barro)</string>
+    <string name="stone_mud">Piedra con barro (pirca)</string>
+    <string name="wood">Madera</string>
+    <string name="mat">Estera</string>
+    <string name="other_material">Otro material</string>
+
+    <string name="concrete">Concreto armado</string>
+    <string name="roof_tiles">Tejas</string>
+    <string name="calamine_sheet">Lancha de calamina</string>
+    <string name="cane_mat">Caña o estera con torta de barro</string>
+    <string name="straw_palm">Paja, hojas de palmera</string>
+
+    <string name="parquet">Parquet o madera pulida</string>
+    <string name="asphalt_sheets">Láminas asfálticas, vinilos o similares</string>
+    <string name="tile_terrazzo_ceramic">Loseta, terrazos, cerámicos</string>
+    <string name="cement">Cemento</string>
+    <string name="dirt">Tierra</string>
+
+    <string name="dni">DNI</string>
+    <string name="passport">Pasaporte</string>
+    <string name="immigration_card">Carnet de extranjería</string>
+    <string name="another_document">Otro documento</string>
 </resources>

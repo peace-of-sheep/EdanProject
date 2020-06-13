@@ -5,13 +5,28 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import tech.ankainn.edanapplication.R;
+import tech.ankainn.edanapplication.ui.auth.LoginFragment;
 import tech.ankainn.edanapplication.ui.auth.WallFragment;
+import tech.ankainn.edanapplication.ui.form.MapLocationFragment;
 import tech.ankainn.edanapplication.ui.form.NewFormsFragment;
 import tech.ankainn.edanapplication.ui.formOne.SwitchableFragment;
+import tech.ankainn.edanapplication.ui.formTwo.HouseholdInfoFragment;
 
 public interface NavController {
 
     int containerId = R.id.container;
+
+    static void openInit(FragmentActivity activity) {
+        activity.getSupportFragmentManager()
+                .beginTransaction()
+                .add(containerId, new WallFragment())
+                .add(containerId, new LoginFragment())
+                .commit();
+    }
+
+    static void openMapLocation(FragmentActivity activity) {
+        activity.getSupportFragmentManager().beginTransaction().replace(containerId, new MapLocationFragment()).commit();
+    }
 
     static void openSwitchable(FragmentActivity activity, int n) {
         FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();
@@ -28,5 +43,16 @@ public interface NavController {
             fragment = SwitchableFragment.create(R.string.title_needs, R.array.needs, true, R.string.other_needs, false, true, -1);
         }
         ft.replace(containerId, fragment).commit();
+    }
+
+    static void openNewForms(FragmentActivity activity) {
+        activity.getSupportFragmentManager()
+                .beginTransaction()
+                .replace(containerId, new NewFormsFragment())
+                .commit();
+    }
+
+    static void openHouseholdInfo(FragmentActivity activity) {
+        activity.getSupportFragmentManager().beginTransaction().replace(containerId, new HouseholdInfoFragment()).commit();
     }
 }

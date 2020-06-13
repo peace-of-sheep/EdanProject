@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,9 +21,10 @@ public class NewFormsFragment extends BaseFragment implements SelectFormDialogFr
     @NonNull
     @Override
     protected View makeView(LayoutInflater inflater, ViewGroup container) {
-        FragmentNewFormsBinding binding = FragmentNewFormsBinding.inflate(inflater, container, false);
-        this.binding = new AutoClearedValue<>(binding);
-        return binding.getRoot();
+        FragmentNewFormsBinding bindingTemp = FragmentNewFormsBinding.inflate(inflater, container, false);
+        binding = new AutoClearedValue<>(bindingTemp);
+        getViewLifecycleOwner().getLifecycle().addObserver(binding);
+        return bindingTemp.getRoot();
     }
 
     @Override
@@ -38,7 +38,7 @@ public class NewFormsFragment extends BaseFragment implements SelectFormDialogFr
         if(choice == 1) {
             NavController.openSwitchable(requireActivity(), 0);
         } else if(choice == 2) {
-            Toast.makeText(getContext(), "Open Form Two", Toast.LENGTH_SHORT).show();
+            NavController.openHouseholdInfo(requireActivity());
         }
     }
 }

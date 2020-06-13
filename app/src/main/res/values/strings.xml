@@ -69,4 +69,51 @@
     <string name="observation">Observation</string>
     <string name="other_activities">Other activities</string>
     <string name="other_needs">Other needs</string>
+    
+    <string name="household_info">Household Information</string>
+    <string name="household_lot_number">N°/Lot</string>
+    <string name="household_owner">Owner</string>
+    <string name="household_condition">Household condition</string>
+    <string name="household_material_type">Material type</string>
+    <string name="roof">Roof</string>
+    <string name="wall">Wall</string>
+    <string name="floor">Floor</string>
+
+    <string name="affected">Affected</string>
+    <string name="uninhabitable">Uninhabitable</string>
+    <string name="destroyed">Destroyed</string>
+
+    <string name="family_info">Family information</string>
+    <string name="family_head">Head of family</string>
+    <string name="full_name">Surname, Name</string>
+    <string name="age">Age</string>
+    <string name="identity_document">Identity document</string>
+    <string name="type">Type</string>
+    <string name="number">Number</string>
+    
+    <string name="brick">Brick or cement block</string>
+    <string name="stone_ashlar">Stone or ashlar with lime or cement</string>
+    <string name="adobe">Adobe or tapial</string>
+    <string name="quincha">Quincha (cane with mud)</string>
+    <string name="stone_mud">Stone with mud (pirca)</string>
+    <string name="wood">Wood</string>
+    <string name="mat">Mat</string>
+    <string name="other_material">Other material</string>
+
+    <string name="concrete">Reinforced concrete</string>
+    <string name="roof_tiles">Roof tiles</string>
+    <string name="calamine_sheet">Calamine sheet</string>
+    <string name="cane_mat">Cane or reed</string>
+    <string name="straw_palm">Straw, palm leaves</string>
+
+    <string name="parquet">Parquet or polished wood</string>
+    <string name="asphalt_sheets">Asphalt sheets, vinyls or similar</string>
+    <string name="tile_terrazzo_ceramic">Tile, terrazzo, ceramic</string>
+    <string name="cement">Cement</string>
+    <string name="dirt">Dirt</string>
+
+    <string name="dni">DNI</string>
+    <string name="passport">Passport</string>
+    <string name="immigration_card">Immigration card</string>
+    <string name="another_document">Another document</string>
 </resources>

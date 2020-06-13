@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.text.InputType" />
+        <import type="tech.ankainn.edanapplication.R" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/title"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/household_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layout_lot_number"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextInputDense"
+            android:hint="@string/household_lot_number">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_lot_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:layout_marginTop="@dimen/dim_nor"
+            android:layout_marginStart="@dimen/dim_nor"
+            android:id="@+id/sw_owner"
+            app:layout_constraintTop_toBottomOf="@id/layout_lot_number"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/household_owner"
+            app:useMaterialThemeColors="false"
+            app:track="@drawable/switch_track"
+            android:thumb="@drawable/switch_thumb"
+            app:showText="true"
+            android:textOn="@string/yes"
+            android:textOff="@string/no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layout_condition"
+            app:layout_constraintTop_toBottomOf="@id/sw_owner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/TextInputDense.ExposedDropdownMenu"
+            android:hint="@string/household_condition">
+
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:inputType="@{InputType.TYPE_NULL}"
+                app:dropdown="@{@stringArray/household_condition}"
+                android:id="@+id/input_condition"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_marginStart="@dimen/dim_nor"
+            android:layout_marginTop="@dimen/dim_nor"
+            android:id="@+id/title_material"
+            android:text="@string/household_material_type"
+            app:layout_constraintTop_toBottomOf="@id/layout_condition"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layout_roof"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/title_material"
+            style="@style/TextInputDense.ExposedDropdownMenu"
+            android:hint="@string/roof">
+
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:inputType="@{InputType.TYPE_NULL}"
+                android:id="@+id/input_roof"
+                app:dropdown="@{@stringArray/roof_types}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layout_wall"
+            app:layout_constraintTop_toBottomOf="@id/layout_roof"
+            style="@style/TextInputDense.ExposedDropdownMenu"
+            android:hint="@string/wall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:inputType="@{InputType.TYPE_NULL}"
+                android:id="@+id/input_wall"
+                app:dropdown="@{@stringArray/wall_types}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layout_floor"
+            app:layout_constraintTop_toBottomOf="@id/layout_wall"
+            style="@style/TextInputDense.ExposedDropdownMenu"
+            android:hint="@string/floor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:inputType="@{InputType.TYPE_NULL}"
+                android:id="@+id/input_floor"
+                app:dropdown="@{@stringArray/floor_types}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_next"
+            android:text="@string/next"
+            app:layout_constraintTop_toBottomOf="@id/layout_floor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
