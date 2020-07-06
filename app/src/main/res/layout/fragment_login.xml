@@ -13,6 +13,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ImageView
+            android:scaleType="centerCrop"
+            android:id="@+id/wall_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
         <com.google.android.material.textfield.TextInputLayout
             android:layout_marginTop="@dimen/dim_nor"
             android:layout_marginStart="@dimen/dim_nor"

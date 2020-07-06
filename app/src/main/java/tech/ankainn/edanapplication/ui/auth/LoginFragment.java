@@ -8,8 +8,11 @@ import android.view.ViewGroup;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.bumptech.glide.Glide;
+
 import org.jetbrains.annotations.NotNull;
 
+import tech.ankainn.edanapplication.R;
 import tech.ankainn.edanapplication.ui.base.BaseFragment;
 import tech.ankainn.edanapplication.databinding.FragmentLoginBinding;
 import tech.ankainn.edanapplication.ui.common.NavController;
@@ -35,6 +38,6 @@ public class LoginFragment extends BaseFragment {
         super.onActivityCreated(savedInstanceState);
         LoginViewModel viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
         binding.get().setViewModel(viewModel);
-        binding.get().btnLogin.setOnClickListener(v -> NavController.openMapLocation(requireActivity()));
+        Glide.with(this).load(R.drawable.wall_image).into(binding.get().wallImage);
     }
 }

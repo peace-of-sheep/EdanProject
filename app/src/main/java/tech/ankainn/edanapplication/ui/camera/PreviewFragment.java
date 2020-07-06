@@ -33,12 +33,15 @@ public class PreviewFragment extends BindingFragment<FragmentPreviewBinding> {
 
         String filePath = PreviewFragmentArgs.fromBundle(requireArguments()).getFilePath();
 
-        Glide.with(this).load(filePath).into(binding().img);
+        File file = new File(filePath);
+        if(!file.exists()) {
+            Navigation.findNavController(requireActivity(), R.id.fragment_container).popBackStack();
+            return;
+        }
 
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                File file = new File(filePath);
                 if (file.delete()) {
                     Navigation.findNavController(requireActivity(), R.id.fragment_container).popBackStack();
                     Toast.makeText(requireContext(), getString(R.string.delete), Toast.LENGTH_SHORT).show();
@@ -47,7 +50,6 @@ public class PreviewFragment extends BindingFragment<FragmentPreviewBinding> {
                 }
             }
         };
-
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
 
         binding().layoutDescription.post(() -> {
@@ -65,5 +67,7 @@ public class PreviewFragment extends BindingFragment<FragmentPreviewBinding> {
             Toast.makeText(requireContext(), filePath, Toast.LENGTH_SHORT).show();
             Navigation.findNavController(requireActivity(), R.id.fragment_container).popBackStack();
         });
+
+        Glide.with(this).load(file).into(binding().img);
     }
 }

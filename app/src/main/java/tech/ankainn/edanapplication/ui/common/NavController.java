@@ -14,10 +14,6 @@ public interface NavController {
 
     int containerId = R.id.fragment_container;
 
-    static void openMapLocation(FragmentActivity activity) {
-        activity.getSupportFragmentManager().beginTransaction().replace(containerId, new MapLocationFragment()).commit();
-    }
-
     static void openSwitchable(FragmentActivity activity, int n) {
         FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();
         Fragment fragment = new NewFormsFragment();

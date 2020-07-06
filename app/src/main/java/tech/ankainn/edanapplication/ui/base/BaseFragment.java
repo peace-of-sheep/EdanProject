@@ -13,9 +13,9 @@ import androidx.fragment.app.Fragment;
 
 public abstract class BaseFragment extends Fragment implements ViewFinder {
 
-    protected boolean isClickable() {
-        return true;
-    }
+    /*protected boolean isClickable() {
+        return false;
+    }*/
 
     @NonNull
     protected abstract View makeView(LayoutInflater inflater, ViewGroup container);
@@ -23,10 +23,9 @@ public abstract class BaseFragment extends Fragment implements ViewFinder {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = makeView(inflater, container);
-        view.setClickable(isClickable());
-        view.setFocusableInTouchMode(isClickable());
-        return view;
+        /*view.setClickable(isClickable());
+        view.setFocusableInTouchMode(isClickable());*/
+        return makeView(inflater, container);
     }
 
     protected void hideSoftKeyboard(@NonNull Activity activity, @NonNull View view) {
