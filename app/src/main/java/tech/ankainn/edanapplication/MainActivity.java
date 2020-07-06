@@ -2,8 +2,6 @@ package tech.ankainn.edanapplication;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -12,9 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import tech.ankainn.edanapplication.databinding.ActivityFragmentContainerBinding;
-import tech.ankainn.edanapplication.ui.auth.LoginFragment;
-import tech.ankainn.edanapplication.ui.auth.WallFragment;
-import tech.ankainn.edanapplication.ui.common.NavController;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,13 +20,11 @@ public class MainActivity extends AppCompatActivity {
                 ActivityFragmentContainerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            enableNavigationBarLightMode();
-        }
-
-        if(savedInstanceState == null) {
-            NavController.openInit(this);
-        }
+        binding.fragmentContainer.postDelayed(() -> {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                enableNavigationBarLightMode();
+            }
+        }, 500L);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

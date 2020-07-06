@@ -116,4 +116,9 @@
     <string name="passport">Pasaporte</string>
     <string name="immigration_card">Carnet de extranjería</string>
     <string name="another_document">Otro documento</string>
+    <string name="capture_image">Capturar imagen</string>
+    <string name="accept">Aceptar</string>
+    <string name="back">Atrás</string>
+    <string name="delete">Eliminar</string>
+    <string name="description">Descripción</string>
 </resources>

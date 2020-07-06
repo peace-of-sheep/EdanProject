@@ -10,9 +10,12 @@ import android.view.inputmethod.InputMethodManager;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModel;
 
 public abstract class BaseFragment extends Fragment implements ViewFinder {
+
+    protected boolean isClickable() {
+        return true;
+    }
 
     @NonNull
     protected abstract View makeView(LayoutInflater inflater, ViewGroup container);
@@ -21,13 +24,9 @@ public abstract class BaseFragment extends Fragment implements ViewFinder {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = makeView(inflater, container);
-        view.setFocusableInTouchMode(true);
         view.setClickable(isClickable());
+        view.setFocusableInTouchMode(isClickable());
         return view;
-    }
-
-    protected boolean isClickable() {
-        return true;
     }
 
     protected void hideSoftKeyboard(@NonNull Activity activity, @NonNull View view) {

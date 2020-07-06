@@ -29,4 +29,8 @@ public class BaseApp extends Application {
     public UserRepository getUserRepository() {
         return UserRepository.getInstance(appExecutors, apiService);
     }
+
+    public AppExecutors getAppExecutors() {
+        return appExecutors;
+    }
 }

@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'io.fabric'
+apply plugin: "androidx.navigation.safeargs"
 
 android {
     compileSdkVersion 29
@@ -46,7 +47,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     // fragment support
-    implementation "androidx.fragment:fragment:1.2.2"
+    implementation "androidx.fragment:fragment:1.2.5"
 
     // material design
     implementation 'com.google.android.material:material:1.1.0'
@@ -89,4 +90,18 @@ dependencies {
 
     // maps
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
+
+    // camerax
+    def camerax_version = "1.0.0-beta05"
+    implementation "androidx.camera:camera-core:${camerax_version}"
+    implementation "androidx.camera:camera-camera2:${camerax_version}"
+    implementation "androidx.camera:camera-lifecycle:${camerax_version}"
+    implementation "androidx.camera:camera-view:1.0.0-alpha12"
+
+    // permission library util
+    implementation 'com.karumi:dexter:6.2.0'
+
+    // navigation component
+    implementation "androidx.navigation:navigation-fragment:2.2.2"
+    implementation "androidx.navigation:navigation-ui:2.2.2"
 }

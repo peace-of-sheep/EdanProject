@@ -116,4 +116,9 @@
     <string name="passport">Passport</string>
     <string name="immigration_card">Immigration card</string>
     <string name="another_document">Another document</string>
+    <string name="capture_image">Capture image</string>
+    <string name="accept">Accept</string>
+    <string name="back">Back</string>
+    <string name="delete">Delete</string>
+    <string name="description">Description</string>
 </resources>

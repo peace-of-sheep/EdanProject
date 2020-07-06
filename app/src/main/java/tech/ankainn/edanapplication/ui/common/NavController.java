@@ -5,8 +5,6 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import tech.ankainn.edanapplication.R;
-import tech.ankainn.edanapplication.ui.auth.LoginFragment;
-import tech.ankainn.edanapplication.ui.auth.WallFragment;
 import tech.ankainn.edanapplication.ui.form.MapLocationFragment;
 import tech.ankainn.edanapplication.ui.form.NewFormsFragment;
 import tech.ankainn.edanapplication.ui.formOne.SwitchableFragment;
@@ -14,15 +12,7 @@ import tech.ankainn.edanapplication.ui.formTwo.HouseholdInfoFragment;
 
 public interface NavController {
 
-    int containerId = R.id.container;
-
-    static void openInit(FragmentActivity activity) {
-        activity.getSupportFragmentManager()
-                .beginTransaction()
-                .add(containerId, new WallFragment())
-                .add(containerId, new LoginFragment())
-                .commit();
-    }
+    int containerId = R.id.fragment_container;
 
     static void openMapLocation(FragmentActivity activity) {
         activity.getSupportFragmentManager().beginTransaction().replace(containerId, new MapLocationFragment()).commit();
