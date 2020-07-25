@@ -1,11 +1,15 @@
 package tech.ankainn.edanapplication.util;
 
+import android.app.Activity;
+
 import androidx.annotation.IdRes;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStore;
 import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
 public class NavigationUtil {
@@ -29,5 +33,11 @@ public class NavigationUtil {
 
     public static ViewModelProvider getViewModelProvider(NavController navController, @IdRes int navGraphId) {
         return new ViewModelProvider(navController.getViewModelStoreOwner(navGraphId));
+    }
+
+    public static ViewModelProvider getViewModelProvider(Activity activity, @IdRes int viewId, @IdRes int graphId) {
+        ViewModelStoreOwner viewModelStore = Navigation.findNavController(activity, viewId)
+                .getViewModelStoreOwner(graphId);
+        return new ViewModelProvider(viewModelStore);
     }
 }

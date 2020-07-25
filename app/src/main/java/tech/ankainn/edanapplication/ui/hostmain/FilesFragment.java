@@ -8,7 +8,9 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
+import tech.ankainn.edanapplication.R;
 import tech.ankainn.edanapplication.databinding.FragmentFilesBinding;
 import tech.ankainn.edanapplication.ui.common.BindingFragment;
 import tech.ankainn.edanapplication.util.AutoClearedValue;
@@ -59,10 +61,9 @@ public class FilesFragment extends BindingFragment<FragmentFilesBinding> impleme
         if (option == UPLOAD) {
             viewModel.uploadFile();
         } else if(option == OPEN) {
-
-                /*viewModel.showData();
-                Navigation.findNavController(requireActivity(), R.id.fragment_container)
-                        .navigate(HostMainFragmentDirections.actionMainToFormTwo());*/
+            viewModel.openFile();
+            Navigation.findNavController(requireActivity(), R.id.fragment_container)
+                    .navigate(HostMainFragmentDirections.actionMainToFormTwo());
         }
         viewModel.clearActiveItem();
     }

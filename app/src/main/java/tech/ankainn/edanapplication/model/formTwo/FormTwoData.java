@@ -6,9 +6,9 @@ import java.util.List;
 
 public class FormTwoData {
 
-    public int id;
+    public long id;
 
-    public int dataVersion;
+    public Integer dataVersion;
 
     public Integer formTwoApiId;
 

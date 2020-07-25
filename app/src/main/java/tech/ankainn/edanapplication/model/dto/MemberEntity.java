@@ -9,9 +9,9 @@ public class MemberEntity {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "member_id")
-    public int memberId;
+    public long memberId;
 
-    public int formTwoId;
+    public long formTwoId;
 
     public Boolean head;
     public String name;

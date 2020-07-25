@@ -1,11 +1,11 @@
 package tech.ankainn.edanapplication.repositories;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
-import java.util.ArrayList;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -13,8 +13,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import tech.ankainn.edanapplication.AppExecutors;
 import tech.ankainn.edanapplication.db.EdanDatabase;
+import tech.ankainn.edanapplication.db.FormTwoDao;
 import tech.ankainn.edanapplication.model.apiFormTwo.ApiFormTwo;
 import tech.ankainn.edanapplication.model.apiFormTwo.DataResponse;
+import tech.ankainn.edanapplication.model.dto.FormTwoEntity;
 import tech.ankainn.edanapplication.model.dto.FormTwoWithMembers;
 import tech.ankainn.edanapplication.model.formTwo.FormTwoData;
 import tech.ankainn.edanapplication.retrofit.ApiListResponse;
@@ -27,30 +29,27 @@ public class FormTwoRepository {
 
     private static FormTwoRepository instance;
 
-    private FormTwoData currentData;
-    private MutableLiveData<FormTwoData> newForm = new MutableLiveData<>();
-    private MediatorLiveData<List<FormTwoData>> listForms = new MediatorLiveData<>();
-
     private AppExecutors appExecutors;
     private ApiService apiService;
     private EdanDatabase edanDatabase;
+
+    private FormTwoDao formTwoDao;
+
+    private MutableLiveData<FormTwoData> currentData;
 
     private FormTwoRepository(AppExecutors appExecutors, ApiService apiService, EdanDatabase edanDatabase) {
         this.appExecutors = appExecutors;
         this.apiService = apiService;
         this.edanDatabase = edanDatabase;
 
-        listForms.addSource(newForm, formTwoData -> {
-            List<FormTwoData> list = listForms.getValue();
-            if (list == null) {
-                list = new ArrayList<>();
-            }
-            list.add(formTwoData);
-            listForms.setValue(list);
-        });
+        formTwoDao = edanDatabase.formTwoDao();
+
+        currentData = new MutableLiveData<>(null);
     }
 
-    public static FormTwoRepository getInstance(AppExecutors appExecutors, ApiService apiService, EdanDatabase edanDatabase) {
+    public static FormTwoRepository getInstance(AppExecutors appExecutors,
+                                                ApiService apiService,
+                                                EdanDatabase edanDatabase) {
         if(instance == null) {
             synchronized (FormTwoRepository.class) {
                 if(instance == null) {
@@ -61,40 +60,23 @@ public class FormTwoRepository {
         return instance;
     }
 
+    public LiveData<FormTwoData> getCurrentFormTwoData() {
+        return currentData;
+    }
+
+    public void setCurrentFormTwoData(FormTwoData currentData) {
+        if (currentData == null) {
+            this.currentData.setValue(null);
+            return;
+        }
+
+        FormTwoData temp = FormTwoFactory.cloneFormTwoData(currentData);
+        this.currentData.setValue(temp);
+    }
+
     public LiveData<List<FormTwoData>> getAllFormsFromDb() {
-        LiveData<List<FormTwoWithMembers>> source = edanDatabase.formTwoDao().getAllFormTwoWithMembers();
+        LiveData<List<FormTwoWithMembers>> source = formTwoDao.getAllFormTwoWithMembers();
         return Transformations.map(source, FormTwoFactory::fromDbList);
-    }
-
-    public LiveData<Integer> postFormTwo(FormTwoData formTwoData) {
-        ApiFormTwo apiFormTwo = FormTwoFactory.apiFromData(formTwoData);
-        MutableLiveData<Integer> liveData = new MutableLiveData<>();
-        apiService.postForm2a(apiFormTwo).enqueue(new Callback<ApiResponse<DataResponse>>() {
-            @Override
-            public void onResponse(Call<ApiResponse<DataResponse>> call, Response<ApiResponse<DataResponse>> response) {
-                Timber.v("onResponse: %s", response);
-                if(response.isSuccessful()) {
-                    liveData.setValue(response.body().getData().getFORM2ACABID());
-                } else {
-                    liveData.setValue(-1);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ApiResponse<DataResponse>> call, Throwable t) {
-                Timber.e(t);
-                liveData.setValue(-1);
-            }
-        });
-        return liveData;
-    }
-
-    public void saveForm(FormTwoData formTwoData) {
-        newForm.setValue(formTwoData);
-    }
-
-    public LiveData<List<FormTwoData>> getListFormTwo() {
-        return listForms;
     }
 
     public LiveData<List<ApiListResponse.Datum>> getListDatum() {
@@ -117,15 +99,33 @@ public class FormTwoRepository {
         return liveData;
     }
 
-    public void setCurrentData(FormTwoData data) {
-        currentData = data;
+    public LiveData<Integer> postFormTwo(FormTwoData formTwoData) {
+        ApiFormTwo apiFormTwo = FormTwoFactory.apiFromData(formTwoData);
+        MutableLiveData<Integer> liveData = new MutableLiveData<>();
+        apiService.postForm2a(apiFormTwo).enqueue(new Callback<ApiResponse<DataResponse>>() {
+            @Override
+            public void onResponse(@NotNull Call<ApiResponse<DataResponse>> call,
+                                   @NotNull Response<ApiResponse<DataResponse>> response) {
+                if(response.isSuccessful() && response.body() != null) {
+                    liveData.setValue(response.body().getData().getFORM2ACABID());
+                } else {
+                    liveData.setValue(-1);
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<ApiResponse<DataResponse>> call,
+                                  @NotNull Throwable t) {
+                Timber.e(t);
+                liveData.setValue(-1);
+            }
+        });
+        return liveData;
     }
 
-    public FormTwoData getCurrentData() {
-        return currentData;
-    }
+    public void saveForm(FormTwoData formTwoData) {
+        FormTwoEntity formTwoEntity = FormTwoFactory.dataToEntity(formTwoData);
 
-    public boolean hasCurrentData() {
-        return currentData != null;
+        appExecutors.diskIO().execute(() -> formTwoDao.insertFormTwo(formTwoEntity));
     }
 }

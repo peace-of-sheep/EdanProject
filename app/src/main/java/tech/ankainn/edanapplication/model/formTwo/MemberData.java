@@ -2,7 +2,7 @@ package tech.ankainn.edanapplication.model.formTwo;
 
 public class MemberData {
 
-    public int id;
+    public long id;
 
     public Boolean head;
     public String name;

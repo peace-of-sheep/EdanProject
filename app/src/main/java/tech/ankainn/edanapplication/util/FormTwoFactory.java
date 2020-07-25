@@ -1,5 +1,9 @@
 package tech.ankainn.edanapplication.util;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +23,7 @@ import tech.ankainn.edanapplication.model.apiFormTwo.LifeHealth;
 import tech.ankainn.edanapplication.model.apiFormTwo.MaterialType;
 import tech.ankainn.edanapplication.model.apiFormTwo.PersonalInjury;
 import tech.ankainn.edanapplication.model.apiFormTwo.Responsable;
+import tech.ankainn.edanapplication.model.dto.FormTwoEntity;
 import tech.ankainn.edanapplication.model.dto.FormTwoWithMembers;
 import tech.ankainn.edanapplication.model.dto.MemberEntity;
 import tech.ankainn.edanapplication.model.formTwo.FormTwoData;
@@ -29,6 +34,24 @@ import tech.ankainn.edanapplication.model.formTwo.MapLocationData;
 import tech.ankainn.edanapplication.retrofit.ApiListResponse;
 
 public class FormTwoFactory {
+
+    public static <T> T copyObject(T object){
+        Gson gson = new Gson();
+        return gson.fromJson(gson.toJson(object), (Type) object.getClass());
+        /*JsonObject jsonObject = gson.toJsonTree(object).getAsJsonObject();
+        return gson.fromJson(jsonObject,(Type) object.getClass());*/
+    }
+
+    public static FormTwoData cloneFormTwoData(FormTwoData source) {
+        /*result.id = source.id;
+        result.dataVersion = source.dataVersion;
+        result.formTwoApiId = source.formTwoApiId;
+
+        result.mapLocationData = new MapLocationData();
+        result.mapLocationData.latitude = source.mapLocationData.latitude;
+        result.mapLocationData.longitude = source.mapLocationData.longitude;*/
+        return copyObject(source);
+    }
 
     public static FormTwoData createEmptyFormTwoData() {
         FormTwoData formTwoData = new FormTwoData();
@@ -397,5 +420,39 @@ public class FormTwoFactory {
         result.setFamilias(familiaList);
 
         return result;
+    }
+
+    public static FormTwoEntity dataToEntity(FormTwoData formTwoData) {
+        FormTwoEntity formTwoEntity = new FormTwoEntity();
+        formTwoEntity.dataVersion = formTwoData.dataVersion;
+        formTwoEntity.formTwoApiId = formTwoData.formTwoApiId;
+
+        formTwoEntity.latitude = formTwoData.mapLocationData.latitude;
+        formTwoEntity.longitude = formTwoData.mapLocationData.longitude;
+        formTwoEntity.altitude = formTwoData.mapLocationData.altitude;
+        formTwoEntity.transport = formTwoData.mapLocationData.transport;
+        formTwoEntity.reference = formTwoData.mapLocationData.reference;
+
+        formTwoEntity.groupDanger = formTwoData.genInfData.groupDanger;
+        formTwoEntity.typeDanger = formTwoData.genInfData.typeDanger;
+        formTwoEntity.date = formTwoData.genInfData.date;
+        formTwoEntity.hour = formTwoData.genInfData.hour;
+        formTwoEntity.department = formTwoData.genInfData.department;
+        formTwoEntity.province = formTwoData.genInfData.province;
+        formTwoEntity.district = formTwoData.genInfData.district;
+        formTwoEntity.locality = formTwoData.genInfData.locality;
+        formTwoEntity.zone = formTwoData.genInfData.zone;
+
+        formTwoEntity.lot = formTwoData.householdData.lot;
+        formTwoEntity.owner = formTwoData.householdData.owner;
+        formTwoEntity.condition = formTwoData.householdData.condition;
+        formTwoEntity.floor = formTwoData.householdData.floor;
+        formTwoEntity.wall = formTwoData.householdData.wall;
+        formTwoEntity.roof = formTwoData.householdData.roof;
+        formTwoEntity.idFloor = formTwoData.householdData.idFloor;
+        formTwoEntity.idWall = formTwoData.householdData.idWall;
+        formTwoEntity.idRoof = formTwoData.householdData.idRoof;
+
+        return formTwoEntity;
     }
 }

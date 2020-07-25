@@ -12,10 +12,11 @@ import androidx.navigation.Navigation;
 import tech.ankainn.edanapplication.R;
 import tech.ankainn.edanapplication.databinding.FragmentLocationBinding;
 import tech.ankainn.edanapplication.ui.common.BindingFragment;
+import tech.ankainn.edanapplication.ui.formTwo.FormTwoViewModel;
 
 public class LocationFragment extends BindingFragment<FragmentLocationBinding> {
 
-    private MapViewModel viewModel;
+    private FormViewModel viewModel;
 
     @Override
     protected FragmentLocationBinding makeBinding(LayoutInflater inflater, ViewGroup container) {
@@ -32,7 +33,7 @@ public class LocationFragment extends BindingFragment<FragmentLocationBinding> {
         int graphId = form == 1 ? R.id.form_one_host_graph : R.id.form_two_host_graph;
         ViewModelProvider viewModelProvider = new ViewModelProvider(navController.getViewModelStoreOwner(graphId));
 
-        viewModel = viewModelProvider.get(MapViewModel.class);
+        viewModel = viewModelProvider.get(FormTwoViewModel.class);
 
         viewModel.getMapLocationData().observe(getViewLifecycleOwner(),
                 mapLocationData -> binding().setMapLocation(mapLocationData));

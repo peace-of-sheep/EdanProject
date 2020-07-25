@@ -9,15 +9,33 @@ import androidx.room.Transaction;
 
 import java.util.List;
 
+import tech.ankainn.edanapplication.model.dto.FormTwoEntity;
 import tech.ankainn.edanapplication.model.dto.FormTwoWithMembers;
+import tech.ankainn.edanapplication.model.dto.MemberEntity;
 
 @Dao
-public interface FormTwoDao {
+public abstract class FormTwoDao {
 
     @Transaction
     @Query("SELECT * FROM form_two_table")
-    LiveData<List<FormTwoWithMembers>> getAllFormTwoWithMembers();
+    public abstract LiveData<List<FormTwoWithMembers>> getAllFormTwoWithMembers();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertFormTwo(FormTwoWithMembers formTwoWithMembers);
+    public abstract long insertFormTwo(FormTwoEntity formTwoEntity);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public abstract void insertMember(MemberEntity memberEntity);
+
+    @Transaction
+    public void insertFormTwoWithMember(FormTwoEntity formTwoEntity, List<MemberEntity> memberEntityList) {
+        final long formTwoId = insertFormTwo(formTwoEntity);
+
+        for (MemberEntity memberEntity : memberEntityList) {
+            memberEntity.formTwoId = formTwoId;
+            insertMember(memberEntity);
+        }
+    }
+
+    /*@Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertFormTwo(FormTwoWithMembers formTwoWithMembers);*/
 }

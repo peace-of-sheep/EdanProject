@@ -15,9 +15,11 @@ import tech.ankainn.edanapplication.R;
 import tech.ankainn.edanapplication.databinding.FragmentHouseholdBinding;
 import tech.ankainn.edanapplication.ui.common.BindingFragment;
 
+import static tech.ankainn.edanapplication.util.NavigationUtil.getViewModelProvider;
+
 public class HouseholdFragment extends BindingFragment<FragmentHouseholdBinding> {
 
-    private HouseholdViewModel viewModel;
+    private FormTwoViewModel viewModel;
 
     @Override
     protected FragmentHouseholdBinding makeBinding(LayoutInflater inflater, ViewGroup container) {
@@ -28,10 +30,9 @@ public class HouseholdFragment extends BindingFragment<FragmentHouseholdBinding>
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_container);
-        ViewModelProvider viewModelProvider = new ViewModelProvider(navController.getViewModelStoreOwner(R.id.form_two_host_graph));
+        ViewModelProvider viewModelProvider = getViewModelProvider(requireActivity(), R.id.fragment_container, R.id.form_two_host_graph);
 
-        viewModel = viewModelProvider.get(HouseholdViewModel.class);
+        viewModel = viewModelProvider.get(FormTwoViewModel.class);
 
         viewModel.getHouseholdData().observe(getViewLifecycleOwner(),
                 householdData -> binding().setHousehold(householdData));

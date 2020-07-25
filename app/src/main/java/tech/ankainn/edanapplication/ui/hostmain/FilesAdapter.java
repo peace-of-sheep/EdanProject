@@ -59,12 +59,6 @@ public class FilesAdapter extends BindingAdapter<Metadata<FormTwoData>, LayoutIt
         return oldItem.data.dataVersion == newItem.data.dataVersion && oldItem.loading == newItem.loading;
     }
 
-    @Override
-    public void replace(List<Metadata<FormTwoData>> update) {
-        Timber.tag("FilesAdapter").d("replace: %s %s", update.get(0).loading, update.get(0).data);
-        super.replace(update);
-    }
-
     public interface FileClickListener {
         void onClick(FormTwoData binding, boolean loading);
     }

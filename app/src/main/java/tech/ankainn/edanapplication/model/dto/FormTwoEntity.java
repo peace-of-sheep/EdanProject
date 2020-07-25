@@ -9,13 +9,20 @@ public class FormTwoEntity {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "form_two_id")
-    public int formTwoId;
+    public long formTwoId;
 
     @ColumnInfo(name = "data_version")
-    public int dataVersion;
+    public Integer dataVersion;
 
     @ColumnInfo(name = "form_two_api_id")
     public Integer formTwoApiId;
+
+    public Double latitude;
+    public Double longitude;
+    public Integer altitude;
+    public String transport;
+    public String reference;
+
     @ColumnInfo(name = "group_danger")
     public String groupDanger;
     @ColumnInfo(name = "type_danger")
@@ -27,11 +34,7 @@ public class FormTwoEntity {
     public String district;
     public String locality;
     public String zone;
-    public Double latitude;
-    public Double longitude;
-    public Integer altitude;
-    public String transport;
-    public String reference;
+
     @ColumnInfo(name = "lot")
     public String lot;
     public Boolean owner;

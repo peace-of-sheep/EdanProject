@@ -7,13 +7,13 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import tech.ankainn.edanapplication.R;
 import tech.ankainn.edanapplication.databinding.LayoutSelectFormBinding;
-import tech.ankainn.edanapplication.ui.hostmain.HostMainFragmentDirections;
 import tech.ankainn.edanapplication.util.AutoClearedValue;
 
 public class SelectFormDialogFragment extends BottomSheetDialogFragment {
@@ -32,26 +32,19 @@ public class SelectFormDialogFragment extends BottomSheetDialogFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        drawablesColor();
+        FilesViewModel filesViewModel = new ViewModelProvider(requireActivity()).get(FilesViewModel.class);
 
         binding.get().formOne.setOnClickListener(v -> {
             Navigation.findNavController(requireActivity(), R.id.fragment_container)
                     .navigate(HostMainFragmentDirections.actionMainToFormOne());
-            dismissAllowingStateLoss();
+            dismiss();
         });
 
         binding.get().formTwo.setOnClickListener(v -> {
+            filesViewModel.clearCurrentFormTwo();
             Navigation.findNavController(requireActivity(), R.id.fragment_container)
                     .navigate(HostMainFragmentDirections.actionMainToFormTwo());
-            dismissAllowingStateLoss();
-        });
-    }
-
-    private void drawablesColor() {
-        binding.get().getRoot().post(() -> {
-            int color = binding.get().formTwo.getCurrentTextColor();
-            binding.get().formTwo.getCompoundDrawablesRelative()[0].mutate().setTint(color);
-            binding.get().formOne.getCompoundDrawablesRelative()[0].mutate().setTint(color);
+            dismiss();
         });
     }
 }

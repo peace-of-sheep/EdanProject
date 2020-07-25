@@ -6,18 +6,18 @@ import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 
 import tech.ankainn.edanapplication.R;
 import tech.ankainn.edanapplication.databinding.FragmentGenInfBinding;
 import tech.ankainn.edanapplication.ui.common.BindingFragment;
-import timber.log.Timber;
+import tech.ankainn.edanapplication.ui.formTwo.FormTwoViewModel;
+
+import static tech.ankainn.edanapplication.util.NavigationUtil.getViewModelProvider;
 
 public class GenInfFragment extends BindingFragment<FragmentGenInfBinding> implements
         DatePickerFragment.DateListener, TimePickerFragment.HourListener{
 
-    private GenInfViewModel viewModel;
+    private FormViewModel viewModel;
 
     @Override
     protected FragmentGenInfBinding makeBinding(LayoutInflater inflater, ViewGroup container) {
@@ -28,13 +28,12 @@ public class GenInfFragment extends BindingFragment<FragmentGenInfBinding> imple
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_container);
-
         int form = GenInfFragmentArgs.fromBundle(requireArguments()).getForm();
         int graphId = form == 1 ? R.id.form_one_host_graph : R.id.form_two_host_graph;
-        ViewModelProvider viewModelProvider = new ViewModelProvider(navController.getViewModelStoreOwner(graphId));
 
-        viewModel = viewModelProvider.get(GenInfViewModel.class);
+        ViewModelProvider viewModelProvider = getViewModelProvider(requireActivity(), R.id.fragment_container, graphId);
+
+        viewModel = viewModelProvider.get(FormTwoViewModel.class);
 
         viewModel.getGenInfData().observe(getViewLifecycleOwner(),
                 genInfData -> binding().setGenInfo(genInfData));

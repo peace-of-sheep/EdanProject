@@ -6,22 +6,16 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.Transformations;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import tech.ankainn.edanapplication.model.formTwo.FormTwoData;
 import tech.ankainn.edanapplication.repositories.FormTwoRepository;
 import tech.ankainn.edanapplication.ui.common.BaseViewModel;
-import tech.ankainn.edanapplication.util.LoadingState;
 import tech.ankainn.edanapplication.util.Messenger;
 import tech.ankainn.edanapplication.util.Metadata;
-import tech.ankainn.edanapplication.util.Tuple2;
-import tech.ankainn.edanapplication.util.Tuple3;
-import timber.log.Timber;
 
 public class FilesViewModel extends BaseViewModel {
 
@@ -38,8 +32,10 @@ public class FilesViewModel extends BaseViewModel {
         super(application);
         formTwoRepository = getApplication().getFormTwoRepository();
 
-        LiveData<List<FormTwoData>> source = formTwoRepository.getListFormTwo();
+        LiveData<List<FormTwoData>> source = formTwoRepository.getAllFormsFromDb();
         list.addSource(source, listData -> {
+            if (listData == null) return;
+
             List<Metadata<FormTwoData>> result = new ArrayList<>();
             for (FormTwoData listDatum : listData) {
                 result.add(new Metadata<>(listDatum, false));
@@ -47,14 +43,12 @@ public class FilesViewModel extends BaseViewModel {
             list.setValue(result);
         });
         list.addSource(loading, loadingData -> {
-            Timber.v("FilesViewModel: %s %s", loadingData.data, loadingData.loading);
             if(list.getValue() == null) return;
             List<Metadata<FormTwoData>> temp = new ArrayList<>(list.getValue());
 
             for (int i = 0; i < temp.size(); i++) {
                 if (temp.get(i).data.id == loadingData.data.id) {
                     temp.set(i, loadingData);
-                    Timber.i("FilesViewModel: %s %s", loadingData.data, loadingData.loading);
                     list.setValue(temp);
                     return;
                 }
@@ -64,6 +58,7 @@ public class FilesViewModel extends BaseViewModel {
         LiveData<Integer> result = Transformations.switchMap(upload, input -> formTwoRepository.postFormTwo(input));
         messenger = Transformations.map(result, input -> {
             loading.setValue(new Metadata<>(upload.getValue(), false));
+            //TODO redo msg
             String msg = input == -1 ? "Hubo un problema, intente mas tarde" : "Archivo subido satisfactoriamente";
             return new Messenger(msg);
         });
@@ -92,6 +87,15 @@ public class FilesViewModel extends BaseViewModel {
     }
 
     public void clearActiveItem() {
+        activeItem = null;
+    }
+
+    public void clearCurrentFormTwo() {
+        formTwoRepository.setCurrentFormTwoData(null);
+    }
+
+    public void openFile() {
+        formTwoRepository.setCurrentFormTwoData(activeItem.data);
         activeItem = null;
     }
 }

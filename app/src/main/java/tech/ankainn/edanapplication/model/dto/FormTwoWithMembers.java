@@ -6,8 +6,12 @@ import androidx.room.Relation;
 import java.util.List;
 
 public class FormTwoWithMembers {
+
     @Embedded
     public FormTwoEntity formTwoEntity;
-    @Relation(parentColumn = "form_two_id", entityColumn = "member_id")
+
+    @Relation(parentColumn = "form_two_id",
+            entityColumn = "member_id",
+            entity = MemberEntity.class)
     public List<MemberEntity> memberEntityList;
 }

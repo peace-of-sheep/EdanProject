@@ -6,8 +6,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -17,6 +15,7 @@ import tech.ankainn.edanapplication.R;
 import tech.ankainn.edanapplication.binding.Converter;
 import tech.ankainn.edanapplication.databinding.FragmentMapBinding;
 import tech.ankainn.edanapplication.ui.common.BindingFragment;
+import tech.ankainn.edanapplication.ui.formTwo.FormTwoViewModel;
 import tech.ankainn.edanapplication.util.MapViewWrapper;
 
 import static tech.ankainn.edanapplication.util.NavigationUtil.getViewModelProvider;
@@ -25,7 +24,7 @@ public class MapFragment extends BindingFragment<FragmentMapBinding> {
 
     private MapViewWrapper mapViewWrapper;
 
-    private MapViewModel viewModel;
+    private FormViewModel viewModel;
 
     @Override
     protected FragmentMapBinding makeBinding(LayoutInflater inflater, ViewGroup container) {
@@ -36,15 +35,14 @@ public class MapFragment extends BindingFragment<FragmentMapBinding> {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mapViewWrapper = new MapViewWrapper(binding().mapView, savedInstanceState, getViewLifecycleOwner());
-
-        NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_container);
-
         int form = MapFragmentArgs.fromBundle(requireArguments()).getForm();
         int graphId = form == 1 ? R.id.form_one_host_graph : R.id.form_two_host_graph;
-        ViewModelProvider viewModelProvider = getViewModelProvider(navController, graphId);
 
-        viewModel = viewModelProvider.get(MapViewModel.class);
+        mapViewWrapper = new MapViewWrapper(binding().mapView, savedInstanceState, getViewLifecycleOwner());
+
+        ViewModelProvider viewModelProvider = getViewModelProvider(requireActivity(), R.id.fragment_container, graphId);
+
+        viewModel = viewModelProvider.get(FormTwoViewModel.class);
 
         binding().getRoot().post(() -> binding().mapView.getMapAsync(this::onMapCallback));
     }
