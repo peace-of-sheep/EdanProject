@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/files_fragment"
+        android:icon="@drawable/ic_folder_24dp"
+        android:title="@string/forms"/>
+
+    <item
+        android:id="@+id/cloud_list_fragment"
+        android:icon="@drawable/ic_baseline_cloud_24"
+        android:title="@string/cloud" />
+
+    <item
+        android:id="@+id/user_fragment"
+        android:icon="@drawable/ic_person_24dp"
+        android:title="@string/user"/>
+</menu>

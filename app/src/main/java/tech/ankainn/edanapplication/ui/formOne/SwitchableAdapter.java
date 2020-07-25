@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import tech.ankainn.edanapplication.databinding.LayoutItemSwitchBinding;
-import tech.ankainn.edanapplication.ui.common.DataBoundViewHolder;
+import tech.ankainn.edanapplication.ui.common.BindingViewHolder;
 
 public class SwitchableAdapter extends RecyclerView.Adapter<SwitchableAdapter.Holder> {
 
@@ -42,7 +42,7 @@ public class SwitchableAdapter extends RecyclerView.Adapter<SwitchableAdapter.Ho
         return data == null ? 0 : data.length;
     }
 
-    static class Holder extends DataBoundViewHolder<LayoutItemSwitchBinding> {
+    static class Holder extends BindingViewHolder<LayoutItemSwitchBinding> {
 
         public Holder(@NonNull LayoutItemSwitchBinding binding) {
             super(binding);

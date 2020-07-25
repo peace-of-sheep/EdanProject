@@ -2,21 +2,30 @@ package tech.ankainn.edanapplication.util;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.OnLifecycleEvent;
 
 import com.google.android.gms.maps.MapView;
 
-public class MapViewWrapper implements LifecycleObserver {
+public class MapViewWrapper implements DefaultLifecycleObserver {
 
     private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
 
     private MapView mapView;
+    private Bundle savedInstanceState;
 
-    public MapViewWrapper(MapView mapView, Bundle savedInstanceState) {
+    public MapViewWrapper(MapView mapView, Bundle savedInstanceState, LifecycleOwner lifecycleOwner) {
         this.mapView = mapView;
+        this.savedInstanceState = savedInstanceState;
+        lifecycleOwner.getLifecycle().addObserver(this);
+    }
 
+    @Override
+    public void onCreate(@NonNull LifecycleOwner owner) {
         Bundle mapViewBundle = null;
         if(savedInstanceState != null) {
             mapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY);
@@ -25,28 +34,28 @@ public class MapViewWrapper implements LifecycleObserver {
         mapView.onCreate(mapViewBundle);
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    private void start() {
+    @Override
+    public void onStart(@NonNull LifecycleOwner owner) {
         mapView.onStart();
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    private void resume() {
+    @Override
+    public void onResume(@NonNull LifecycleOwner owner) {
         mapView.onResume();
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
-    private void pause() {
+    @Override
+    public void onPause(@NonNull LifecycleOwner owner) {
         mapView.onPause();
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    private void stop() {
+    @Override
+    public void onStop(@NonNull LifecycleOwner owner) {
         mapView.onStop();
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    private void destroy() {
+    @Override
+    public void onDestroy(@NonNull LifecycleOwner owner) {
         mapView.onDestroy();
         mapView = null;
     }

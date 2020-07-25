@@ -1,11 +1,14 @@
 package tech.ankainn.edanapplication.binding;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
 
-import androidx.annotation.ArrayRes;
 import androidx.databinding.BindingAdapter;
+
+import com.bumptech.glide.Glide;
 
 import tech.ankainn.edanapplication.R;
 
@@ -25,5 +28,11 @@ public class BindingAdapters {
                         R.layout.layout_dropdown_menu_item,
                         array);
         textView.setAdapter(adapter);
+    }
+
+    @BindingAdapter(value = "imageUri")
+    public static void setImageUri(ImageView imageView, String uri) {
+        Context context = imageView.getContext().getApplicationContext();
+        Glide.with(context).load(uri).into(imageView);
     }
 }

@@ -14,7 +14,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:endIconMode="custom"
         android:hint="@string/description"
-        app:endIconDrawable="@drawable/ic_send"
+        app:endIconDrawable="@drawable/ic_send_24dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

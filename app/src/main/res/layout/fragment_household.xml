@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.text.InputType" />
+        <variable
+            name="household"
+            type="tech.ankainn.edanapplication.model.formTwo.HouseholdData" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputLayout
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/sw_owner"
+                android:layout_marginHorizontal="@dimen/dim_nor"
+                android:layout_marginTop="@dimen/dim_nor"
+                android:id="@+id/layout_lot_number"
+                app:layout_constraintTop_toTopOf="parent"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/household_lot_number">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:text="@={household.lot}"
+                    android:inputType="text"
+                    android:id="@+id/text_lot_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:checked="@={household.owner}"
+                android:padding="@dimen/dim_sma"
+                android:id="@+id/sw_owner"
+                android:layout_marginHorizontal="@dimen/dim_nor"
+                app:layout_constraintTop_toTopOf="@id/layout_lot_number"
+                app:layout_constraintBottom_toBottomOf="@id/layout_lot_number"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:switchPadding="@dimen/dim_nor"
+                android:text="@string/household_owner"
+                app:useMaterialThemeColors="false"
+                app:track="@drawable/switch_track"
+                android:thumb="@drawable/switch_thumb"
+                app:showText="true"
+                android:textOn="@string/yes"
+                android:textOff="@string/no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_condition"
+                app:layout_constraintTop_toBottomOf="@id/layout_lot_number"
+                android:layout_marginHorizontal="@dimen/dim_nor"
+                android:layout_marginTop="@dimen/dim_nor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+                android:labelFor="@id/text_condition"
+                android:hint="@string/household_condition">
+
+                <AutoCompleteTextView
+                    android:text="@={household.condition}"
+                    dropdown="@{@stringArray/household_condition}"
+                    android:inputType="@{InputType.TYPE_NULL}"
+                    android:id="@+id/text_condition"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/title_material"
+                android:text="@string/household_material_type"
+                app:layout_constraintTop_toBottomOf="@id/layout_condition"
+                android:layout_marginTop="@dimen/dim_big"
+                android:layout_marginHorizontal="@dimen/dim_big"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_roof"
+                app:layout_constraintTop_toBottomOf="@id/title_material"
+                android:layout_marginHorizontal="@dimen/dim_nor"
+                android:layout_marginTop="@dimen/dim_nor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+                android:labelFor="@id/text_roof"
+                android:hint="@string/roof">
+
+                <AutoCompleteTextView
+                    android:text="@={household.roof}"
+                    android:inputType="@{InputType.TYPE_NULL}"
+                    android:id="@+id/text_roof"
+                    dropdown="@{@stringArray/roof_types}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_wall"
+                app:layout_constraintTop_toBottomOf="@id/layout_roof"
+                android:layout_marginHorizontal="@dimen/dim_nor"
+                android:layout_marginTop="@dimen/dim_nor"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+                android:hint="@string/wall"
+                android:labelFor="@id/text_wall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <AutoCompleteTextView
+                    android:text="@={household.wall}"
+                    android:inputType="@{InputType.TYPE_NULL}"
+                    android:id="@+id/text_wall"
+                    dropdown="@{@stringArray/wall_types}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_floor"
+                app:layout_constraintTop_toBottomOf="@id/layout_wall"
+                android:layout_marginHorizontal="@dimen/dim_nor"
+                android:layout_marginTop="@dimen/dim_nor"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+                android:hint="@string/floor"
+                android:labelFor="@id/text_floor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <AutoCompleteTextView
+                    android:text="@={household.floor}"
+                    android:inputType="@{InputType.TYPE_NULL}"
+                    android:id="@+id/text_floor"
+                    dropdown="@{@stringArray/floor_types}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</layout>

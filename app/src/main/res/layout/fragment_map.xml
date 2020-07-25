@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="tech.ankainn.edanapplication.binding.Converter" />
+        <import type="android.text.InputType" />
+        <variable
+            name="mapLocation"
+            type="tech.ankainn.edanapplication.model.formTwo.MapLocationData" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/map_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <View
+            android:id="@+id/map_picker"
+            android:layout_gravity="center"
+            android:background="@drawable/location_picker"
+            android:layout_width="20dp"
+            android:layout_height="20dp" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_latitude"
+                android:layout_marginTop="@dimen/dim_nor"
+                android:layout_marginHorizontal="@dimen/dim_nor"
+                android:hint="@string/latitude"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/text_latitude"
+                    android:text="@={Converter.doubleToString(mapLocation.latitude)}"
+                    android:maxLength="8"
+                    android:inputType="@{InputType.TYPE_NULL}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_marginTop="@dimen/dim_nor"
+                android:layout_marginHorizontal="@dimen/dim_nor"
+                android:id="@+id/layout_longitude"
+                android:hint="@string/longitude"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/text_longitude"
+                    android:text="@={Converter.doubleToString(mapLocation.longitude)}"
+                    android:maxLength="8"
+                    android:inputType="@{InputType.TYPE_NULL}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
+</layout>

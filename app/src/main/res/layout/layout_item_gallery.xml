@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="photo"
+            type="tech.ankainn.edanapplication.model.media.PhotoData" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:elevation="@dimen/dim_sma"
+        android:layout_marginTop="@dimen/dim_nor"
+        android:layout_marginHorizontal="@dimen/dim_nor"
+        android:layout_width="match_parent"
+        android:layout_height="250dp">
+
+        <ImageView
+            imageUri="@{photo.filePath}"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:background="@color/colorAlphaGrayed"
+            android:padding="@dimen/dim_big"
+            android:text="@{@string/description_args(photo.description)}"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_gravity="bottom"
+            android:maxHeight="100dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

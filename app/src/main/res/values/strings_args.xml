@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="description_args">Description: <b>%s</b></string>
+    <string name="date_hour_args" translatable="false"><b>%s</b> <b>%s</b></string>
+</resources>

@@ -19,6 +19,8 @@
     <string name="latitude">Latitude</string>
     <string name="longitude">Longitude</string>
     <string name="altitude">Altitude (m.a.s.l.)</string>
+    <string name="means_transport">Means of transport</string>
+    <string name="reference_point">Reference point</string>
 
     <string name="danger_group">Danger group</string>
     <string name="danger_type">Danger type</string>
@@ -27,14 +29,14 @@
     <string name="department">Department</string>
     <string name="province">Province</string>
     <string name="district">District</string>
-    <string name="place">Place</string>
+    <string name="locality">Locality</string>
     <string name="zone_type">Zone type</string>
 
-    <string name="add_form">Add new form</string>
+    <string name="select_form">Select form</string>
     <string name="form_one">Form One</string>
     <string name="form_two">Form Two</string>
 
-    <string name="title_damage_one">Life and Health</string>
+    <string name="title_damage_one">@string/life_health</string>
     <string name="injured_people">Injured people</string>
     <string name="trapped_people">Trapped people</string>
     <string name="isolated_people">Isolated people</string>
@@ -121,4 +123,31 @@
     <string name="back">Back</string>
     <string name="delete">Delete</string>
     <string name="description">Description</string>
+    <string name="forms">Forms</string>
+    <string name="user">User</string>
+    <string name="add_family_member">Add family member</string>
+    <string name="surname_name">Surname, Name</string>
+
+    <string name="gender">Gender</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="life_health">Life and health</string>
+    <string name="condition">Condition</string>
+    
+    <string name="damaged">Damaged</string>
+    <string name="injured">Injured</string>
+
+    <string name="personal_injury">Personal injury</string>
+    <string name="missing">Missing</string>
+    <string name="deceased">Deceased</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="camera">Camera</string>
+
+    <string name="empty_list">Empty list</string>
+    <string name="upload">Upload file</string>
+    <string name="open">Open</string>
+    <string name="open_file">Open file</string>
+    <string name="cloud">Cloud</string>
+    <string name="options">Options</string>
 </resources>

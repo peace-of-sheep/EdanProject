@@ -4,22 +4,19 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.ArrayRes;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import tech.ankainn.edanapplication.databinding.FragmentSwitchableBinding;
-import tech.ankainn.edanapplication.ui.base.BaseFragment;
-import tech.ankainn.edanapplication.ui.common.NavController;
+import tech.ankainn.edanapplication.ui.common.BindingFragment;
 import tech.ankainn.edanapplication.util.AutoClearedValue;
 
-public class SwitchableFragment extends BaseFragment {
+public class SwitchableFragment extends BindingFragment<FragmentSwitchableBinding> {
 
     private static final String ARRAY_KEY = "array_key";
     private static final String TITLE_KEY = "title_key";
@@ -46,6 +43,11 @@ public class SwitchableFragment extends BaseFragment {
     private AutoClearedValue<FragmentSwitchableBinding> binding;
 
     @Override
+    protected FragmentSwitchableBinding makeBinding(LayoutInflater inflater, ViewGroup container) {
+        return null;
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
@@ -60,16 +62,6 @@ public class SwitchableFragment extends BaseFragment {
         }
     }
 
-    @NonNull
-    @Override
-    protected View makeView(LayoutInflater inflater, ViewGroup container) {
-        final FragmentSwitchableBinding bindingTemp =
-                FragmentSwitchableBinding.inflate(inflater, container, false);
-        bindingTemp.setLifecycleOwner(getViewLifecycleOwner());
-        binding = new AutoClearedValue<>(bindingTemp);
-        getViewLifecycleOwner().getLifecycle().addObserver(binding);
-        return bindingTemp.getRoot();
-    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -91,7 +83,7 @@ public class SwitchableFragment extends BaseFragment {
         }
         binding.get().setTitle(title);
         binding.get().setAdapter(adapter);
-        binding.get().btnNext.setOnClickListener(v -> NavController.openSwitchable(requireActivity(), goTo));
+        //binding.get().btnNext.setOnClickListener(v -> NavController.openSwitchable(requireActivity(), goTo));
     }
 
     private static class NoScrollLayoutManager extends LinearLayoutManager {

@@ -5,8 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
-import tech.ankainn.edanapplication.BaseApp;
-import tech.ankainn.edanapplication.ui.base.BaseViewModel;
+import tech.ankainn.edanapplication.ui.common.BaseViewModel;
 
 public class SwitchableViewModel extends BaseViewModel {
 

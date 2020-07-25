@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/form_two_graph"
+    app:startDestination="@id/form_two_map_fragment">
+
+    <fragment
+        android:id="@+id/form_two_map_fragment"
+        android:label="FormTwoMapFragment"
+        android:name="tech.ankainn.edanapplication.ui.geninfo.MapFragment" >
+
+        <argument
+            android:name="form"
+            app:argType="integer"
+            android:defaultValue="2" />
+
+        <action
+            android:id="@+id/action_back"
+            app:destination="@id/family_fragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/form_two_map_fragment"/>
+
+        <action
+            android:id="@+id/action_next"
+            app:destination="@id/form_two_gen_info_fragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/form_two_map_fragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/form_two_gen_info_fragment"
+        android:label="FormTwoGenInfoFragment"
+        android:name="tech.ankainn.edanapplication.ui.geninfo.GenInfFragment" >
+
+        <argument
+            android:name="form"
+            app:argType="integer"
+            android:defaultValue="2" />
+
+        <action
+            android:id="@+id/action_back"
+            app:destination="@id/form_two_map_fragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/form_two_gen_info_fragment"/>
+
+        <action
+            android:id="@+id/action_next"
+            app:destination="@id/household_fragment"
+            app:popUpTo="@id/form_two_gen_info_fragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/household_fragment"
+        android:label="HouseholdFragment"
+        android:name="tech.ankainn.edanapplication.ui.formTwo.HouseholdFragment" >
+
+        <action
+            android:id="@+id/action_back"
+            app:destination="@id/form_two_gen_info_fragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/household_fragment"/>
+
+        <action
+            android:id="@+id/action_next"
+            app:destination="@id/family_fragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/household_fragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/family_fragment"
+        android:label="FamilyFragment"
+        android:name="tech.ankainn.edanapplication.ui.formTwo.MembersFragment" >
+
+        <action
+            android:id="@+id/action_back"
+            app:destination="@id/household_fragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/family_fragment"/>
+
+        <action
+            android:id="@+id/action_next"
+            app:destination="@id/form_two_map_fragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/family_fragment"/>
+    </fragment>
+
+</navigation>

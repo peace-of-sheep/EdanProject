@@ -28,9 +28,10 @@ android {
         }
     }
 
-    viewBinding.enabled = true
-
-    dataBinding.enabled = true
+    buildFeatures {
+        dataBinding true
+        viewBinding true
+    }
 
     compileOptions {
         sourceCompatibility = 1.8
@@ -104,4 +105,7 @@ dependencies {
     // navigation component
     implementation "androidx.navigation:navigation-fragment:2.2.2"
     implementation "androidx.navigation:navigation-ui:2.2.2"
+
+    // swipe refresh layout
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 }

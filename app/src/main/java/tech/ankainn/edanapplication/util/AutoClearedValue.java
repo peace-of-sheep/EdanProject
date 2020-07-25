@@ -1,21 +1,20 @@
 package tech.ankainn.edanapplication.util;
 
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.OnLifecycleEvent;
+import androidx.annotation.NonNull;
+import androidx.lifecycle.DefaultLifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
 
-import timber.log.Timber;
-
-public class AutoClearedValue<T> implements LifecycleObserver {
+public class AutoClearedValue<T> implements DefaultLifecycleObserver {
 
     private T value;
 
-    public AutoClearedValue(T value) {
+    public AutoClearedValue(T value, LifecycleOwner owner) {
         this.value = value;
+        owner.getLifecycle().addObserver(this);
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    public void clearValue() {
+    @Override
+    public void onDestroy(@NonNull LifecycleOwner owner) {
         value = null;
     }
 

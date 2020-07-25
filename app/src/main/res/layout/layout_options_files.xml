@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:paddingHorizontal="@dimen/dim_big"
+        android:paddingVertical="@dimen/dim_xbig"
+        android:textColor="@color/colorPrimary"
+        android:text="@string/options"
+        android:textSize="@dimen/text_big"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/btn_upload"
+        android:background="?selectableItemBackground"
+        android:textSize="@dimen/text_big"
+        android:padding="@dimen/dim_big"
+        android:text="@string/upload"
+        android:drawableStart="@drawable/ic_cloud_upload_24"
+        android:drawablePadding="@dimen/dim_xbig"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/btn_open"
+        android:background="?selectableItemBackground"
+        android:textSize="@dimen/text_big"
+        android:padding="@dimen/dim_big"
+        android:text="@string/open_file"
+        android:drawableStart="@drawable/ic_folder_24dp"
+        android:drawablePadding="@dimen/dim_xbig"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

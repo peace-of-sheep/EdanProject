@@ -13,3 +13,12 @@
 .externalNativeBuild
 .cxx
 /app/google-services.json
+com_crashlytics_export_strings.xml
+.signing/
+*.apk
+*.aar
+*.ap_
+*.aab
+*.dex
+*.class
+app/src/main/java/tech/ankainn/edanapplication/Dumper.java

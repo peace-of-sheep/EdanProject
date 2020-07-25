@@ -1,6 +1,7 @@
 package tech.ankainn.edanapplication.ui.camera;
 
 import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.LayoutInflater;
@@ -19,39 +20,16 @@ import androidx.core.content.ContextCompat;
 import androidx.navigation.Navigation;
 
 import com.google.common.util.concurrent.ListenableFuture;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionDeniedResponse;
-import com.karumi.dexter.listener.PermissionGrantedResponse;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.single.PermissionListener;
 
 import java.io.File;
 import java.util.concurrent.ExecutionException;
 
 import tech.ankainn.edanapplication.R;
 import tech.ankainn.edanapplication.databinding.FragmentCameraBinding;
-import tech.ankainn.edanapplication.ui.base.BindingFragment;
+import tech.ankainn.edanapplication.ui.common.BindingFragment;
 import timber.log.Timber;
 
 public class CameraFragment extends BindingFragment<FragmentCameraBinding> {
-
-    private PermissionListener permissionListener = new PermissionListener() {
-        @Override
-        public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
-            setUpCamera();
-        }
-
-        @Override
-        public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
-            Toast.makeText(requireContext(), "Permission not granted", Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
-            permissionToken.continuePermissionRequest();
-        }
-    };
 
     @Override
     protected FragmentCameraBinding makeBinding(LayoutInflater inflater, ViewGroup container) {
@@ -61,10 +39,21 @@ public class CameraFragment extends BindingFragment<FragmentCameraBinding> {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Dexter.withContext(requireContext())
-                .withPermission(Manifest.permission.CAMERA)
-                .withListener(permissionListener)
-                .check();
+        if (hasCameraPermission()) {
+            setUpCamera();
+        } else {
+            Navigation.findNavController(requireActivity(), R.id.fragment_container)
+                    .popBackStack();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(!hasCameraPermission()) {
+            Navigation.findNavController(requireActivity(), R.id.fragment_container)
+                    .popBackStack();
+        }
     }
 
     private void setUpCamera() {
@@ -97,10 +86,10 @@ public class CameraFragment extends BindingFragment<FragmentCameraBinding> {
         cameraProvider.unbindAll();
         cameraProvider.bindToLifecycle(getViewLifecycleOwner(), CameraSelector.DEFAULT_BACK_CAMERA, imageCapture, preview);
 
-        binding().btn.setOnClickListener(v -> captureImage(imageCapture, cameraProvider));
+        binding().btn.setOnClickListener(v -> captureImage(imageCapture));
     }
 
-    private void captureImage(ImageCapture imageCapture, ProcessCameraProvider cameraProvider) {
+    private void captureImage(ImageCapture imageCapture) {
 
         long timestamp = System.currentTimeMillis();
 
@@ -130,5 +119,10 @@ public class CameraFragment extends BindingFragment<FragmentCameraBinding> {
                 Timber.e(exception);
             }
         });
+    }
+
+    public boolean hasCameraPermission() {
+        return ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) ==
+                PackageManager.PERMISSION_GRANTED;
     }
 }

@@ -9,6 +9,8 @@ import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.bumptech.glide.Glide;
@@ -17,7 +19,7 @@ import java.io.File;
 
 import tech.ankainn.edanapplication.R;
 import tech.ankainn.edanapplication.databinding.FragmentPreviewBinding;
-import tech.ankainn.edanapplication.ui.base.BindingFragment;
+import tech.ankainn.edanapplication.ui.common.BindingFragment;
 import tech.ankainn.edanapplication.util.OnAfterTextChanged;
 
 public class PreviewFragment extends BindingFragment<FragmentPreviewBinding> {
@@ -30,6 +32,11 @@ public class PreviewFragment extends BindingFragment<FragmentPreviewBinding> {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_container);
+        ViewModelProvider viewModelProvider = new ViewModelProvider(navController.getViewModelStoreOwner(R.id.camera_graph));
+
+        GalleryViewModel viewModel = viewModelProvider.get(GalleryViewModel.class);
 
         String filePath = PreviewFragmentArgs.fromBundle(requireArguments()).getFilePath();
 
@@ -65,6 +72,7 @@ public class PreviewFragment extends BindingFragment<FragmentPreviewBinding> {
 
         binding().layoutDescription.setEndIconOnClickListener(v -> {
             Toast.makeText(requireContext(), filePath, Toast.LENGTH_SHORT).show();
+            viewModel.addPhoto(filePath, binding().textDescription.getText().toString());
             Navigation.findNavController(requireActivity(), R.id.fragment_container).popBackStack();
         });
 

@@ -1,9 +1,5 @@
 package tech.ankainn.edanapplication.retrofit;
 
-import com.google.gson.Gson;
-
-import java.util.concurrent.TimeUnit;
-
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -33,7 +29,8 @@ public class RetrofitUtil {
                 .build();
 
         return new Retrofit.Builder()
-                .baseUrl("https://edan.anka.pe/api/v1/")
+                //.baseUrl("https://edan.anka.pe/api/v1/")
+                .baseUrl("http://64.227.22.60:3000/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 /*.callbackExecutor()*/

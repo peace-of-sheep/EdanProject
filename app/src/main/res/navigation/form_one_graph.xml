@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/form_one_graph"
+    app:startDestination="@id/form_one_map_fragment">
+
+    <fragment
+        android:id="@+id/form_one_map_fragment"
+        android:label="FormOneMapFragment"
+        android:name="tech.ankainn.edanapplication.ui.geninfo.MapFragment" >
+
+        <argument
+            android:name="form"
+            app:argType="integer"
+            android:defaultValue="1" />
+
+        <action
+            android:id="@+id/action_back"
+            app:destination="@id/form_one_gen_info_fragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/form_one_map_fragment"/>
+
+        <action
+            android:id="@+id/action_next"
+            app:destination="@id/form_one_location_fragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/form_one_map_fragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/form_one_location_fragment"
+        android:label="FormOneLocationFragment"
+        android:name="tech.ankainn.edanapplication.ui.geninfo.LocationFragment" >
+
+        <argument
+            android:name="form"
+            app:argType="integer"
+            android:defaultValue="1" />
+
+        <action
+            android:id="@+id/action_back"
+            app:destination="@id/form_one_map_fragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/form_one_location_fragment"/>
+
+        <action
+            android:id="@+id/action_next"
+            app:destination="@id/form_one_gen_info_fragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/form_one_location_fragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/form_one_gen_info_fragment"
+        android:label="FormOneGenInfoFragment"
+        android:name="tech.ankainn.edanapplication.ui.geninfo.GenInfFragment" >
+
+        <argument
+            android:name="form"
+            app:argType="integer"
+            android:defaultValue="1" />
+
+        <action
+            android:id="@+id/action_back"
+            app:destination="@id/form_one_location_fragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/form_one_gen_info_fragment"/>
+
+        <action
+            android:id="@+id/action_next"
+            app:destination="@id/form_one_map_fragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/form_one_gen_info_fragment"/>
+    </fragment>
+
+</navigation>

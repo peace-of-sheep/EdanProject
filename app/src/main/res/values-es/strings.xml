@@ -19,6 +19,8 @@
     <string name="latitude">Latitud</string>
     <string name="longitude">Longitud</string>
     <string name="altitude">Altitud (m.s.n.m.)</string>
+    <string name="means_transport">Medio de transporte</string>
+    <string name="reference_point">Punto de referencia</string>
 
     <string name="danger_group">Grupo peligro</string>
     <string name="danger_type">Tipo peligro</string>
@@ -27,14 +29,14 @@
     <string name="department">Departamento</string>
     <string name="province">Provincia</string>
     <string name="district">Distrito</string>
-    <string name="place">Localidad</string>
+    <string name="locality">Localidad</string>
     <string name="zone_type">Tipo de zona</string>
 
-    <string name="add_form">Agregar nuevo formulario</string>
+    <string name="select_form">Seleccionar formulario</string>
     <string name="form_one">Formulario Uno</string>
     <string name="form_two">Formulario Dos</string>
 
-    <string name="title_damage_one">Vida y Salud</string>
+
     <string name="injured_people">Lesionados (Heridos)</string>
     <string name="trapped_people">Personas atrapadas</string>
     <string name="isolated_people">Personas aisladas</string>
@@ -121,4 +123,31 @@
     <string name="back">Atrás</string>
     <string name="delete">Eliminar</string>
     <string name="description">Descripción</string>
+    <string name="forms">Formularios</string>
+    <string name="user">Usuario</string>
+    <string name="add_family_member">Añadir miembro de familia</string>
+    <string name="surname_name">Apellido, Nombre</string>
+    <string name="gender">Género</string>
+    <string name="male">Masculino</string>
+    <string name="female">Femenino</string>
+    <string name="life_health">Vida y salud</string>
+    <string name="condition">Condición</string>
+
+    <string name="damaged">Damnificado</string>
+    <string name="injured">Lesionado (Herido)</string>
+
+    <string name="personal_injury">Daño personal</string>
+    <string name="missing">Desaparecido</string>
+    <string name="deceased">Fallecido</string>
+    <string name="title_damage_one">@string/life_health</string>
+    <string name="cancel">Cancelar</string>
+    <string name="save">Guardar</string>
+    <string name="camera">Cámara</string>
+
+    <string name="empty_list">Lista vacía</string>
+    <string name="upload">Subir archivo</string>
+    <string name="open">Abrir</string>
+    <string name="open_file">Abrir archivo</string>
+    <string name="cloud">Nube</string>
+    <string name="options">Opciones</string>
 </resources>

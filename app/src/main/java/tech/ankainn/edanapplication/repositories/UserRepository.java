@@ -9,7 +9,7 @@ import retrofit2.Response;
 import tech.ankainn.edanapplication.AppExecutors;
 import tech.ankainn.edanapplication.model.AuthCredentials;
 import tech.ankainn.edanapplication.retrofit.ApiService;
-import tech.ankainn.edanapplication.util.RestResponse;
+import tech.ankainn.edanapplication.retrofit.RestResponse;
 import timber.log.Timber;
 
 public class UserRepository {

@@ -2,6 +2,7 @@ package tech.ankainn.edanapplication;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -24,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 enableNavigationBarLightMode();
             }
-        }, 500L);
+        }, 200L);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -34,6 +35,17 @@ public class MainActivity extends AppCompatActivity {
         if (lightMode) {
             getWindow().getDecorView()
                     .setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
+        }
+    }
+
+    // TODO test
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
+            Dumper.dump(getSupportFragmentManager());
+            return true;
+        } else {
+            return super.onKeyDown(keyCode, event);
         }
     }
 }

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="temp"
+            type="tech.ankainn.edanapplication.model.formTwo.MemberData" />
+        <variable
+            name="householdHead"
+            type="tech.ankainn.edanapplication.model.formTwo.MemberData" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_marginTop="@dimen/dim_nor"
+            android:layout_marginHorizontal="@dimen/dim_big"
+            android:text="@string/family_head"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <FrameLayout
+            android:visibility="gone"
+            visibleGone="@{householdHead == null}"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+
+            <include layout="@layout/layout_add_family"
+                android:id="@+id/family_head"
+                app:cancelVisibility="@{false}"
+                app:member="@{temp}"/>
+        </FrameLayout>
+
+        <include layout="@layout/layout_item_member"
+            visibleGone="@{householdHead != null}"
+            android:id="@+id/layout_head"
+            app:member="@{householdHead}" />
+
+        <FrameLayout
+            visibleGone="@{householdHead != null}"
+            android:id="@+id/btn_add_family"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?selectableItemBackground"
+            android:layout_marginTop="@dimen/dim_nor"
+            android:layout_marginHorizontal="@dimen/dim_nor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textview.MaterialTextView
+                app:drawableTint="@color/colorAccent"
+                android:textColor="@color/colorAccent"
+                android:layout_gravity="center"
+                android:padding="@dimen/dim_big"
+                android:textSize="@dimen/text_big"
+                android:drawableStart="@drawable/ic_person_add_24"
+                android:drawablePadding="@dimen/dim_nor"
+                android:text="@string/add_family_member"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </FrameLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginTop="@dimen/dim_nor"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:id="@+id/recycler_view"
+            visibleGone="@{householdHead != null}"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp" />
+
+    </LinearLayout>
+</layout>

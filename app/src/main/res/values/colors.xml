@@ -5,4 +5,7 @@
     <color name="colorAccent">#54a4cc</color>
 
     <color name="colorDefaultBackground">#fff</color>
+    <color name="colorInverseBackground">#000</color>
+
+    <color name="colorAlphaGrayed">#bbffffff</color>
 </resources>

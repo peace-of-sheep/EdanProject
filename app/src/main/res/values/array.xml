@@ -82,4 +82,56 @@
         <item>@string/another_document</item>
     </string-array>
 
+    <string-array name="gender">
+        <item>@string/male</item>
+        <item>@string/female</item>
+    </string-array>
+
+    <string-array name="condition">
+        <item>@string/damaged</item>
+        <item>@string/affected</item>
+    </string-array>
+    
+    <string-array name="personal_injury">
+        <item>@string/injured</item>
+        <item>@string/missing</item>
+        <item>@string/deceased</item>
+    </string-array>
+
+    <string-array name="group_danger">
+        <item>item1</item>
+        <item>item2</item>
+        <item>item3</item>
+    </string-array>
+
+    <string-array name="type_danger">
+        <item>item1</item>
+        <item>item2</item>
+        <item>item3</item>
+    </string-array>
+
+    <string-array name="departments">
+        <item>Lima</item>
+        <item>Cusco</item>
+    </string-array>
+
+    <string-array name="provinces">
+        <item>Lima</item>
+        <item>Cusco</item>
+    </string-array>
+
+    <string-array name="districts">
+        <item>Lima</item>
+        <item>Cusco</item>
+    </string-array>
+
+    <string-array name="zones">
+        <item>Barrio</item>
+        <item>Sector</item>
+        <item>Urbanización</item>
+        <item>Centro poblado</item>
+        <item>Caserío</item>
+        <item>Anexo</item>
+        <item>Otros</item>
+    </string-array>
 </resources>

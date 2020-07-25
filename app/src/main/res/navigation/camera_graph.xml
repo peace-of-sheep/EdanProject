@@ -3,7 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/camera_graph"
-    app:startDestination="@id/camera_fragment">
+    app:startDestination="@id/gallery_fragment">
+
+    <fragment
+        android:id="@+id/gallery_fragment"
+        android:name="tech.ankainn.edanapplication.ui.camera.GalleryFragment"
+        android:label="GalleryFragment">
+
+        <action
+            android:id="@+id/action_gallery_to_camera"
+            app:destination="@id/camera_fragment"/>
+    </fragment>
 
     <fragment
         android:id="@+id/camera_fragment"

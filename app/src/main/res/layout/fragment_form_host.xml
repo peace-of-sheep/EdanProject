@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/form_host_fragment_container"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:paddingHorizontal="12dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="56dp">
+
+        <ImageButton
+            android:id="@+id/btn_save"
+            android:tint="@color/colorPrimary"
+            android:layout_marginHorizontal="@dimen/dim_sma"
+            android:contentDescription="@string/save"
+            app:tooltipText="@string/save"
+            android:padding="@dimen/dim_nor"
+            android:background="@drawable/ripple_oval"
+            android:src="@drawable/ic_save_24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <ImageButton
+            android:id="@+id/btn_camera"
+            android:tint="@color/colorPrimary"
+            android:layout_marginHorizontal="@dimen/dim_sma"
+            android:contentDescription="@string/camera"
+            app:tooltipText="@string/camera"
+            android:padding="@dimen/dim_nor"
+            android:background="@drawable/ripple_oval"
+            android:src="@drawable/ic_photo_camera_24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Space
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:tint="@color/colorPrimary"
+            android:layout_marginHorizontal="@dimen/dim_sma"
+            android:contentDescription="@string/back"
+            app:tooltipText="@string/back"
+            android:padding="@dimen/dim_nor"
+            android:background="@drawable/ripple_oval"
+            android:src="@drawable/ic_arrow_back_24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <ImageButton
+            android:id="@+id/btn_next"
+            android:tint="@color/colorPrimary"
+            android:layout_marginHorizontal="@dimen/dim_sma"
+            android:contentDescription="@string/next"
+            app:tooltipText="@string/next"
+            android:padding="@dimen/dim_nor"
+            android:background="@drawable/ripple_oval"
+            android:src="@drawable/ic_arrow_forward_24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+</LinearLayout>

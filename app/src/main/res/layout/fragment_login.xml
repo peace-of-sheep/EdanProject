@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <import type="android.text.InputType"/>
         <variable
             name="viewModel"
             type="tech.ankainn.edanapplication.ui.auth.LoginViewModel" />

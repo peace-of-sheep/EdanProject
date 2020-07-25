@@ -2,11 +2,19 @@ package tech.ankainn.edanapplication.retrofit;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 import tech.ankainn.edanapplication.model.AuthCredentials;
-import tech.ankainn.edanapplication.util.RestResponse;
+import tech.ankainn.edanapplication.model.apiFormTwo.DataResponse;
+import tech.ankainn.edanapplication.model.apiFormTwo.ApiFormTwo;
 
 public interface ApiService {
     @POST("usuarios/auth")
     Call<RestResponse<String>> postSignInAuth(@Body AuthCredentials authCredentials);
+
+    @POST("api/form2A-cab")
+    Call<ApiResponse<DataResponse>> postForm2a(@Body ApiFormTwo formtwo);
+
+    @GET("api/form2a-cab")
+    Call<ApiListResponse> getList();
 }
