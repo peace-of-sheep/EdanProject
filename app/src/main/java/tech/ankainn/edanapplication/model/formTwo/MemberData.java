@@ -4,7 +4,7 @@ public class MemberData {
 
     public long id;
 
-    public Boolean head;
+    public Integer dataVersion;
     public String name;
     public Integer age;
     public String gender;
@@ -13,7 +13,22 @@ public class MemberData {
     public String condition;
     public String personalInjury;
 
-    public boolean checkData() {
-        return head != null && name != null && gender != null && idType != null && idNumber != null && condition != null && personalInjury != null;
+    public boolean notEmpty() {
+        return name != null && gender != null && idType != null && idNumber != null && condition != null && personalInjury != null;
+    }
+
+    @Override
+    public String toString() {
+        return "MemberData{" +
+                "id=" + id +
+                ", dataVersion=" + dataVersion +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", gender='" + gender + '\'' +
+                ", idType='" + idType + '\'' +
+                ", idNumber=" + idNumber +
+                ", condition='" + condition + '\'' +
+                ", personalInjury='" + personalInjury + '\'' +
+                '}';
     }
 }

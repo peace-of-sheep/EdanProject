@@ -1,28 +1,27 @@
 package tech.ankainn.edanapplication.util;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 import tech.ankainn.edanapplication.binding.Converter;
-import tech.ankainn.edanapplication.model.apiFormTwo.Condition;
-import tech.ankainn.edanapplication.model.apiFormTwo.Document;
-import tech.ankainn.edanapplication.model.apiFormTwo.Etario;
-import tech.ankainn.edanapplication.model.apiFormTwo.Familia;
-import tech.ankainn.edanapplication.model.apiFormTwo.ApiFormTwo;
-import tech.ankainn.edanapplication.model.apiFormTwo.FormTwoCab;
-import tech.ankainn.edanapplication.model.apiFormTwo.GrupoEtarios;
-import tech.ankainn.edanapplication.model.apiFormTwo.GruposVulnerables;
-import tech.ankainn.edanapplication.model.apiFormTwo.InformacionEspecial;
-import tech.ankainn.edanapplication.model.apiFormTwo.InformacionRegular;
-import tech.ankainn.edanapplication.model.apiFormTwo.InformacionVivienda;
-import tech.ankainn.edanapplication.model.apiFormTwo.LifeHealth;
-import tech.ankainn.edanapplication.model.apiFormTwo.MaterialType;
-import tech.ankainn.edanapplication.model.apiFormTwo.PersonalInjury;
-import tech.ankainn.edanapplication.model.apiFormTwo.Responsable;
+import tech.ankainn.edanapplication.model.api.Condition;
+import tech.ankainn.edanapplication.model.api.Document;
+import tech.ankainn.edanapplication.model.api.Etario;
+import tech.ankainn.edanapplication.model.api.Familia;
+import tech.ankainn.edanapplication.model.api.ApiFormTwo;
+import tech.ankainn.edanapplication.model.api.FormTwoCab;
+import tech.ankainn.edanapplication.model.api.GrupoEtarios;
+import tech.ankainn.edanapplication.model.api.GruposVulnerables;
+import tech.ankainn.edanapplication.model.api.InformacionEspecial;
+import tech.ankainn.edanapplication.model.api.InformacionRegular;
+import tech.ankainn.edanapplication.model.api.InformacionVivienda;
+import tech.ankainn.edanapplication.model.api.LifeHealth;
+import tech.ankainn.edanapplication.model.api.MaterialType;
+import tech.ankainn.edanapplication.model.api.PersonalInjury;
+import tech.ankainn.edanapplication.model.api.Responsable;
 import tech.ankainn.edanapplication.model.dto.FormTwoEntity;
 import tech.ankainn.edanapplication.model.dto.FormTwoWithMembers;
 import tech.ankainn.edanapplication.model.dto.MemberEntity;
@@ -35,22 +34,18 @@ import tech.ankainn.edanapplication.retrofit.ApiListResponse;
 
 public class FormTwoFactory {
 
+    // util
     public static <T> T copyObject(T object){
         Gson gson = new Gson();
         return gson.fromJson(gson.toJson(object), (Type) object.getClass());
-        /*JsonObject jsonObject = gson.toJsonTree(object).getAsJsonObject();
-        return gson.fromJson(jsonObject,(Type) object.getClass());*/
     }
 
     public static FormTwoData cloneFormTwoData(FormTwoData source) {
-        /*result.id = source.id;
-        result.dataVersion = source.dataVersion;
-        result.formTwoApiId = source.formTwoApiId;
-
-        result.mapLocationData = new MapLocationData();
-        result.mapLocationData.latitude = source.mapLocationData.latitude;
-        result.mapLocationData.longitude = source.mapLocationData.longitude;*/
         return copyObject(source);
+    }
+
+    public static MemberData cloneMemberData(MemberData memberData) {
+        return copyObject(memberData);
     }
 
     public static FormTwoData createEmptyFormTwoData() {
@@ -88,19 +83,14 @@ public class FormTwoFactory {
         formTwoData.householdData.idRoof = -1;
         formTwoData.householdData.roof = "";
 
+        formTwoData.listMemberData = new ArrayList<>();
+
         return formTwoData;
     }
 
     public static MemberData createEmptyMemberData() {
         MemberData memberData = new MemberData();
-        memberData.head = false;
-        memberData.age = -1;
-        memberData.name = "";
-        memberData.gender = "";
-        memberData.idType = "";
-        memberData.idNumber = -1;
-        memberData.condition = "";
-        memberData.personalInjury = "";
+        memberData.dataVersion = 0;
 
         return memberData;
     }
@@ -112,7 +102,7 @@ public class FormTwoFactory {
         formTwoData.genInfData = genInfData;
         formTwoData.mapLocationData = mapLocationData;
         formTwoData.householdData = householdData;
-        formTwoData.listMember = listMember;
+        formTwoData.listMemberData = listMember;
         return formTwoData;
     }
 
@@ -159,7 +149,7 @@ public class FormTwoFactory {
         //***********************
         List<Familia> familiaList = new ArrayList<>();
 
-        for (MemberData householdMemberData : formTwoData.listMember) {
+        for (MemberData householdMemberData : formTwoData.listMemberData) {
             Familia familia = new Familia();
 
             InformacionRegular informacionRegular = new InformacionRegular();
@@ -232,7 +222,7 @@ public class FormTwoFactory {
     public static MemberData dataFromDb(MemberEntity source) {
         MemberData memberData = new MemberData();
         memberData.id = source.memberId;
-        memberData.head = source.head;
+        memberData.dataVersion = source.dataVersion;
         memberData.name = source.name;
         memberData.age = source.age;
         memberData.gender = source.gender;
@@ -284,7 +274,7 @@ public class FormTwoFactory {
         }
 
         if(tempMembers.size() != 0)
-            formTwoData.listMember = tempMembers;
+            formTwoData.listMemberData = tempMembers;
 
         return formTwoData;
     }
@@ -424,7 +414,9 @@ public class FormTwoFactory {
 
     public static FormTwoEntity dataToEntity(FormTwoData formTwoData) {
         FormTwoEntity formTwoEntity = new FormTwoEntity();
+
         formTwoEntity.dataVersion = formTwoData.dataVersion;
+
         formTwoEntity.formTwoApiId = formTwoData.formTwoApiId;
 
         formTwoEntity.latitude = formTwoData.mapLocationData.latitude;
@@ -454,5 +446,20 @@ public class FormTwoFactory {
         formTwoEntity.idRoof = formTwoData.householdData.idRoof;
 
         return formTwoEntity;
+    }
+
+    public static MemberEntity dataToEntity(MemberData memberData) {
+        MemberEntity memberEntity = new MemberEntity();
+
+        memberEntity.dataVersion = memberData.dataVersion;
+        memberEntity.name = memberData.name;
+        memberEntity.age = memberData.age;
+        memberEntity.gender = memberData.gender;
+        memberEntity.idType = memberData.idType;
+        memberEntity.idNumber = memberData.idNumber;
+        memberEntity.condition = memberData.condition;
+        memberEntity.personalInjury = memberData.personalInjury;
+
+        return memberEntity;
     }
 }

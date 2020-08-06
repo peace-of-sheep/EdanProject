@@ -4,8 +4,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
+import com.google.gson.Gson;
+
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -14,16 +17,21 @@ import retrofit2.Response;
 import tech.ankainn.edanapplication.AppExecutors;
 import tech.ankainn.edanapplication.db.EdanDatabase;
 import tech.ankainn.edanapplication.db.FormTwoDao;
-import tech.ankainn.edanapplication.model.apiFormTwo.ApiFormTwo;
-import tech.ankainn.edanapplication.model.apiFormTwo.DataResponse;
+import tech.ankainn.edanapplication.model.api.ApiFormTwo;
+import tech.ankainn.edanapplication.model.api.DataResponse;
 import tech.ankainn.edanapplication.model.dto.FormTwoEntity;
 import tech.ankainn.edanapplication.model.dto.FormTwoWithMembers;
+import tech.ankainn.edanapplication.model.dto.MemberEntity;
 import tech.ankainn.edanapplication.model.formTwo.FormTwoData;
-import tech.ankainn.edanapplication.retrofit.ApiListResponse;
+import tech.ankainn.edanapplication.model.formTwo.MemberData;
 import tech.ankainn.edanapplication.retrofit.ApiResponse;
 import tech.ankainn.edanapplication.retrofit.ApiService;
 import tech.ankainn.edanapplication.util.FormTwoFactory;
+import tech.ankainn.edanapplication.util.Tagger;
+import tech.ankainn.edanapplication.util.Tuple2;
 import timber.log.Timber;
+
+import static tech.ankainn.edanapplication.repositories.FormTwoRepository.State.*;
 
 public class FormTwoRepository {
 
@@ -35,7 +43,7 @@ public class FormTwoRepository {
 
     private FormTwoDao formTwoDao;
 
-    private MutableLiveData<FormTwoData> currentData;
+    private MutableLiveData<Tuple2<State, FormTwoData>> currentData;
 
     private FormTwoRepository(AppExecutors appExecutors, ApiService apiService, EdanDatabase edanDatabase) {
         this.appExecutors = appExecutors;
@@ -44,7 +52,7 @@ public class FormTwoRepository {
 
         formTwoDao = edanDatabase.formTwoDao();
 
-        currentData = new MutableLiveData<>(null);
+        currentData = new MutableLiveData<>();
     }
 
     public static FormTwoRepository getInstance(AppExecutors appExecutors,
@@ -60,43 +68,56 @@ public class FormTwoRepository {
         return instance;
     }
 
-    public LiveData<FormTwoData> getCurrentFormTwoData() {
-        return currentData;
-    }
-
-    public void setCurrentFormTwoData(FormTwoData currentData) {
-        if (currentData == null) {
-            this.currentData.setValue(null);
-            return;
-        }
-
-        FormTwoData temp = FormTwoFactory.cloneFormTwoData(currentData);
-        this.currentData.setValue(temp);
-    }
-
     public LiveData<List<FormTwoData>> getAllFormsFromDb() {
         LiveData<List<FormTwoWithMembers>> source = formTwoDao.getAllFormTwoWithMembers();
         return Transformations.map(source, FormTwoFactory::fromDbList);
     }
 
-    public LiveData<List<ApiListResponse.Datum>> getListDatum() {
-        MutableLiveData<List<ApiListResponse.Datum>> liveData = new MutableLiveData<>();
-        apiService.getList().enqueue(new Callback<ApiListResponse>() {
-            @Override
-            public void onResponse(Call<ApiListResponse> call, Response<ApiListResponse> response) {
-                if(response.isSuccessful()) {
-                    liveData.setValue(response.body().getData());
-                } else {
-                    liveData.setValue(null);
+    public LiveData<FormTwoData> getCurrentFormTwoData() {
+        return Transformations.map(currentData, input -> input.second);
+    }
+
+    public void createFormTwoData() {
+        FormTwoData formTwoData = FormTwoFactory.createEmptyFormTwoData();
+        currentData.setValue(new Tuple2<>(CREATION, formTwoData));
+    }
+
+    public void updateFormTwoData(FormTwoData formTwoData) {
+        FormTwoData result = FormTwoFactory.cloneFormTwoData(formTwoData);
+        Timber.tag(Tagger.DUMPER).v("updateFormTwoData: copy: %d, original: %d, same?: %b", result.hashCode(), formTwoData.hashCode(), result == formTwoData);
+        currentData.setValue(new Tuple2<>(UPDATE, result));
+    }
+
+    public void saveForm() {
+        Tuple2<State, FormTwoData> tuple = currentData.getValue();
+        if (tuple == null) return;
+
+        FormTwoData formTwoData = tuple.second;
+
+        formTwoData.dataVersion++;
+
+        if (tuple.first == CREATION) {
+            FormTwoEntity formTwoEntity = FormTwoFactory.dataToEntity(formTwoData);
+            List<MemberData> listMember = formTwoData.listMemberData;
+
+            List<MemberEntity> listResult = new ArrayList<>();
+            if (listMember != null && listMember.size() > 0) {
+                for (MemberData memberData : listMember) {
+                    MemberEntity memberEntity = FormTwoFactory.dataToEntity(memberData);
+                    listResult.add(memberEntity);
                 }
             }
 
-            @Override
-            public void onFailure(Call<ApiListResponse> call, Throwable t) {
-                liveData.setValue(null);
-            }
-        });
-        return liveData;
+            appExecutors.diskIO().execute(() -> {
+                if (listResult.size() > 0) {
+                    formTwoDao.insertFormTwoWithMember(formTwoEntity, listResult);
+                } else {
+                    formTwoDao.insertFormTwo(formTwoEntity);
+                }
+            });
+        } else if (tuple.first == UPDATE) {
+            // TODO make code for update
+        }
     }
 
     public LiveData<Integer> postFormTwo(FormTwoData formTwoData) {
@@ -123,9 +144,7 @@ public class FormTwoRepository {
         return liveData;
     }
 
-    public void saveForm(FormTwoData formTwoData) {
-        FormTwoEntity formTwoEntity = FormTwoFactory.dataToEntity(formTwoData);
-
-        appExecutors.diskIO().execute(() -> formTwoDao.insertFormTwo(formTwoEntity));
+    enum State {
+        CREATION, UPDATE
     }
 }

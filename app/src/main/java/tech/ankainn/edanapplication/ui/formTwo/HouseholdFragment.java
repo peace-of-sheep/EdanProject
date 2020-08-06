@@ -8,14 +8,12 @@ import android.widget.AdapterView;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
+import androidx.navigation.NavBackStackEntry;
 import androidx.navigation.Navigation;
 
 import tech.ankainn.edanapplication.R;
 import tech.ankainn.edanapplication.databinding.FragmentHouseholdBinding;
 import tech.ankainn.edanapplication.ui.common.BindingFragment;
-
-import static tech.ankainn.edanapplication.util.NavigationUtil.getViewModelProvider;
 
 public class HouseholdFragment extends BindingFragment<FragmentHouseholdBinding> {
 
@@ -30,45 +28,12 @@ public class HouseholdFragment extends BindingFragment<FragmentHouseholdBinding>
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        ViewModelProvider viewModelProvider = getViewModelProvider(requireActivity(), R.id.fragment_container, R.id.form_two_host_graph);
-
-        viewModel = viewModelProvider.get(FormTwoViewModel.class);
+        NavBackStackEntry owner = Navigation
+                .findNavController(requireActivity(), R.id.fragment_container)
+                .getBackStackEntry(R.id.form_two_host_fragment);
+        viewModel = new ViewModelProvider(owner).get(FormTwoViewModel.class);
 
         viewModel.getHouseholdData().observe(getViewLifecycleOwner(),
                 householdData -> binding().setHousehold(householdData));
-
-        binding().textFloor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                viewModel.setIdFloor(position);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        binding().textWall.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                viewModel.setIdWall(position);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        binding().textRoof.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                viewModel.setIdRoof(position);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
     }
 }

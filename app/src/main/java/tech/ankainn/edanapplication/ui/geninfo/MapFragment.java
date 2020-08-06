@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavBackStackEntry;
+import androidx.navigation.Navigation;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -15,8 +17,6 @@ import tech.ankainn.edanapplication.R;
 import tech.ankainn.edanapplication.binding.Converter;
 import tech.ankainn.edanapplication.databinding.FragmentMapBinding;
 import tech.ankainn.edanapplication.ui.common.BindingFragment;
-import tech.ankainn.edanapplication.ui.formTwo.FormTwoViewModel;
-import tech.ankainn.edanapplication.util.MapViewWrapper;
 
 import static tech.ankainn.edanapplication.util.NavigationUtil.getViewModelProvider;
 
@@ -24,7 +24,7 @@ public class MapFragment extends BindingFragment<FragmentMapBinding> {
 
     private MapViewWrapper mapViewWrapper;
 
-    private FormViewModel viewModel;
+    private GenInfViewModel viewModel;
 
     @Override
     protected FragmentMapBinding makeBinding(LayoutInflater inflater, ViewGroup container) {
@@ -36,13 +36,14 @@ public class MapFragment extends BindingFragment<FragmentMapBinding> {
         super.onActivityCreated(savedInstanceState);
 
         int form = MapFragmentArgs.fromBundle(requireArguments()).getForm();
-        int graphId = form == 1 ? R.id.form_one_host_graph : R.id.form_two_host_graph;
+        int destinationId = form == 1 ? R.id.form_one_host_fragment : R.id.form_two_host_fragment;
+
+        NavBackStackEntry owner = Navigation
+                .findNavController(requireActivity(), R.id.fragment_container)
+                .getBackStackEntry(destinationId);
+        viewModel = new ViewModelProvider(owner).get(GenInfViewModel.class);
 
         mapViewWrapper = new MapViewWrapper(binding().mapView, savedInstanceState, getViewLifecycleOwner());
-
-        ViewModelProvider viewModelProvider = getViewModelProvider(requireActivity(), R.id.fragment_container, graphId);
-
-        viewModel = viewModelProvider.get(FormTwoViewModel.class);
 
         binding().getRoot().post(() -> binding().mapView.getMapAsync(this::onMapCallback));
     }

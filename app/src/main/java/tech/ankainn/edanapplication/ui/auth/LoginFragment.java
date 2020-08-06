@@ -2,22 +2,16 @@ package tech.ankainn.edanapplication.ui.auth;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 
 import androidx.annotation.Nullable;
-import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.bumptech.glide.Glide;
 
-import java.lang.ref.WeakReference;
-
 import tech.ankainn.edanapplication.R;
 import tech.ankainn.edanapplication.databinding.FragmentLoginBinding;
 import tech.ankainn.edanapplication.ui.common.BindingFragment;
-import timber.log.Timber;
 
 public class LoginFragment extends BindingFragment<FragmentLoginBinding> {
 

@@ -11,7 +11,6 @@ public class FormTwoWithMembers {
     public FormTwoEntity formTwoEntity;
 
     @Relation(parentColumn = "form_two_id",
-            entityColumn = "member_id",
-            entity = MemberEntity.class)
+            entityColumn = "form_two_owner_id")
     public List<MemberEntity> memberEntityList;
 }

@@ -150,4 +150,7 @@
     <string name="open_file">Abrir archivo</string>
     <string name="cloud">Nube</string>
     <string name="options">Opciones</string>
+
+    <string name="upload_successful">Archivo subido satisfactoriamente</string>
+    <string name="upload_error">Hubo un error, intenter mas tarde</string>
 </resources>

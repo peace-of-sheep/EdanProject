@@ -31,11 +31,8 @@ public abstract class FormTwoDao {
         final long formTwoId = insertFormTwo(formTwoEntity);
 
         for (MemberEntity memberEntity : memberEntityList) {
-            memberEntity.formTwoId = formTwoId;
+            memberEntity.formTwoOwnerId = formTwoId;
             insertMember(memberEntity);
         }
     }
-
-    /*@Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertFormTwo(FormTwoWithMembers formTwoWithMembers);*/
 }

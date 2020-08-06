@@ -11,9 +11,11 @@ public class MemberEntity {
     @ColumnInfo(name = "member_id")
     public long memberId;
 
-    public long formTwoId;
+    @ColumnInfo(name = "form_two_owner_id")
+    public long formTwoOwnerId;
 
-    public Boolean head;
+    @ColumnInfo(name = "data_version")
+    public Integer dataVersion;
     public String name;
     public Integer age;
     public String gender;

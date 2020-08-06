@@ -11,10 +11,16 @@ import tech.ankainn.edanapplication.ui.common.BindingAdapter;
 
 public class MembersAdapter extends BindingAdapter<MemberData, LayoutItemMemberBinding> {
 
+    public final OnClick listener;
+
+    public MembersAdapter(OnClick listener) {
+        this.listener = listener;
+    }
+
     @Override
     protected LayoutItemMemberBinding createBinding(LayoutInflater inflater, ViewGroup parent) {
         LayoutItemMemberBinding binding = LayoutItemMemberBinding.inflate(inflater, parent, false);
-        binding.cardView.setOnClickListener(v -> {});
+        binding.cardView.setOnClickListener(v -> listener.onClick(binding.getMember()));
         return binding;
     }
 
@@ -25,16 +31,15 @@ public class MembersAdapter extends BindingAdapter<MemberData, LayoutItemMemberB
 
     @Override
     protected boolean areItemsTheSame(MemberData oldItem, MemberData newItem) {
-        return Objects.equals(oldItem.idNumber, newItem.idNumber);
+        return oldItem.id == newItem.id;
     }
 
     @Override
     protected boolean areContentsTheSame(MemberData oldItem, MemberData newItem) {
-        return Objects.equals(oldItem.idType, newItem.idType) &&
-                Objects.equals(oldItem.name, newItem.name) &&
-                Objects.equals(oldItem.condition, newItem.condition) &&
-                Objects.equals(oldItem.gender, newItem.gender) &&
-                Objects.equals(oldItem.age, newItem.age) &&
-                Objects.equals(oldItem.personalInjury, newItem.personalInjury);
+        return Objects.equals(oldItem.dataVersion, newItem.dataVersion);
+    }
+
+    public interface OnClick {
+        void onClick(MemberData memberData);
     }
 }

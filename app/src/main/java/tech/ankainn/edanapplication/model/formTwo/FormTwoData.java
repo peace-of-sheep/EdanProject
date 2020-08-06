@@ -15,7 +15,7 @@ public class FormTwoData {
     public GenInfData genInfData;
     public MapLocationData mapLocationData;
     public HouseholdData householdData;
-    public List<MemberData> listMember;
+    public List<MemberData> listMemberData;
 
     @NotNull
     @Override
@@ -25,8 +25,9 @@ public class FormTwoData {
                 ", dataVersion=" + dataVersion +
                 ", formTwoApiId=" + formTwoApiId +
                 ", genInfData=" + genInfData +
-                /*", mapLocationData=" + mapLocationData +
-                ", householdData=" + householdData +*/
+                ", mapLocationData=" + mapLocationData +
+                ", householdData=" + householdData +
+                ", listMemberData=" + listMemberData +
                 '}';
     }
 }

@@ -8,16 +8,16 @@
     <fragment
         android:id="@+id/files_fragment"
         android:label="FilesFragment"
-        android:name="tech.ankainn.edanapplication.ui.hostmain.FilesFragment" />
-
+        android:name="tech.ankainn.edanapplication.ui.host.FilesFragment" />
+<!--
     <fragment
         android:id="@+id/cloud_list_fragment"
         tools:layout="CloudListFragment"
-        android:name="tech.ankainn.edanapplication.ui.hostmain.CloudListFragment"/>
+        android:name="tech.ankainn.edanapplication.ui.hostmain.CloudListFragment"/>-->
 
     <fragment
         android:id="@+id/user_fragment"
         android:label="UserFragment"
-        android:name="tech.ankainn.edanapplication.ui.hostmain.UserFragment" />
+        android:name="tech.ankainn.edanapplication.ui.host.UserFragment" />
 
 </navigation>

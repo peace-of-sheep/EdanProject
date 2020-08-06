@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavBackStackEntry;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
@@ -16,7 +17,7 @@ import tech.ankainn.edanapplication.ui.formTwo.FormTwoViewModel;
 
 public class LocationFragment extends BindingFragment<FragmentLocationBinding> {
 
-    private FormViewModel viewModel;
+    private GenInfViewModel viewModel;
 
     @Override
     protected FragmentLocationBinding makeBinding(LayoutInflater inflater, ViewGroup container) {
@@ -27,13 +28,14 @@ public class LocationFragment extends BindingFragment<FragmentLocationBinding> {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_container);
-
         int form = LocationFragmentArgs.fromBundle(requireArguments()).getForm();
-        int graphId = form == 1 ? R.id.form_one_host_graph : R.id.form_two_host_graph;
-        ViewModelProvider viewModelProvider = new ViewModelProvider(navController.getViewModelStoreOwner(graphId));
+        int destinationId = form == 1 ? R.id.form_one_host_fragment : R.id.form_two_host_fragment;
 
-        viewModel = viewModelProvider.get(FormTwoViewModel.class);
+
+        NavBackStackEntry owner = Navigation
+                .findNavController(requireActivity(), R.id.fragment_container)
+                .getBackStackEntry(destinationId);
+        viewModel = new ViewModelProvider(owner).get(GenInfViewModel.class);
 
         viewModel.getMapLocationData().observe(getViewLifecycleOwner(),
                 mapLocationData -> binding().setMapLocation(mapLocationData));

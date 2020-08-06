@@ -9,8 +9,14 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.FragmentNavigator;
 
 import tech.ankainn.edanapplication.databinding.ActivityFragmentContainerBinding;
+import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
-            Dumper.dump(getSupportFragmentManager());
+            // something
             return true;
         } else {
             return super.onKeyDown(keyCode, event);

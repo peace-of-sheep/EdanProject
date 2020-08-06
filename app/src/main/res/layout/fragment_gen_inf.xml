@@ -29,8 +29,8 @@
                 android:layout_height="wrap_content">
 
                 <AutoCompleteTextView
-                    android:text="@={genInfo.groupDanger}"
                     dropdown="@{@stringArray/group_danger}"
+                    textDropDown="@={genInfo.groupDanger}"
                     android:inputType="@{InputType.TYPE_NULL}"
                     android:id="@+id/text_danger_group"
                     android:layout_width="match_parent"
@@ -48,8 +48,8 @@
                 android:layout_height="wrap_content">
 
                 <AutoCompleteTextView
-                    android:text="@={genInfo.typeDanger}"
                     dropdown="@{@stringArray/type_danger}"
+                    textDropDown="@={genInfo.typeDanger}"
                     android:inputType="@{InputType.TYPE_NULL}"
                     android:id="@+id/text_danger_type"
                     android:layout_width="match_parent"
@@ -103,8 +103,8 @@
                 android:layout_height="wrap_content">
 
                 <AutoCompleteTextView
-                    android:text="@={genInfo.department}"
                     dropdown="@{@stringArray/departments}"
+                    textDropDown="@={genInfo.department}"
                     android:inputType="@{InputType.TYPE_NULL}"
                     android:id="@+id/text_department"
                     android:layout_width="match_parent"
@@ -121,8 +121,8 @@
                 android:layout_height="wrap_content">
 
                 <AutoCompleteTextView
-                    android:text="@={genInfo.province}"
                     dropdown="@{@stringArray/provinces}"
+                    textDropDown="@={genInfo.province}"
                     android:inputType="@{InputType.TYPE_NULL}"
                     android:id="@+id/text_province"
                     android:layout_width="match_parent"
@@ -139,8 +139,8 @@
                 android:layout_height="wrap_content">
 
                 <AutoCompleteTextView
-                    android:text="@={genInfo.district}"
                     dropdown="@{@stringArray/districts}"
+                    textDropDown="@={genInfo.district}"
                     android:inputType="@{InputType.TYPE_NULL}"
                     android:id="@+id/text_district"
                     android:layout_width="match_parent"
@@ -173,8 +173,8 @@
                 android:layout_height="wrap_content">
 
                 <AutoCompleteTextView
-                    android:text="@={genInfo.zone}"
                     dropdown="@{@stringArray/zones}"
+                    textDropDown="@={genInfo.zone}"
                     android:inputType="@{InputType.TYPE_NULL}"
                     android:id="@+id/text_zone"
                     android:layout_width="match_parent"

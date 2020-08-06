@@ -6,18 +6,23 @@ import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavBackStackEntry;
+import androidx.navigation.Navigation;
 
 import tech.ankainn.edanapplication.R;
 import tech.ankainn.edanapplication.databinding.FragmentGenInfBinding;
+import tech.ankainn.edanapplication.global.Picker;
+import tech.ankainn.edanapplication.global.PickerFragment;
 import tech.ankainn.edanapplication.ui.common.BindingFragment;
 import tech.ankainn.edanapplication.ui.formTwo.FormTwoViewModel;
 
+import static tech.ankainn.edanapplication.global.PickerFragment.MODE_DATE;
+import static tech.ankainn.edanapplication.global.PickerFragment.MODE_TIME;
 import static tech.ankainn.edanapplication.util.NavigationUtil.getViewModelProvider;
 
-public class GenInfFragment extends BindingFragment<FragmentGenInfBinding> implements
-        DatePickerFragment.DateListener, TimePickerFragment.HourListener{
+public class GenInfFragment extends BindingFragment<FragmentGenInfBinding> {
 
-    private FormViewModel viewModel;
+    private GenInfViewModel viewModel;
 
     @Override
     protected FragmentGenInfBinding makeBinding(LayoutInflater inflater, ViewGroup container) {
@@ -29,26 +34,28 @@ public class GenInfFragment extends BindingFragment<FragmentGenInfBinding> imple
         super.onActivityCreated(savedInstanceState);
 
         int form = GenInfFragmentArgs.fromBundle(requireArguments()).getForm();
-        int graphId = form == 1 ? R.id.form_one_host_graph : R.id.form_two_host_graph;
+        int destinationId = form == 1 ? R.id.form_one_host_fragment : R.id.form_two_host_fragment;
 
-        ViewModelProvider viewModelProvider = getViewModelProvider(requireActivity(), R.id.fragment_container, graphId);
-
-        viewModel = viewModelProvider.get(FormTwoViewModel.class);
+        NavBackStackEntry owner = Navigation
+                .findNavController(requireActivity(), R.id.fragment_container)
+                .getBackStackEntry(destinationId);
+        viewModel = new ViewModelProvider(owner).get(GenInfViewModel.class);
 
         viewModel.getGenInfData().observe(getViewLifecycleOwner(),
                 genInfData -> binding().setGenInfo(genInfData));
 
-        binding().textDate.setOnClickListener(v -> DatePickerFragment.showDialog(this));
-        binding().textHour.setOnClickListener(v -> TimePickerFragment.showDialog(this));
-    }
+        binding().textDate.setOnClickListener(v -> PickerFragment.showPicker(MODE_DATE, this));
+        binding().textHour.setOnClickListener(v -> PickerFragment.showPicker(MODE_TIME, this));
 
-    @Override
-    public void setDate(String date) {
-        binding().textDate.setText(date);
-    }
-
-    @Override
-    public void setHour(String hour) {
-        binding().textHour.setText(hour);
+        Picker.getInstance().observe(getViewLifecycleOwner(), (emitter, value) -> {
+            switch (emitter) {
+                case "date":
+                    binding().textDate.setText(value);
+                    break;
+                case "hour":
+                    binding().textHour.setText(value);
+                    break;
+            }
+        });
     }
 }

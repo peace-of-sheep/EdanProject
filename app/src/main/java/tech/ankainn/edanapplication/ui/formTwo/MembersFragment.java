@@ -7,19 +7,20 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
+import androidx.navigation.NavBackStackEntry;
 import androidx.navigation.Navigation;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import tech.ankainn.edanapplication.R;
 import tech.ankainn.edanapplication.databinding.FragmentMembersBinding;
 import tech.ankainn.edanapplication.model.formTwo.MemberData;
 import tech.ankainn.edanapplication.ui.common.BindingFragment;
-import tech.ankainn.edanapplication.util.AutoClearedValue;
 
-public class MembersFragment extends BindingFragment<FragmentMembersBinding> implements MemberDialogFragment.MemberListener {
+import static tech.ankainn.edanapplication.util.NavigationUtil.getViewModelProvider;
 
-    private MembersViewModel viewModel;
-    private AutoClearedValue<MembersAdapter> adapter;
+public class MembersFragment extends BindingFragment<FragmentMembersBinding>{
 
     @Override
     protected FragmentMembersBinding makeBinding(LayoutInflater inflater, ViewGroup container) {
@@ -30,40 +31,44 @@ public class MembersFragment extends BindingFragment<FragmentMembersBinding> imp
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        NavController navController = Navigation.findNavController(requireActivity(), R.id.fragment_container);
-        ViewModelProvider viewModelProvider = new ViewModelProvider(navController.getViewModelStoreOwner(R.id.form_two_host_graph));
+        NavBackStackEntry owner = Navigation
+                .findNavController(requireActivity(), R.id.fragment_container)
+                .getBackStackEntry(R.id.form_two_host_fragment);
+        FormTwoViewModel viewModel = new ViewModelProvider(owner).get(FormTwoViewModel.class);
 
-        viewModel = viewModelProvider.get(MembersViewModel.class);
-        adapter = new AutoClearedValue<>(new MembersAdapter(), getViewLifecycleOwner());
+        MembersAdapter adapter = new MembersAdapter(memberData -> {
+            viewModel.updateMember(memberData);
+            MemberDialogFragment.showFragment(getParentFragmentManager());
+        });
+        binding().recyclerView.setAdapter(adapter);
 
-        binding().recyclerView.setAdapter(adapter.get());
-
-        binding().setTemp(viewModel.getTempHead());
-
-        binding().familyHead.btnSave.setOnClickListener(v -> {
-            if(viewModel.isHouseholdHedDataComplete()) {
-                viewModel.addHouseholdHead();
+        viewModel.getListMemberData().observe(getViewLifecycleOwner(), list -> {
+            if(list != null && list.size() > 0) {
+                List<MemberData> temp = new ArrayList<>(list);
+                binding().setHouseholdHead(temp.remove(0));
+                adapter.replace(temp);
             } else {
-                Toast.makeText(requireContext(), "Completar datos", Toast.LENGTH_SHORT).show();
+                binding().setHouseholdHead(viewModel.getTempHead());
             }
         });
 
-        binding().layoutHead.cardView.setOnClickListener(v -> {
-
+        binding().tempHead.btnSave.setOnClickListener(v -> {
+            if(binding().getHouseholdHead().notEmpty()) {
+                viewModel.pushActiveMemberData();
+            } else {
+                // todo
+                Toast.makeText(requireContext(), "ConstructMore", Toast.LENGTH_SHORT).show();
+            }
         });
 
-        binding().btnAddFamily.setOnClickListener(v -> MemberDialogFragment.showFragment(this));
-
-        viewModel.getHouseholdHead().observe(getViewLifecycleOwner(), member -> {
-            binding().setHouseholdHead(member);
+        binding().btnAddFamily.setOnClickListener(v -> {
+            viewModel.createMember();
+            MemberDialogFragment.showFragment(getParentFragmentManager());
         });
-        viewModel.getList().observe(getViewLifecycleOwner(), list -> {
-            adapter.get().replace(list);
-        });
-    }
 
-    @Override
-    public void setMember(MemberData member) {
-        viewModel.addHouseholdMember(member);
+        binding().itemHead.cardView.setOnClickListener(v -> {
+            viewModel.updateMember(binding().itemHead.getMember());
+            MemberDialogFragment.showFragment(getParentFragmentManager());
+        });
     }
 }

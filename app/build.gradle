@@ -103,8 +103,8 @@ dependencies {
     implementation 'com.karumi:dexter:6.2.0'
 
     // navigation component
-    implementation "androidx.navigation:navigation-fragment:2.2.2"
-    implementation "androidx.navigation:navigation-ui:2.2.2"
+    implementation "androidx.navigation:navigation-fragment:2.3.0"
+    implementation "androidx.navigation:navigation-ui:2.3.0"
 
     // swipe refresh layout
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"

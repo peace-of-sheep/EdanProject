@@ -4,11 +4,12 @@
         android:id="@+id/files_fragment"
         android:icon="@drawable/ic_folder_24dp"
         android:title="@string/forms"/>
-
+<!--
     <item
         android:id="@+id/cloud_list_fragment"
         android:icon="@drawable/ic_baseline_cloud_24"
         android:title="@string/cloud" />
+-->
 
     <item
         android:id="@+id/user_fragment"

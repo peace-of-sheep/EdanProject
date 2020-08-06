@@ -3,9 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable
-            name="viewModel"
-            type="tech.ankainn.edanapplication.ui.auth.LoginViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -73,7 +70,7 @@
             android:layout_height="wrap_content" />
 
         <tech.ankainn.edanapplication.view.ProgressBarHintTextView
-            app:showHide="@{viewModel.loading}"
+            app:showHide="@{false}"
             android:id="@+id/progress_text"
             android:layout_marginTop="@dimen/dim_xbig"
             android:layout_marginStart="@dimen/dim_xxxxbig"

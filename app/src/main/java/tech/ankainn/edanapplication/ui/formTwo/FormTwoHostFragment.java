@@ -8,6 +8,7 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavBackStackEntry;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
@@ -40,9 +41,9 @@ public class FormTwoHostFragment extends BindingFragment<FragmentFormHostBinding
         super.onActivityCreated(savedInstanceState);
 
         NavController parentNavController = Navigation.findNavController(requireActivity(), R.id.fragment_container);
-        ViewModelProvider viewModelProvider = getViewModelProvider(parentNavController, R.id.form_two_host_graph);
 
-        viewModel = viewModelProvider.get(FormTwoViewModel.class);
+        NavBackStackEntry owner = parentNavController.getBackStackEntry(R.id.form_two_host_fragment);
+        viewModel = new ViewModelProvider(owner).get(FormTwoViewModel.class);
 
         NavController navController = getNavController(getChildFragmentManager(), R.id.form_host_fragment_container);
         navController.setGraph(R.navigation.form_two_graph);

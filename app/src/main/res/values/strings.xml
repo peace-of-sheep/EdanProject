@@ -150,4 +150,7 @@
     <string name="open_file">Open file</string>
     <string name="cloud">Cloud</string>
     <string name="options">Options</string>
+
+    <string name="upload_successful">Successfully uploaded</string>
+    <string name="upload_error">There was an error, try later</string>
 </resources>

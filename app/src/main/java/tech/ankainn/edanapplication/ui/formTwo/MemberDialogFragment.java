@@ -9,28 +9,32 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavBackStackEntry;
+import androidx.navigation.Navigation;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-import tech.ankainn.edanapplication.databinding.LayoutAddFamilyBinding;
-import tech.ankainn.edanapplication.model.formTwo.MemberData;
+import tech.ankainn.edanapplication.R;
+import tech.ankainn.edanapplication.databinding.LayoutMemberBinding;
 import tech.ankainn.edanapplication.util.AutoClearedValue;
+
+import static tech.ankainn.edanapplication.util.NavigationUtil.getViewModelProvider;
 
 public class MemberDialogFragment extends BottomSheetDialogFragment {
 
-    private AutoClearedValue<LayoutAddFamilyBinding> binding;
+    private AutoClearedValue<LayoutMemberBinding> binding;
 
-    public static void showFragment(Fragment targetFragment) {
+    public static void showFragment(FragmentManager fm) {
         DialogFragment fragment = new MemberDialogFragment();
-        fragment.setTargetFragment(targetFragment, 0);
-        fragment.show(targetFragment.getParentFragmentManager(), "add");
+        fragment.show(fm, "add");
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        LayoutAddFamilyBinding viewBinding = LayoutAddFamilyBinding.inflate(inflater, container, false);
+        LayoutMemberBinding viewBinding = LayoutMemberBinding.inflate(inflater, container, false);
         binding = new AutoClearedValue<>(viewBinding, getViewLifecycleOwner());
         return viewBinding.getRoot();
     }
@@ -39,29 +43,28 @@ public class MemberDialogFragment extends BottomSheetDialogFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        MemberData memberData = new MemberData();
-        memberData.head = false;
+        NavBackStackEntry owner = Navigation
+                .findNavController(requireActivity(), R.id.fragment_container)
+                .getBackStackEntry(R.id.form_two_host_fragment);
+        FormTwoViewModel viewModel = new ViewModelProvider(owner).get(FormTwoViewModel.class);
 
         binding.get().setCancelVisibility(true);
 
-        binding.get().setMember(memberData);
+        viewModel.getActiveMemberData().observe(getViewLifecycleOwner(), memberData -> {
+            binding.get().setMember(memberData);
+        });
 
         binding.get().btnSave.setOnClickListener(v -> {
-            if(!memberData.checkData()) {
-                // TODO cambiar texto
-                Toast.makeText(requireContext(), "Completar datos", Toast.LENGTH_SHORT).show();
-            } else {
-                Fragment fragment = getTargetFragment();
-                if(fragment instanceof MemberListener) {
-                    ((MemberListener) fragment).setMember(memberData);
-                }
+            if (binding.get().getMember().notEmpty()) {
+                viewModel.pushActiveMemberData();
                 dismiss();
+            } else {
+                // todo redo
+                Toast.makeText(requireContext(), "More content", Toast.LENGTH_SHORT).show();
             }
         });
-        binding.get().btnCancel.setOnClickListener(v -> dismiss());
-    }
-
-    public interface MemberListener {
-        void setMember(MemberData member);
+        binding.get().btnCancel.setOnClickListener(v -> {
+            dismiss();
+        });
     }
 }

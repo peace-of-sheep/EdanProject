@@ -69,8 +69,8 @@
                 android:hint="@string/household_condition">
 
                 <AutoCompleteTextView
-                    android:text="@={household.condition}"
                     dropdown="@{@stringArray/household_condition}"
+                    textDropDown="@={household.condition}"
                     android:inputType="@{InputType.TYPE_NULL}"
                     android:id="@+id/text_condition"
                     android:layout_width="match_parent"
@@ -99,10 +99,11 @@
                 android:hint="@string/roof">
 
                 <AutoCompleteTextView
-                    android:text="@={household.roof}"
+                    dropdown="@{@stringArray/roof_types}"
+                    textDropDown="@={household.roof}"
+                    itemPosition="@={household.idRoof}"
                     android:inputType="@{InputType.TYPE_NULL}"
                     android:id="@+id/text_roof"
-                    dropdown="@{@stringArray/roof_types}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -120,10 +121,11 @@
                 android:layout_height="wrap_content">
 
                 <AutoCompleteTextView
-                    android:text="@={household.wall}"
+                    dropdown="@{@stringArray/wall_types}"
+                    textDropDown="@={household.wall}"
+                    itemPosition="@={household.idWall}"
                     android:inputType="@{InputType.TYPE_NULL}"
                     android:id="@+id/text_wall"
-                    dropdown="@{@stringArray/wall_types}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
@@ -141,10 +143,11 @@
                 android:layout_height="wrap_content">
 
                 <AutoCompleteTextView
-                    android:text="@={household.floor}"
+                    dropdown="@{@stringArray/floor_types}"
+                    textDropDown="@={household.floor}"
+                    itemPosition="@={household.idFloor}"
                     android:inputType="@{InputType.TYPE_NULL}"
                     android:id="@+id/text_floor"
-                    dropdown="@{@stringArray/floor_types}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 

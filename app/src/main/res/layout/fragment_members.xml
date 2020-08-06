@@ -4,9 +4,6 @@
 
     <data>
         <variable
-            name="temp"
-            type="tech.ankainn.edanapplication.model.formTwo.MemberData" />
-        <variable
             name="householdHead"
             type="tech.ankainn.edanapplication.model.formTwo.MemberData" />
     </data>
@@ -23,26 +20,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <FrameLayout
-            android:visibility="gone"
-            visibleGone="@{householdHead == null}"
-            android:layout_weight="1"
+        <include layout="@layout/layout_member"
             android:layout_width="match_parent"
-            android:layout_height="0dp">
-
-            <include layout="@layout/layout_add_family"
-                android:id="@+id/family_head"
-                app:cancelVisibility="@{false}"
-                app:member="@{temp}"/>
-        </FrameLayout>
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            visibleGone="@{householdHead.dataVersion == 0}"
+            android:id="@+id/temp_head"
+            app:cancelVisibility="@{false}"
+            app:member="@{householdHead}"/>
 
         <include layout="@layout/layout_item_member"
-            visibleGone="@{householdHead != null}"
-            android:id="@+id/layout_head"
+            visibleGone="@{householdHead.dataVersion != 0}"
+            android:id="@+id/item_head"
             app:member="@{householdHead}" />
 
         <FrameLayout
-            visibleGone="@{householdHead != null}"
+            visibleGone="@{householdHead.dataVersion != 0}"
             android:id="@+id/btn_add_family"
             android:clickable="true"
             android:focusable="true"
@@ -69,7 +62,7 @@
             android:layout_marginTop="@dimen/dim_nor"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:id="@+id/recycler_view"
-            visibleGone="@{householdHead != null}"
+            visibleGone="@{householdHead.dataVersion != 0}"
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="0dp" />
