@@ -7,13 +7,11 @@ import android.view.ViewGroup;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavBackStackEntry;
-import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import tech.ankainn.edanapplication.R;
 import tech.ankainn.edanapplication.databinding.FragmentLocationBinding;
 import tech.ankainn.edanapplication.ui.common.BindingFragment;
-import tech.ankainn.edanapplication.ui.formTwo.FormTwoViewModel;
 
 public class LocationFragment extends BindingFragment<FragmentLocationBinding> {
 

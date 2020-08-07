@@ -8,15 +8,11 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
-import com.google.gson.Gson;
-
 import tech.ankainn.edanapplication.R;
 import tech.ankainn.edanapplication.databinding.FragmentFilesBinding;
 import tech.ankainn.edanapplication.global.BottomOptions;
 import tech.ankainn.edanapplication.global.BottomOptionsFragment;
 import tech.ankainn.edanapplication.ui.common.BindingFragment;
-import tech.ankainn.edanapplication.util.Tagger;
-import timber.log.Timber;
 
 public class FilesFragment extends BindingFragment<FragmentFilesBinding> {
 
@@ -34,7 +30,6 @@ public class FilesFragment extends BindingFragment<FragmentFilesBinding> {
         viewModel = new ViewModelProvider(requireActivity()).get(FilesViewModel.class);
 
         FilesAdapter adapter = new FilesAdapter((formTwoData, loading) -> {
-            Timber.tag(Tagger.DUMPER).d("onActivityCreated: %s", new Gson().toJson(formTwoData));
             viewModel.setActiveFile(formTwoData, loading);
             new BottomOptionsFragment.Builder("item")
                     .setTitle(R.string.options)
@@ -63,6 +58,11 @@ public class FilesFragment extends BindingFragment<FragmentFilesBinding> {
                     }
                     return;
                 case "item":
+                    if (option == 1) {
+                        viewModel.updateFormTwoFile();
+                        Navigation.findNavController(requireActivity(), R.id.fragment_container)
+                                .navigate(HostFragmentDirections.actionHostToFormTwo());
+                    }
             }
         });
     }

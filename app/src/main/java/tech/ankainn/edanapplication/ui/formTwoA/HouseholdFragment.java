@@ -1,10 +1,8 @@
-package tech.ankainn.edanapplication.ui.formTwo;
+package tech.ankainn.edanapplication.ui.formTwoA;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;

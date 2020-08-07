@@ -1,4 +1,4 @@
-package tech.ankainn.edanapplication.ui.formTwo;
+package tech.ankainn.edanapplication.ui.formTwoA;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -31,7 +31,7 @@ public class MembersAdapter extends BindingAdapter<MemberData, LayoutItemMemberB
 
     @Override
     protected boolean areItemsTheSame(MemberData oldItem, MemberData newItem) {
-        return oldItem.id == newItem.id;
+        return oldItem.tempId == newItem.tempId;
     }
 
     @Override

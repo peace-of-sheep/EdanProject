@@ -14,7 +14,6 @@ import tech.ankainn.edanapplication.databinding.FragmentGenInfBinding;
 import tech.ankainn.edanapplication.global.Picker;
 import tech.ankainn.edanapplication.global.PickerFragment;
 import tech.ankainn.edanapplication.ui.common.BindingFragment;
-import tech.ankainn.edanapplication.ui.formTwo.FormTwoViewModel;
 
 import static tech.ankainn.edanapplication.global.PickerFragment.MODE_DATE;
 import static tech.ankainn.edanapplication.global.PickerFragment.MODE_TIME;

@@ -19,10 +19,10 @@ public class MemberEntity {
     public String name;
     public Integer age;
     public String gender;
-    @ColumnInfo(name = "id_type")
-    public String idType;
-    @ColumnInfo(name = "id_number")
-    public Integer idNumber;
+    @ColumnInfo(name = "identification_type")
+    public String identificationType;
+    @ColumnInfo(name = "identification_type_number")
+    public Integer identificationNumber;
     public String condition;
     @ColumnInfo(name = "personal_injury")
     public String personalInjury;

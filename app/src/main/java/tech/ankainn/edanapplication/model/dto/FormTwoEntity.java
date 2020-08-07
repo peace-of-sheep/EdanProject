@@ -11,11 +11,11 @@ public class FormTwoEntity {
     @ColumnInfo(name = "form_two_id")
     public long formTwoId;
 
-    @ColumnInfo(name = "data_version")
-    public Integer dataVersion;
-
     @ColumnInfo(name = "form_two_api_id")
     public Integer formTwoApiId;
+
+    @ColumnInfo(name = "data_version")
+    public Integer dataVersion;
 
     public Double latitude;
     public Double longitude;

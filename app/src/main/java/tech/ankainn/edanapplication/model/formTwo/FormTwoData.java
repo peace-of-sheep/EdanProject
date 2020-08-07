@@ -12,9 +12,10 @@ public class FormTwoData {
 
     public Integer formTwoApiId;
 
-    public GenInfData genInfData;
     public MapLocationData mapLocationData;
+    public GenInfData genInfData;
     public HouseholdData householdData;
+
     public List<MemberData> listMemberData;
 
     @NotNull

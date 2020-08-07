@@ -1,4 +1,4 @@
-package tech.ankainn.edanapplication.ui.formTwo;
+package tech.ankainn.edanapplication.ui.formTwoA;
 
 import android.app.Application;
 
@@ -10,20 +10,17 @@ import androidx.lifecycle.Transformations;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import tech.ankainn.edanapplication.model.formTwo.FormTwoData;
 import tech.ankainn.edanapplication.model.formTwo.HouseholdData;
 import tech.ankainn.edanapplication.model.formTwo.MemberData;
 import tech.ankainn.edanapplication.repositories.FormTwoRepository;
 import tech.ankainn.edanapplication.ui.common.BaseViewModel;
-import tech.ankainn.edanapplication.util.FormTwoFactory;
-import tech.ankainn.edanapplication.util.Tagger;
+import tech.ankainn.edanapplication.model.factory.FormTwoFactory;
 import tech.ankainn.edanapplication.util.Tuple2;
-import timber.log.Timber;
 
-import static tech.ankainn.edanapplication.ui.formTwo.FormTwoViewModel.PostState.CREATION;
-import static tech.ankainn.edanapplication.ui.formTwo.FormTwoViewModel.PostState.UPDATE;
+import static tech.ankainn.edanapplication.ui.formTwoA.FormTwoViewModel.PostState.CREATION;
+import static tech.ankainn.edanapplication.ui.formTwoA.FormTwoViewModel.PostState.UPDATE;
 
 public class FormTwoViewModel extends BaseViewModel {
 
@@ -54,6 +51,11 @@ public class FormTwoViewModel extends BaseViewModel {
                 throw new RuntimeException("Empty listMemberData not allowed");
             }
             mutableOriginalList = formTwoData.listMemberData;
+
+            for (MemberData memberData : mutableOriginalList) {
+                memberData.tempId = ++countTempId;
+            }
+
             copyList.setValue(new ArrayList<>(mutableOriginalList));
         });
     }
@@ -82,8 +84,7 @@ public class FormTwoViewModel extends BaseViewModel {
 
     public void updateMember(MemberData memberData) {
         MemberData update = FormTwoFactory.cloneMemberData(memberData);
-        Timber.tag(Tagger.DUMPER).d("updateMember: original=%s copy=%s, original=%d copy=%d, equals?=%b", memberData, update, memberData.hashCode(), update.hashCode(), Objects.equals(memberData, update));
-        this.activeMemberData.setValue(new Tuple2<>(UPDATE, update));
+        activeMemberData.setValue(new Tuple2<>(UPDATE, update));
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -91,15 +92,13 @@ public class FormTwoViewModel extends BaseViewModel {
         Tuple2<PostState, MemberData> tuple2 = activeMemberData.getValue();
         tuple2.second.dataVersion++;
 
-        Timber.tag(Tagger.DUMPER).v("postTempMember: %s, %s", tuple2.first, tuple2.second);
-
         if (tuple2.first == CREATION) {
-            tuple2.second.id = ++countTempId;
+            tuple2.second.tempId = ++countTempId;
             mutableOriginalList.add(tuple2.second);
 
         } else if(tuple2.first == UPDATE) {
             for (int i = 0; i < mutableOriginalList.size(); i++) {
-                if(mutableOriginalList.get(i).id == tuple2.second.id) {
+                if(mutableOriginalList.get(i).tempId == tuple2.second.tempId) {
                     mutableOriginalList.set(i, tuple2.second);
                     break;
                 }

@@ -1,4 +1,4 @@
-package tech.ankainn.edanapplication.util;
+package tech.ankainn.edanapplication.model.factory;
 
 import com.google.gson.Gson;
 
@@ -95,17 +95,6 @@ public class FormTwoFactory {
         return memberData;
     }
 
-    public static FormTwoData create(GenInfData genInfData, MapLocationData mapLocationData,
-                                     HouseholdData householdData, List<MemberData> listMember) {
-        FormTwoData formTwoData = createEmptyFormTwoData();
-
-        formTwoData.genInfData = genInfData;
-        formTwoData.mapLocationData = mapLocationData;
-        formTwoData.householdData = householdData;
-        formTwoData.listMemberData = listMember;
-        return formTwoData;
-    }
-
     public static ApiFormTwo apiFromData(FormTwoData formTwoData) {
         ApiFormTwo result = new ApiFormTwo();
 
@@ -162,7 +151,7 @@ public class FormTwoFactory {
             Document document = new Document();
             //TODO idType
             document.setTipo(1);
-            document.setNro(householdMemberData.idNumber.toString());
+            document.setNro(householdMemberData.identificationNumber.toString());
             responsable.setDocument(document);
 
             informacionRegular.setResponsable(responsable);
@@ -221,13 +210,18 @@ public class FormTwoFactory {
 
     public static MemberData dataFromDb(MemberEntity source) {
         MemberData memberData = new MemberData();
+
         memberData.id = source.memberId;
+
+        memberData.formTwoOwnerId = source.formTwoOwnerId;
+
         memberData.dataVersion = source.dataVersion;
+
         memberData.name = source.name;
         memberData.age = source.age;
         memberData.gender = source.gender;
-        memberData.idType = source.idType;
-        memberData.idNumber = source.idNumber;
+        memberData.identificationType = source.identificationType;
+        memberData.identificationNumber = source.identificationNumber;
         memberData.condition = source.condition;
         memberData.personalInjury = source.personalInjury;
 
@@ -238,7 +232,9 @@ public class FormTwoFactory {
         FormTwoData formTwoData = createEmptyFormTwoData();
 
         formTwoData.id = source.formTwoEntity.formTwoId;
+
         formTwoData.formTwoApiId = source.formTwoEntity.formTwoApiId;
+
         formTwoData.dataVersion = source.formTwoEntity.dataVersion;
 
         formTwoData.mapLocationData.latitude = source.formTwoEntity.latitude;
@@ -415,6 +411,8 @@ public class FormTwoFactory {
     public static FormTwoEntity dataToEntity(FormTwoData formTwoData) {
         FormTwoEntity formTwoEntity = new FormTwoEntity();
 
+        formTwoEntity.formTwoId = formTwoData.id;
+
         formTwoEntity.dataVersion = formTwoData.dataVersion;
 
         formTwoEntity.formTwoApiId = formTwoData.formTwoApiId;
@@ -451,12 +449,17 @@ public class FormTwoFactory {
     public static MemberEntity dataToEntity(MemberData memberData) {
         MemberEntity memberEntity = new MemberEntity();
 
+        memberEntity.memberId = memberData.id;
+
+        memberEntity.formTwoOwnerId = memberData.formTwoOwnerId;
+
         memberEntity.dataVersion = memberData.dataVersion;
+
         memberEntity.name = memberData.name;
         memberEntity.age = memberData.age;
         memberEntity.gender = memberData.gender;
-        memberEntity.idType = memberData.idType;
-        memberEntity.idNumber = memberData.idNumber;
+        memberEntity.identificationType = memberData.identificationType;
+        memberEntity.identificationNumber = memberData.identificationNumber;
         memberEntity.condition = memberData.condition;
         memberEntity.personalInjury = memberData.personalInjury;
 

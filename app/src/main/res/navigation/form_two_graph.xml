@@ -53,7 +53,7 @@
     <fragment
         android:id="@+id/household_fragment"
         android:label="HouseholdFragment"
-        android:name="tech.ankainn.edanapplication.ui.formTwo.HouseholdFragment" >
+        android:name="tech.ankainn.edanapplication.ui.formTwoA.HouseholdFragment" >
 
         <action
             android:id="@+id/action_back"
@@ -71,7 +71,7 @@
     <fragment
         android:id="@+id/family_fragment"
         android:label="FamilyFragment"
-        android:name="tech.ankainn.edanapplication.ui.formTwo.MembersFragment" >
+        android:name="tech.ankainn.edanapplication.ui.formTwoA.MembersFragment" >
 
         <action
             android:id="@+id/action_back"

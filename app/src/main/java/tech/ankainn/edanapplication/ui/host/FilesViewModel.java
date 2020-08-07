@@ -5,19 +5,14 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Transformations;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import tech.ankainn.edanapplication.R;
 import tech.ankainn.edanapplication.model.formTwo.FormTwoData;
-import tech.ankainn.edanapplication.global.BottomOptions;
 import tech.ankainn.edanapplication.repositories.FormTwoRepository;
 import tech.ankainn.edanapplication.ui.common.BaseViewModel;
-import tech.ankainn.edanapplication.util.FormTwoFactory;
-import tech.ankainn.edanapplication.util.SingleMsg;
+import tech.ankainn.edanapplication.model.factory.FormTwoFactory;
 import tech.ankainn.edanapplication.util.Metadata;
 
 public class FilesViewModel extends BaseViewModel {
@@ -70,11 +65,17 @@ public class FilesViewModel extends BaseViewModel {
     }
 
     public void setActiveFile(FormTwoData formTwoData, boolean  loading) {
-        FormTwoData temp = FormTwoFactory.cloneFormTwoData(formTwoData);
-        activeItem = new Metadata<>(temp, loading);
+        activeItem = new Metadata<>(formTwoData, loading);
     }
+
+    public void createFormOneFile() {}
 
     public void createFormTwoFile() {
         formTwoRepository.createFormTwoData();
+    }
+
+    public void updateFormTwoFile() {
+        formTwoRepository.updateFormTwoData(activeItem.data);
+        activeItem = null;
     }
 }

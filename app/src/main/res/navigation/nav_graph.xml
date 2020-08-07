@@ -43,7 +43,7 @@
 
     <fragment
         android:id="@+id/form_two_host_fragment"
-        android:name="tech.ankainn.edanapplication.ui.formTwo.FormTwoHostFragment"
+        android:name="tech.ankainn.edanapplication.ui.formTwoA.FormTwoHostFragment"
         android:label="FormTwoHostFragment" >
 
         <action

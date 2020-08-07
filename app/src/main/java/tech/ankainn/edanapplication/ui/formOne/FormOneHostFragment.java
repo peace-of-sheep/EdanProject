@@ -13,7 +13,7 @@ import androidx.navigation.Navigation;
 import tech.ankainn.edanapplication.R;
 import tech.ankainn.edanapplication.databinding.FragmentFormHostBinding;
 import tech.ankainn.edanapplication.ui.common.BindingFragment;
-import tech.ankainn.edanapplication.ui.formTwo.BackDialogFragment;
+import tech.ankainn.edanapplication.ui.formTwoA.BackDialogFragment;
 
 public class FormOneHostFragment extends BindingFragment<FragmentFormHostBinding> {
 

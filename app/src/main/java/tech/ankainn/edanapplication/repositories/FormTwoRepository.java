@@ -4,8 +4,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
-import com.google.gson.Gson;
-
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -26,8 +24,7 @@ import tech.ankainn.edanapplication.model.formTwo.FormTwoData;
 import tech.ankainn.edanapplication.model.formTwo.MemberData;
 import tech.ankainn.edanapplication.retrofit.ApiResponse;
 import tech.ankainn.edanapplication.retrofit.ApiService;
-import tech.ankainn.edanapplication.util.FormTwoFactory;
-import tech.ankainn.edanapplication.util.Tagger;
+import tech.ankainn.edanapplication.model.factory.FormTwoFactory;
 import tech.ankainn.edanapplication.util.Tuple2;
 import timber.log.Timber;
 
@@ -84,7 +81,6 @@ public class FormTwoRepository {
 
     public void updateFormTwoData(FormTwoData formTwoData) {
         FormTwoData result = FormTwoFactory.cloneFormTwoData(formTwoData);
-        Timber.tag(Tagger.DUMPER).v("updateFormTwoData: copy: %d, original: %d, same?: %b", result.hashCode(), formTwoData.hashCode(), result == formTwoData);
         currentData.setValue(new Tuple2<>(UPDATE, result));
     }
 
@@ -96,18 +92,18 @@ public class FormTwoRepository {
 
         formTwoData.dataVersion++;
 
-        if (tuple.first == CREATION) {
-            FormTwoEntity formTwoEntity = FormTwoFactory.dataToEntity(formTwoData);
-            List<MemberData> listMember = formTwoData.listMemberData;
+        FormTwoEntity formTwoEntity = FormTwoFactory.dataToEntity(formTwoData);
+        List<MemberData> listMember = formTwoData.listMemberData;
 
-            List<MemberEntity> listResult = new ArrayList<>();
-            if (listMember != null && listMember.size() > 0) {
-                for (MemberData memberData : listMember) {
-                    MemberEntity memberEntity = FormTwoFactory.dataToEntity(memberData);
-                    listResult.add(memberEntity);
-                }
+        List<MemberEntity> listResult = new ArrayList<>();
+        if (listMember != null && listMember.size() > 0) {
+            for (MemberData memberData : listMember) {
+                MemberEntity memberEntity = FormTwoFactory.dataToEntity(memberData);
+                listResult.add(memberEntity);
             }
+        }
 
+        if (tuple.first == CREATION) {
             appExecutors.diskIO().execute(() -> {
                 if (listResult.size() > 0) {
                     formTwoDao.insertFormTwoWithMember(formTwoEntity, listResult);
@@ -116,8 +112,16 @@ public class FormTwoRepository {
                 }
             });
         } else if (tuple.first == UPDATE) {
-            // TODO make code for update
+            appExecutors.diskIO().execute(() -> {
+                if (listResult.size() > 0) {
+                    formTwoDao.updateFormTwoWithMember(formTwoEntity, listResult);
+                } else {
+                    formTwoDao.updateFormTwo(formTwoEntity);
+                }
+            });
         }
+
+        currentData = new MutableLiveData<>();
     }
 
     public LiveData<Integer> postFormTwo(FormTwoData formTwoData) {
@@ -146,5 +150,17 @@ public class FormTwoRepository {
 
     enum State {
         CREATION, UPDATE
+    }
+
+    // TODO test
+    public FormTwoData getCurrent() {
+        if (currentData.getValue() == null) {
+            return null;
+        }
+        return currentData.getValue().second;
+    }
+
+    public static FormTwoRepository getInstance() {
+        return instance;
     }
 }

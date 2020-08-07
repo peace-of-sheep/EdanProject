@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
+import androidx.room.Update;
 
 import java.util.List;
 
@@ -23,8 +24,14 @@ public abstract class FormTwoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract long insertFormTwo(FormTwoEntity formTwoEntity);
 
+    @Update
+    public abstract void updateFormTwo(FormTwoEntity formTwoEntity);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract void insertMember(MemberEntity memberEntity);
+
+    @Update
+    public abstract void updateMember(MemberEntity memberEntity);
 
     @Transaction
     public void insertFormTwoWithMember(FormTwoEntity formTwoEntity, List<MemberEntity> memberEntityList) {
@@ -33,6 +40,20 @@ public abstract class FormTwoDao {
         for (MemberEntity memberEntity : memberEntityList) {
             memberEntity.formTwoOwnerId = formTwoId;
             insertMember(memberEntity);
+        }
+    }
+
+    @Transaction
+    public void updateFormTwoWithMember(FormTwoEntity formTwoEntity, List<MemberEntity> memberEntityList) {
+        updateFormTwo(formTwoEntity);
+
+        for (MemberEntity memberEntity : memberEntityList) {
+            if(memberEntity.memberId == 0) {
+                memberEntity.formTwoOwnerId = formTwoEntity.formTwoId;
+                insertMember(memberEntity);
+            } else {
+                updateMember(memberEntity);
+            }
         }
     }
 }

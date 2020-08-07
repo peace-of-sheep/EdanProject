@@ -48,7 +48,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="@dimen/dim_nor"
                 android:layout_marginHorizontal="@dimen/dim_nor"
-                android:text="@{Converter.integerToString(member.idNumber)}"
+                android:text="@{Converter.integerToString(member.identificationNumber)}"
                 android:id="@+id/text_id_number"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"/>
