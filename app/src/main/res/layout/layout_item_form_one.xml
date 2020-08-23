@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="tech.ankainn.edanapplication.binding.Converter"/>
+        <variable
+            name="loading"
+            type="boolean" />
+        <variable
+            name="formOne"
+            type="tech.ankainn.edanapplication.model.formOne.FormOneData" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_view"
+        android:layout_marginTop="@dimen/dim_nor"
+        android:layout_marginHorizontal="@dimen/dim_nor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"
+                android:text="@string/form_one"
+                android:layout_marginTop="@dimen/dim_nor"
+                android:layout_marginHorizontal="@dimen/dim_nor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:text="@{formOne.genInfData.department, default=DEPARTMENT}"
+                android:layout_marginTop="@dimen/dim_nor"
+                android:layout_marginHorizontal="@dimen/dim_nor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:text="@{Converter.integerToString(formOne.dataVersion), default=DATA_VERSION}"
+                android:layout_marginTop="@dimen/dim_nor"
+                android:layout_marginHorizontal="@dimen/dim_nor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:text="@{Converter.integerToString((int) formOne.id), default=ID}"
+                android:layout_marginTop="@dimen/dim_nor"
+                android:layout_marginHorizontal="@dimen/dim_nor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <ProgressBar
+                visibleGone="@{loading}"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:indeterminate="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <View
+                android:background="@android:color/holo_red_dark"
+                android:layout_width="match_parent"
+                android:layout_height="4dp" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

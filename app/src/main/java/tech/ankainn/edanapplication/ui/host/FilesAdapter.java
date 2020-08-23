@@ -3,20 +3,34 @@ package tech.ankainn.edanapplication.ui.host;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.viewbinding.ViewBinding;
 
+import java.util.Objects;
+
+import tech.ankainn.edanapplication.AppExecutors;
 import tech.ankainn.edanapplication.databinding.LayoutItemFormTwoBinding;
 import tech.ankainn.edanapplication.model.formTwo.FormTwoData;
 import tech.ankainn.edanapplication.ui.common.BindingAdapter;
-import tech.ankainn.edanapplication.ui.common.BindingViewHolder;
-import tech.ankainn.edanapplication.util.Metadata;
-import timber.log.Timber;
+import tech.ankainn.edanapplication.util.Tuple2;
 
-public class FilesAdapter extends BindingAdapter<Metadata<FormTwoData>, LayoutItemFormTwoBinding> {
+public class FilesAdapter extends BindingAdapter<Tuple2<Boolean, FormTwoData>, LayoutItemFormTwoBinding> {
 
     private final FileClickListener fileClickListener;
 
-    public FilesAdapter(FileClickListener fileClickListener) {
+    protected FilesAdapter(FileClickListener fileClickListener, AppExecutors appExecutors) {
+        super(appExecutors, new DiffUtil.ItemCallback<Tuple2<Boolean, FormTwoData>>() {
+            @Override
+            public boolean areItemsTheSame(@NonNull Tuple2<Boolean, FormTwoData> oldItem, @NonNull Tuple2<Boolean, FormTwoData> newItem) {
+                return oldItem.second.id == newItem.second.id;
+            }
+
+            @Override
+            public boolean areContentsTheSame(@NonNull Tuple2<Boolean, FormTwoData> oldItem, @NonNull Tuple2<Boolean, FormTwoData> newItem) {
+                return Objects.equals(oldItem.second.dataVersion, newItem.second.dataVersion) && Objects.equals(oldItem.first, newItem.first);
+            }
+        });
         this.fileClickListener = fileClickListener;
     }
 
@@ -32,22 +46,9 @@ public class FilesAdapter extends BindingAdapter<Metadata<FormTwoData>, LayoutIt
     }
 
     @Override
-    protected void bind(LayoutItemFormTwoBinding binding, Metadata<FormTwoData> metadata) {
-        binding.setFormTwo(metadata.data);
-        binding.setLoading(metadata.loading);
-    }
-
-    @Override
-    protected boolean areItemsTheSame(Metadata<FormTwoData> oldItem, Metadata<FormTwoData> newItem) {
-        Timber.d("areItemsTheSame: %s %s", oldItem.data.id, newItem.data.id);
-        return oldItem.data.id == newItem.data.id;
-    }
-
-    @Override
-    protected boolean areContentsTheSame(Metadata<FormTwoData> oldItem, Metadata<FormTwoData> newItem) {
-        Timber.w("areContentsTheSame: %s %s", oldItem.data.dataVersion, newItem.data.dataVersion);
-        Timber.w("areContentsTheSame: %s %s", oldItem.loading, newItem.loading);
-        return oldItem.data.dataVersion == newItem.data.dataVersion && oldItem.loading == newItem.loading;
+    protected void bind(LayoutItemFormTwoBinding binding, Tuple2<Boolean, FormTwoData> tuple2) {
+        binding.setFormTwo(tuple2.second);
+        binding.setLoading(tuple2.first);
     }
 
     public interface FileClickListener {

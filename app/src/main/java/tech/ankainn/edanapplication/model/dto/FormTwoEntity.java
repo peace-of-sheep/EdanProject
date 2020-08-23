@@ -19,9 +19,6 @@ public class FormTwoEntity {
 
     public Double latitude;
     public Double longitude;
-    public Integer altitude;
-    public String transport;
-    public String reference;
 
     @ColumnInfo(name = "group_danger")
     public String groupDanger;

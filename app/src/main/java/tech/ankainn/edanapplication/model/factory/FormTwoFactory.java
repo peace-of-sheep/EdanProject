@@ -22,12 +22,14 @@ import tech.ankainn.edanapplication.model.api.LifeHealth;
 import tech.ankainn.edanapplication.model.api.MaterialType;
 import tech.ankainn.edanapplication.model.api.PersonalInjury;
 import tech.ankainn.edanapplication.model.api.Responsable;
+import tech.ankainn.edanapplication.model.dto.FormTwoCompleteData;
 import tech.ankainn.edanapplication.model.dto.FormTwoEntity;
-import tech.ankainn.edanapplication.model.dto.FormTwoWithMembers;
+import tech.ankainn.edanapplication.model.dto.LivelihoodEntity;
 import tech.ankainn.edanapplication.model.dto.MemberEntity;
 import tech.ankainn.edanapplication.model.formTwo.FormTwoData;
 import tech.ankainn.edanapplication.model.formTwo.GenInfData;
 import tech.ankainn.edanapplication.model.formTwo.HouseholdData;
+import tech.ankainn.edanapplication.model.formTwo.LivelihoodData;
 import tech.ankainn.edanapplication.model.formTwo.MemberData;
 import tech.ankainn.edanapplication.model.formTwo.MapLocationData;
 import tech.ankainn.edanapplication.retrofit.ApiListResponse;
@@ -40,12 +42,12 @@ public class FormTwoFactory {
         return gson.fromJson(gson.toJson(object), (Type) object.getClass());
     }
 
-    public static FormTwoData cloneFormTwoData(FormTwoData source) {
-        return copyObject(source);
-    }
-
     public static MemberData cloneMemberData(MemberData memberData) {
         return copyObject(memberData);
+    }
+
+    public static LivelihoodData cloneLivelihoodData(LivelihoodData livelihoodData) {
+        return copyObject(livelihoodData);
     }
 
     public static FormTwoData createEmptyFormTwoData() {
@@ -54,23 +56,9 @@ public class FormTwoFactory {
         formTwoData.dataVersion = 0;
         formTwoData.formTwoApiId = -1;
 
-        formTwoData.mapLocationData = new MapLocationData();
-        formTwoData.mapLocationData.longitude = 0d;
-        formTwoData.mapLocationData.latitude = 0d;
-        formTwoData.mapLocationData.altitude = 0;
-        formTwoData.mapLocationData.reference = "";
-        formTwoData.mapLocationData.transport = "";
+        formTwoData.mapLocationData = GenInfFactory.createEmptyMapLocation();
 
-        formTwoData.genInfData = new GenInfData();
-        formTwoData.genInfData.groupDanger = "";
-        formTwoData.genInfData.typeDanger = "";
-        formTwoData.genInfData.date = "";
-        formTwoData.genInfData.hour = "";
-        formTwoData.genInfData.department = "";
-        formTwoData.genInfData.province = "";
-        formTwoData.genInfData.district = "";
-        formTwoData.genInfData.locality = "";
-        formTwoData.genInfData.zone = "";
+        formTwoData.genInfData = GenInfFactory.createEmptyGenInf();
 
         formTwoData.householdData = new HouseholdData();
         formTwoData.householdData.lot = "";
@@ -85,6 +73,8 @@ public class FormTwoFactory {
 
         formTwoData.listMemberData = new ArrayList<>();
 
+        formTwoData.listLivelihood = new ArrayList<>();
+
         return formTwoData;
     }
 
@@ -93,6 +83,172 @@ public class FormTwoFactory {
         memberData.dataVersion = 0;
 
         return memberData;
+    }
+
+    public static LivelihoodData createEmptyLivelihoodData() {
+        LivelihoodData livelihoodData = new LivelihoodData();
+        livelihoodData.dataVersion = 0;
+
+        return livelihoodData;
+    }
+
+    public static FormTwoData entityToData(FormTwoCompleteData source) {
+        FormTwoData formTwoData = createEmptyFormTwoData();
+
+        formTwoData.id = source.formTwoEntity.formTwoId;
+
+        formTwoData.formTwoApiId = source.formTwoEntity.formTwoApiId;
+
+        formTwoData.dataVersion = source.formTwoEntity.dataVersion;
+
+        formTwoData.mapLocationData.latitude = source.formTwoEntity.latitude;
+        formTwoData.mapLocationData.longitude = source.formTwoEntity.longitude;
+
+        formTwoData.genInfData.groupDanger = source.formTwoEntity.groupDanger;
+        formTwoData.genInfData.typeDanger = source.formTwoEntity.typeDanger;
+        formTwoData.genInfData.date = source.formTwoEntity.date;
+        formTwoData.genInfData.hour = source.formTwoEntity.hour;
+        formTwoData.genInfData.department = source.formTwoEntity.department;
+        formTwoData.genInfData.province = source.formTwoEntity.province;
+        formTwoData.genInfData.district = source.formTwoEntity.district;
+        formTwoData.genInfData.locality = source.formTwoEntity.locality;
+        formTwoData.genInfData.zone = source.formTwoEntity.zone;
+
+        formTwoData.householdData.lot = source.formTwoEntity.lot;
+        formTwoData.householdData.owner = source.formTwoEntity.owner;
+        formTwoData.householdData.condition = source.formTwoEntity.condition;
+        formTwoData.householdData.idRoof = source.formTwoEntity.idRoof;
+        formTwoData.householdData.roof = source.formTwoEntity.roof;
+        formTwoData.householdData.idWall = source.formTwoEntity.idWall;
+        formTwoData.householdData.wall = source.formTwoEntity.wall;
+        formTwoData.householdData.idFloor = source.formTwoEntity.idFloor;
+        formTwoData.householdData.floor = source.formTwoEntity.floor;
+
+        List<MemberData> tempMembers = new ArrayList<>();
+        for (MemberEntity memberEntity : source.memberEntityList) {
+            MemberData memberData = entityToData(memberEntity);
+            tempMembers.add(memberData);
+        }
+
+        if(tempMembers.size() != 0)
+            formTwoData.listMemberData = tempMembers;
+
+        List<LivelihoodData> tempLivelihoods = new ArrayList<>();
+        for (LivelihoodEntity livelihoodEntity : source.livelihoodEntityList) {
+            LivelihoodData livelihoodData = entityToData(livelihoodEntity);
+            tempLivelihoods.add(livelihoodData);
+        }
+
+        if(tempLivelihoods.size() != 0)
+            formTwoData.listLivelihood = tempLivelihoods;
+
+        return formTwoData;
+    }
+
+    public static MemberData entityToData(MemberEntity source) {
+        MemberData memberData = new MemberData();
+
+        memberData.id = source.memberId;
+
+        memberData.formTwoOwnerId = source.formTwoOwnerId;
+
+        memberData.dataVersion = source.dataVersion;
+
+        memberData.name = source.name;
+        memberData.age = source.age;
+        memberData.gender = source.gender;
+        memberData.identificationType = source.identificationType;
+        memberData.identificationNumber = source.identificationNumber;
+        memberData.condition = source.condition;
+        memberData.personalInjury = source.personalInjury;
+
+        return memberData;
+    }
+
+    public static LivelihoodData entityToData(LivelihoodEntity source) {
+        LivelihoodData livelihoodData = new LivelihoodData();
+
+        livelihoodData.id = source.livelihoodId;
+
+        livelihoodData.formTwoOwnerId = source.formTwoOwnerId;
+
+        livelihoodData.dataVersion = source.dataVersion;
+
+        livelihoodData.name = source.name;
+        livelihoodData.type = source.type;
+        livelihoodData.amountLost = source.amountLost;
+        livelihoodData.amountAffected = source.amountAffected;
+
+        return livelihoodData;
+    }
+
+    public static FormTwoEntity dataToEntity(FormTwoData formTwoData) {
+        FormTwoEntity formTwoEntity = new FormTwoEntity();
+
+        formTwoEntity.formTwoId = formTwoData.id;
+
+        formTwoEntity.dataVersion = formTwoData.dataVersion;
+
+        formTwoEntity.formTwoApiId = formTwoData.formTwoApiId;
+
+        formTwoEntity.latitude = formTwoData.mapLocationData.latitude;
+        formTwoEntity.longitude = formTwoData.mapLocationData.longitude;
+
+        formTwoEntity.groupDanger = formTwoData.genInfData.groupDanger;
+        formTwoEntity.typeDanger = formTwoData.genInfData.typeDanger;
+        formTwoEntity.date = formTwoData.genInfData.date;
+        formTwoEntity.hour = formTwoData.genInfData.hour;
+        formTwoEntity.department = formTwoData.genInfData.department;
+        formTwoEntity.province = formTwoData.genInfData.province;
+        formTwoEntity.district = formTwoData.genInfData.district;
+        formTwoEntity.locality = formTwoData.genInfData.locality;
+        formTwoEntity.zone = formTwoData.genInfData.zone;
+
+        formTwoEntity.lot = formTwoData.householdData.lot;
+        formTwoEntity.owner = formTwoData.householdData.owner;
+        formTwoEntity.condition = formTwoData.householdData.condition;
+        formTwoEntity.floor = formTwoData.householdData.floor;
+        formTwoEntity.wall = formTwoData.householdData.wall;
+        formTwoEntity.roof = formTwoData.householdData.roof;
+        formTwoEntity.idFloor = formTwoData.householdData.idFloor;
+        formTwoEntity.idWall = formTwoData.householdData.idWall;
+        formTwoEntity.idRoof = formTwoData.householdData.idRoof;
+
+        return formTwoEntity;
+    }
+
+    public static MemberEntity dataToEntity(MemberData memberData) {
+        MemberEntity memberEntity = new MemberEntity();
+
+        memberEntity.memberId = memberData.id;
+
+        memberEntity.formTwoOwnerId = memberData.formTwoOwnerId;
+
+        memberEntity.dataVersion = memberData.dataVersion;
+
+        memberEntity.name = memberData.name;
+        memberEntity.age = memberData.age;
+        memberEntity.gender = memberData.gender;
+        memberEntity.identificationType = memberData.identificationType;
+        memberEntity.identificationNumber = memberData.identificationNumber;
+        memberEntity.condition = memberData.condition;
+        memberEntity.personalInjury = memberData.personalInjury;
+
+        return memberEntity;
+    }
+
+    public static LivelihoodEntity dataToEntity(LivelihoodData livelihoodData) {
+        LivelihoodEntity livelihoodEntity = new LivelihoodEntity();
+
+        livelihoodEntity.livelihoodId = livelihoodData.id;
+        livelihoodEntity.formTwoOwnerId = livelihoodData.formTwoOwnerId;
+        livelihoodEntity.dataVersion = livelihoodData.dataVersion;
+        livelihoodEntity.name = livelihoodData.name;
+        livelihoodEntity.type = livelihoodData.type;
+        livelihoodEntity.amountLost = livelihoodData.amountLost;
+        livelihoodEntity.amountAffected = livelihoodData.amountAffected;
+
+        return livelihoodEntity;
     }
 
     public static ApiFormTwo apiFromData(FormTwoData formTwoData) {
@@ -208,71 +364,13 @@ public class FormTwoFactory {
         return result;
     }
 
-    public static MemberData dataFromDb(MemberEntity source) {
-        MemberData memberData = new MemberData();
-
-        memberData.id = source.memberId;
-
-        memberData.formTwoOwnerId = source.formTwoOwnerId;
-
-        memberData.dataVersion = source.dataVersion;
-
-        memberData.name = source.name;
-        memberData.age = source.age;
-        memberData.gender = source.gender;
-        memberData.identificationType = source.identificationType;
-        memberData.identificationNumber = source.identificationNumber;
-        memberData.condition = source.condition;
-        memberData.personalInjury = source.personalInjury;
-
-        return memberData;
-    }
-
-    public static FormTwoData dataFromDb(FormTwoWithMembers source) {
-        FormTwoData formTwoData = createEmptyFormTwoData();
-
-        formTwoData.id = source.formTwoEntity.formTwoId;
-
-        formTwoData.formTwoApiId = source.formTwoEntity.formTwoApiId;
-
-        formTwoData.dataVersion = source.formTwoEntity.dataVersion;
-
-        formTwoData.mapLocationData.latitude = source.formTwoEntity.latitude;
-        formTwoData.mapLocationData.longitude = source.formTwoEntity.longitude;
-        formTwoData.mapLocationData.altitude = source.formTwoEntity.altitude;
-        formTwoData.mapLocationData.reference = source.formTwoEntity.reference;
-        formTwoData.mapLocationData.transport = source.formTwoEntity.transport;
-
-        formTwoData.genInfData.groupDanger = source.formTwoEntity.groupDanger;
-        formTwoData.genInfData.typeDanger = source.formTwoEntity.typeDanger;
-        formTwoData.genInfData.date = source.formTwoEntity.date;
-        formTwoData.genInfData.hour = source.formTwoEntity.hour;
-        formTwoData.genInfData.department = source.formTwoEntity.department;
-        formTwoData.genInfData.province = source.formTwoEntity.province;
-        formTwoData.genInfData.district = source.formTwoEntity.district;
-        formTwoData.genInfData.locality = source.formTwoEntity.locality;
-        formTwoData.genInfData.zone = source.formTwoEntity.zone;
-
-        formTwoData.householdData.lot = source.formTwoEntity.lot;
-        formTwoData.householdData.owner = source.formTwoEntity.owner;
-        formTwoData.householdData.condition = source.formTwoEntity.condition;
-        formTwoData.householdData.idRoof = source.formTwoEntity.idRoof;
-        formTwoData.householdData.roof = source.formTwoEntity.roof;
-        formTwoData.householdData.idWall = source.formTwoEntity.idWall;
-        formTwoData.householdData.wall = source.formTwoEntity.wall;
-        formTwoData.householdData.idFloor = source.formTwoEntity.idFloor;
-        formTwoData.householdData.floor = source.formTwoEntity.floor;
-
-        List<MemberData> tempMembers = new ArrayList<>();
-        for (MemberEntity memberEntity : source.memberEntityList) {
-            MemberData memberData = dataFromDb(memberEntity);
-            tempMembers.add(memberData);
+    public static List<FormTwoData> fromDbList(List<FormTwoCompleteData> source) {
+        List<FormTwoData> result = new ArrayList<>();
+        for (FormTwoCompleteData formTwoWithMembers : source) {
+            FormTwoData formTwoData = entityToData(formTwoWithMembers);
+            result.add(formTwoData);
         }
-
-        if(tempMembers.size() != 0)
-            formTwoData.listMemberData = tempMembers;
-
-        return formTwoData;
+        return result;
     }
 
     public static List<FormTwoData> fromApiList(List<ApiListResponse.Datum> list) {
@@ -293,15 +391,6 @@ public class FormTwoFactory {
         }
 
         return temp;
-    }
-
-    public static List<FormTwoData> fromDbList(List<FormTwoWithMembers> source) {
-        List<FormTwoData> result = new ArrayList<>();
-        for (FormTwoWithMembers formTwoWithMembers : source) {
-            FormTwoData formTwoData = dataFromDb(formTwoWithMembers);
-            result.add(formTwoData);
-        }
-        return result;
     }
 
     public static ApiFormTwo testApi() {
@@ -406,63 +495,5 @@ public class FormTwoFactory {
         result.setFamilias(familiaList);
 
         return result;
-    }
-
-    public static FormTwoEntity dataToEntity(FormTwoData formTwoData) {
-        FormTwoEntity formTwoEntity = new FormTwoEntity();
-
-        formTwoEntity.formTwoId = formTwoData.id;
-
-        formTwoEntity.dataVersion = formTwoData.dataVersion;
-
-        formTwoEntity.formTwoApiId = formTwoData.formTwoApiId;
-
-        formTwoEntity.latitude = formTwoData.mapLocationData.latitude;
-        formTwoEntity.longitude = formTwoData.mapLocationData.longitude;
-        formTwoEntity.altitude = formTwoData.mapLocationData.altitude;
-        formTwoEntity.transport = formTwoData.mapLocationData.transport;
-        formTwoEntity.reference = formTwoData.mapLocationData.reference;
-
-        formTwoEntity.groupDanger = formTwoData.genInfData.groupDanger;
-        formTwoEntity.typeDanger = formTwoData.genInfData.typeDanger;
-        formTwoEntity.date = formTwoData.genInfData.date;
-        formTwoEntity.hour = formTwoData.genInfData.hour;
-        formTwoEntity.department = formTwoData.genInfData.department;
-        formTwoEntity.province = formTwoData.genInfData.province;
-        formTwoEntity.district = formTwoData.genInfData.district;
-        formTwoEntity.locality = formTwoData.genInfData.locality;
-        formTwoEntity.zone = formTwoData.genInfData.zone;
-
-        formTwoEntity.lot = formTwoData.householdData.lot;
-        formTwoEntity.owner = formTwoData.householdData.owner;
-        formTwoEntity.condition = formTwoData.householdData.condition;
-        formTwoEntity.floor = formTwoData.householdData.floor;
-        formTwoEntity.wall = formTwoData.householdData.wall;
-        formTwoEntity.roof = formTwoData.householdData.roof;
-        formTwoEntity.idFloor = formTwoData.householdData.idFloor;
-        formTwoEntity.idWall = formTwoData.householdData.idWall;
-        formTwoEntity.idRoof = formTwoData.householdData.idRoof;
-
-        return formTwoEntity;
-    }
-
-    public static MemberEntity dataToEntity(MemberData memberData) {
-        MemberEntity memberEntity = new MemberEntity();
-
-        memberEntity.memberId = memberData.id;
-
-        memberEntity.formTwoOwnerId = memberData.formTwoOwnerId;
-
-        memberEntity.dataVersion = memberData.dataVersion;
-
-        memberEntity.name = memberData.name;
-        memberEntity.age = memberData.age;
-        memberEntity.gender = memberData.gender;
-        memberEntity.identificationType = memberData.identificationType;
-        memberEntity.identificationNumber = memberData.identificationNumber;
-        memberEntity.condition = memberData.condition;
-        memberEntity.personalInjury = memberData.personalInjury;
-
-        return memberEntity;
     }
 }

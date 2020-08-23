@@ -2,4 +2,5 @@
 <resources>
     <string name="description_args">Description: <b>%s</b></string>
     <string name="date_hour_args" translatable="false"><b>%s</b> <b>%s</b></string>
+    <string name="amount_lost_affected_args"><b>%d</b> L - <b>%d</b> A</string>
 </resources>

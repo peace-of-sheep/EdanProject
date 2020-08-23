@@ -153,4 +153,53 @@
 
     <string name="upload_successful">Successfully uploaded</string>
     <string name="upload_error">There was an error, try later</string>
+    <string name="map">Map</string>
+    <string name="gen_inf">General information</string>
+    <string name="household">Household</string>
+    <string name="members">Members</string>
+    <string name="back_quit">Are you sure you want to quit current form?</string>
+    
+    <!-- livelihood resources -->
+    <string name="add_livelihood">Add livelihood</string>
+
+    <string name="livelihood">Livelihood</string>
+
+    <string name="farming">Farming</string>
+    <string name="livestock">Livestock</string>
+    <string name="commerce">Commerce</string>
+    <string name="tourism">Tourism</string>
+    <string name="fishing">Fishing</string>
+    <string name="others">Others</string>
+
+    <string name="amount_lost">Lost amount</string>
+    <string name="amount_affected">Affected amount</string>
+
+    <string name="crops_bread">Bread carry crops</string>
+    <string name="crops_permanent">Permanent crops</string>
+    <string name="crops_transitional">Transitional crops</string>
+    <string name="crops_no_permanent">No permanent crops</string>
+    <string name="beekeeping">Beekeeping</string>
+
+    <string name="bovine">Bovine</string>
+    <string name="equine">Equine</string>
+    <string name="ovine">Ovine</string>
+    <string name="camelid">Camelid</string>
+    <string name="porcine">Porcine</string>
+    <string name="minor_animals">Minor animals</string>
+    
+    <string name="store">Store</string>
+    <string name="restaurant">Restaurant</string>
+    <string name="workshop">Workshop</string>
+    <string name="shoe_shop">Shoe shop</string>
+
+    <string name="tourist_service">Tourist recreation service</string>
+    <string name="lodging">Lodging</string>
+    <string name="tourist_transport">Tourist transport company</string>
+    <string name="hotel">Hotel</string>
+
+    <string name="natural_resource">Natural resource</string>
+    <string name="fish_farm">Fish farm</string>
+    <string name="fishing_tackle">Fishing tackle</string>
+    <string name="boat">Boat</string>
+    <string name="canning">Canning</string>
 </resources>

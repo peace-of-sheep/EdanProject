@@ -1,48 +1,34 @@
 package tech.ankainn.edanapplication.ui.geninfo;
 
-import android.app.Application;
-
-import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
+import androidx.lifecycle.ViewModel;
 
-import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.Gson;
 
-import tech.ankainn.edanapplication.model.formTwo.FormTwoData;
 import tech.ankainn.edanapplication.model.formTwo.GenInfData;
 import tech.ankainn.edanapplication.model.formTwo.MapLocationData;
-import tech.ankainn.edanapplication.repositories.FormTwoRepository;
-import tech.ankainn.edanapplication.ui.common.BaseViewModel;
+import tech.ankainn.edanapplication.repositories.GenInfRepository;
 
-public class GenInfViewModel extends BaseViewModel {
-
-    private LatLng defaultLatLng = new LatLng(-7.146,-75.009);
+public class GenInfViewModel extends ViewModel {
 
     private MediatorLiveData<MapLocationData> mapLocationData = new MediatorLiveData<>();
     private MediatorLiveData<GenInfData> genInfData = new MediatorLiveData<>();
 
-    public GenInfViewModel(@NonNull Application application) {
-        super(application);
-        FormTwoRepository formTwoRepository = getApplication().getFormTwoRepository();
-
-        LiveData<FormTwoData> source = formTwoRepository.getCurrentFormTwoData();
-        mapLocationData.addSource(source, formTwoData -> {
-            if (formTwoData == null || formTwoData.mapLocationData == null) {
-                throw new RuntimeException("Empty mapLocationData not allowed");
+    public GenInfViewModel(GenInfRepository genInfRepository) {
+        LiveData<MapLocationData> sourceMapLocation = genInfRepository.getMapLocationData();
+        mapLocationData.addSource(sourceMapLocation, mapLocationData -> {
+            if (mapLocationData != null) {
+                this.mapLocationData.setValue(mapLocationData);
             }
-            if (formTwoData.dataVersion == 0) {
-                formTwoData.mapLocationData.latitude = defaultLatLng.latitude;
-                formTwoData.mapLocationData.longitude = defaultLatLng.longitude;
-            }
-            mapLocationData.setValue(formTwoData.mapLocationData);
-        });
-        genInfData.addSource(source, formTwoData -> {
-            if (formTwoData == null || formTwoData.genInfData == null) {
-                throw new RuntimeException("Empty genInfoData not allowed");
-            }
-            genInfData.setValue(formTwoData.genInfData);
         });
 
+        LiveData<GenInfData> sourceGenInfData = genInfRepository.getGenInfData();
+        genInfData.addSource(sourceGenInfData, genInfData -> {
+            if (genInfData != null) {
+                this.genInfData.setValue(genInfData);
+            }
+        });
     }
 
     public LiveData<MapLocationData> getMapLocationData() {

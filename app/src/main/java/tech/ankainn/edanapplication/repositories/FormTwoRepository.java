@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -18,110 +20,139 @@ import tech.ankainn.edanapplication.db.FormTwoDao;
 import tech.ankainn.edanapplication.model.api.ApiFormTwo;
 import tech.ankainn.edanapplication.model.api.DataResponse;
 import tech.ankainn.edanapplication.model.dto.FormTwoEntity;
-import tech.ankainn.edanapplication.model.dto.FormTwoWithMembers;
+import tech.ankainn.edanapplication.model.dto.FormTwoCompleteData;
+import tech.ankainn.edanapplication.model.dto.LivelihoodEntity;
 import tech.ankainn.edanapplication.model.dto.MemberEntity;
 import tech.ankainn.edanapplication.model.formTwo.FormTwoData;
+import tech.ankainn.edanapplication.model.formTwo.GenInfData;
+import tech.ankainn.edanapplication.model.formTwo.LivelihoodData;
+import tech.ankainn.edanapplication.model.formTwo.MapLocationData;
 import tech.ankainn.edanapplication.model.formTwo.MemberData;
 import tech.ankainn.edanapplication.retrofit.ApiResponse;
-import tech.ankainn.edanapplication.retrofit.ApiService;
 import tech.ankainn.edanapplication.model.factory.FormTwoFactory;
-import tech.ankainn.edanapplication.util.Tuple2;
+import tech.ankainn.edanapplication.retrofit.Service;
 import timber.log.Timber;
 
-import static tech.ankainn.edanapplication.repositories.FormTwoRepository.State.*;
-
 public class FormTwoRepository {
+
+    private static final LatLng defaultLatLng = new LatLng(-7.146,-75.009);
 
     private static FormTwoRepository instance;
 
     private AppExecutors appExecutors;
-    private ApiService apiService;
-    private EdanDatabase edanDatabase;
-
+    private Service apiService;
     private FormTwoDao formTwoDao;
-
-    private MutableLiveData<Tuple2<State, FormTwoData>> currentData;
-
-    private FormTwoRepository(AppExecutors appExecutors, ApiService apiService, EdanDatabase edanDatabase) {
-        this.appExecutors = appExecutors;
-        this.apiService = apiService;
-        this.edanDatabase = edanDatabase;
-
-        formTwoDao = edanDatabase.formTwoDao();
-
-        currentData = new MutableLiveData<>();
-    }
+    private Cache cache;
 
     public static FormTwoRepository getInstance(AppExecutors appExecutors,
-                                                ApiService apiService,
-                                                EdanDatabase edanDatabase) {
+                                                Service apiService,
+                                                EdanDatabase edanDatabase,
+                                                Cache cache) {
         if(instance == null) {
             synchronized (FormTwoRepository.class) {
                 if(instance == null) {
-                    instance = new FormTwoRepository(appExecutors, apiService, edanDatabase);
+                    instance = new FormTwoRepository(appExecutors, apiService, edanDatabase, cache);
                 }
             }
         }
         return instance;
     }
 
+    private FormTwoRepository(AppExecutors appExecutors, Service apiService, EdanDatabase edanDatabase, Cache cache) {
+        this.appExecutors = appExecutors;
+        this.apiService = apiService;
+        this.cache = cache;
+        formTwoDao = edanDatabase.formTwoDao();
+    }
+
     public LiveData<List<FormTwoData>> getAllFormsFromDb() {
-        LiveData<List<FormTwoWithMembers>> source = formTwoDao.getAllFormTwoWithMembers();
+        LiveData<List<FormTwoCompleteData>> source = formTwoDao.getAllFormTwo();
         return Transformations.map(source, FormTwoFactory::fromDbList);
     }
 
     public LiveData<FormTwoData> getCurrentFormTwoData() {
-        return Transformations.map(currentData, input -> input.second);
+        return cache.getFormTwoData();
     }
 
-    public void createFormTwoData() {
+    public void loadFormTwoData(long id) {
+        if(cache.getFormTwoData().getValue() != null)
+            return;
+
+        if (id == 0L) {
+            createFormTwoData();
+        } else {
+            loadFormTwoDataById(id);
+        }
+    }
+
+    private void createFormTwoData() {
         FormTwoData formTwoData = FormTwoFactory.createEmptyFormTwoData();
-        currentData.setValue(new Tuple2<>(CREATION, formTwoData));
+
+        MapLocationData mapLocationData = cache.getMapLocationData().getValue();
+        if (mapLocationData != null) {
+            formTwoData.mapLocationData = mapLocationData;
+        } else {
+            formTwoData.mapLocationData.latitude = defaultLatLng.latitude;
+            formTwoData.mapLocationData.longitude = defaultLatLng.longitude;
+            cache.setMapLocationData(formTwoData.mapLocationData);
+        }
+
+        GenInfData genInfData = cache.getGenInfData().getValue();
+        if (genInfData != null) {
+            formTwoData.genInfData = genInfData;
+        } else {
+            cache.setGenInfData(formTwoData.genInfData);
+        }
+
+        cache.setFormTwoData(formTwoData);
     }
 
-    public void updateFormTwoData(FormTwoData formTwoData) {
-        FormTwoData result = FormTwoFactory.cloneFormTwoData(formTwoData);
-        currentData.setValue(new Tuple2<>(UPDATE, result));
+    private void loadFormTwoDataById(long id) {
+        appExecutors.diskIO().execute(() -> {
+            FormTwoCompleteData source = formTwoDao.loadFormTwoById(id);
+
+            FormTwoData formTwoData = FormTwoFactory.entityToData(source);
+            cache.setFormTwoData(formTwoData);
+            cache.setGenInfData(formTwoData.genInfData);
+            cache.setMapLocationData(formTwoData.mapLocationData);
+        });
     }
 
     public void saveForm() {
-        Tuple2<State, FormTwoData> tuple = currentData.getValue();
-        if (tuple == null) return;
+        FormTwoData formTwoData = cache.getFormTwoData().getValue();
+        if (formTwoData == null) {
+            return;
+        }
 
-        FormTwoData formTwoData = tuple.second;
+        appExecutors.diskIO().execute(() -> {
+            formTwoData.dataVersion++;
 
-        formTwoData.dataVersion++;
+            FormTwoEntity formTwoEntity = FormTwoFactory.dataToEntity(formTwoData);
 
-        FormTwoEntity formTwoEntity = FormTwoFactory.dataToEntity(formTwoData);
-        List<MemberData> listMember = formTwoData.listMemberData;
-
-        List<MemberEntity> listResult = new ArrayList<>();
-        if (listMember != null && listMember.size() > 0) {
-            for (MemberData memberData : listMember) {
-                MemberEntity memberEntity = FormTwoFactory.dataToEntity(memberData);
-                listResult.add(memberEntity);
+            List<MemberEntity> listMemberResult = new ArrayList<>();
+            List<MemberData> listMember = formTwoData.listMemberData;
+            if (listMember != null && listMember.size() > 0) {
+                for (MemberData memberData : listMember) {
+                    MemberEntity memberEntity = FormTwoFactory.dataToEntity(memberData);
+                    listMemberResult.add(memberEntity);
+                }
             }
-        }
 
-        if (tuple.first == CREATION) {
-            appExecutors.diskIO().execute(() -> {
-                if (listResult.size() > 0) {
-                    formTwoDao.insertFormTwoWithMember(formTwoEntity, listResult);
-                } else {
-                    formTwoDao.insertFormTwo(formTwoEntity);
+            List<LivelihoodEntity> listLivelihoodResult = new ArrayList<>();
+            List<LivelihoodData> listLivelihood = formTwoData.listLivelihood;
+            if (listLivelihood != null && listLivelihood.size() > 0) {
+                for (LivelihoodData livelihoodData : listLivelihood) {
+                    LivelihoodEntity livelihoodEntity = FormTwoFactory.dataToEntity(livelihoodData);
+                    listLivelihoodResult.add(livelihoodEntity);
                 }
-            });
-        } else if (tuple.first == UPDATE) {
-            appExecutors.diskIO().execute(() -> {
-                if (listResult.size() > 0) {
-                    formTwoDao.updateFormTwoWithMember(formTwoEntity, listResult);
-                } else {
-                    formTwoDao.updateFormTwo(formTwoEntity);
-                }
-            });
-        }
+            }
 
-        currentData = new MutableLiveData<>();
+            if (formTwoEntity.formTwoId == 0) {
+                formTwoDao.insertFormTwoComplete(formTwoEntity, listMemberResult, listLivelihoodResult);
+            } else {
+                formTwoDao.updateFormTwoComplete(formTwoEntity, listMemberResult, listLivelihoodResult);
+            }
+        });
     }
 
     public LiveData<Integer> postFormTwo(FormTwoData formTwoData) {
@@ -148,19 +179,7 @@ public class FormTwoRepository {
         return liveData;
     }
 
-    enum State {
-        CREATION, UPDATE
-    }
-
-    // TODO test
-    public FormTwoData getCurrent() {
-        if (currentData.getValue() == null) {
-            return null;
-        }
-        return currentData.getValue().second;
-    }
-
-    public static FormTwoRepository getInstance() {
-        return instance;
+    public void clearForm() {
+        cache.setFormTwoData(null);
     }
 }

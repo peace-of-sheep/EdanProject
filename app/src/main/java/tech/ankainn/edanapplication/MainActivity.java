@@ -9,17 +9,13 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
-import androidx.navigation.Navigation;
-import androidx.navigation.fragment.FragmentNavigator;
 
 import com.google.gson.Gson;
 
 import tech.ankainn.edanapplication.databinding.ActivityFragmentContainerBinding;
+import tech.ankainn.edanapplication.model.formOne.FormOneData;
 import tech.ankainn.edanapplication.model.formTwo.FormTwoData;
-import tech.ankainn.edanapplication.repositories.FormTwoRepository;
+import tech.ankainn.edanapplication.repositories.Cache;
 import tech.ankainn.edanapplication.util.Tagger;
 import timber.log.Timber;
 
@@ -53,13 +49,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
-            // something
-            FormTwoData current = FormTwoRepository.getInstance().getCurrent();
-            if (current == null) {
-                Timber.tag(Tagger.DUMPER).i("onKeyDown: no current formTwoData");
-            } else {
-                Timber.tag(Tagger.DUMPER).i("onKeyDown: %s", new Gson().toJson(current));
-            }
+            Cache cache = Cache.getInstance();
+            FormOneData formOneData = cache.getFormOneData().getValue();
+            Timber.tag(Tagger.DUMPER)
+                    .d("onKeyDown: %s", formOneData == null ? "no form one data in cache" : new Gson().toJson(formOneData));
             return true;
         } else {
             return super.onKeyDown(keyCode, event);

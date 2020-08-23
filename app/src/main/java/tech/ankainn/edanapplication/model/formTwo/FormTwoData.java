@@ -18,6 +18,8 @@ public class FormTwoData {
 
     public List<MemberData> listMemberData;
 
+    public List<LivelihoodData> listLivelihood;
+
     @NotNull
     @Override
     public String toString() {
@@ -29,6 +31,7 @@ public class FormTwoData {
                 ", mapLocationData=" + mapLocationData +
                 ", householdData=" + householdData +
                 ", listMemberData=" + listMemberData +
+                ", listLivelihood=" + listLivelihood +
                 '}';
     }
 }

@@ -14,7 +14,7 @@ public class RetrofitUtil {
 
     }
 
-    public static ApiService createApiService() {
+    public static Service createApiService() {
 
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
 
@@ -35,6 +35,6 @@ public class RetrofitUtil {
                 .client(okHttpClient)
                 /*.callbackExecutor()*/
                 .build()
-                .create(ApiService.class);
+                .create(Service.class);
     }
 }

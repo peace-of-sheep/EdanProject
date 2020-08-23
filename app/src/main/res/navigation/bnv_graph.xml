@@ -9,11 +9,11 @@
         android:id="@+id/files_fragment"
         android:label="FilesFragment"
         android:name="tech.ankainn.edanapplication.ui.host.FilesFragment" />
-<!--
+
     <fragment
-        android:id="@+id/cloud_list_fragment"
-        tools:layout="CloudListFragment"
-        android:name="tech.ankainn.edanapplication.ui.hostmain.CloudListFragment"/>-->
+        android:id="@+id/list_form_one_fragment"
+        tools:layout="ListForm1Fragment"
+        android:name="tech.ankainn.edanapplication.ui.host.ListFormOneFragment"/>
 
     <fragment
         android:id="@+id/user_fragment"

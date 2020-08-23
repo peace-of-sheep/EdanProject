@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <FrameLayout
+        android:layout_gravity="bottom"
+        android:id="@+id/btn_add"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?selectableItemBackground"
+        android:layout_marginTop="@dimen/dim_nor"
+        android:layout_marginHorizontal="@dimen/dim_nor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textview.MaterialTextView
+            app:drawableTint="@color/colorAccent"
+            android:textColor="@color/colorAccent"
+            android:layout_gravity="center"
+            android:padding="@dimen/dim_big"
+            android:textSize="@dimen/text_big"
+            android:drawableStart="@drawable/ic_add_24dp"
+            android:drawablePadding="@dimen/dim_big"
+            android:text="@string/add_livelihood"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
+
+</FrameLayout>

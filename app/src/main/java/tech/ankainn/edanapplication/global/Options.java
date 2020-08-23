@@ -2,18 +2,18 @@ package tech.ankainn.edanapplication.global;
 
 import tech.ankainn.edanapplication.util.CallbackDispatcher;
 
-public class BottomOptions extends CallbackDispatcher<BottomOptions.Callback> {
+public class Options extends CallbackDispatcher<Options.Callback> {
 
-    private static BottomOptions instance;
+    private static Options instance;
 
-    public static BottomOptions getInstance() {
+    public static Options getInstance() {
         if(instance == null) {
-            instance = new BottomOptions();
+            instance = new Options();
         }
         return instance;
     }
 
-    private BottomOptions() {
+    private Options() {
     }
 
     void setOption(String emitter, int option) {

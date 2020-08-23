@@ -33,8 +33,8 @@
     <string name="zone_type">Tipo de zona</string>
 
     <string name="select_form">Seleccionar formulario</string>
-    <string name="form_one">Formulario Uno</string>
-    <string name="form_two">Formulario Dos</string>
+    <string name="form_one">Formulario Rápido</string>
+    <string name="form_two">Formulario 2A/2B</string>
 
 
     <string name="injured_people">Lesionados (Heridos)</string>
@@ -104,7 +104,7 @@
 
     <string name="concrete">Concreto armado</string>
     <string name="roof_tiles">Tejas</string>
-    <string name="calamine_sheet">Lancha de calamina</string>
+    <string name="calamine_sheet">Plancha de calamina</string>
     <string name="cane_mat">Caña o estera con torta de barro</string>
     <string name="straw_palm">Paja, hojas de palmera</string>
 
@@ -153,4 +153,52 @@
 
     <string name="upload_successful">Archivo subido satisfactoriamente</string>
     <string name="upload_error">Hubo un error, intenter mas tarde</string>
+    <string name="map">Mapa</string>
+    <string name="gen_inf">General information</string>
+    <string name="household">Household</string>
+    <string name="members">Members</string>
+    <string name="back_quit">¿Estás seguro de salir del formulario actual?</string>
+
+    <!-- recursos medios de vida -->
+    <string name="add_livelihood">Agregar medio de vida</string>
+
+    <string name="farming">Agricultura</string>
+    <string name="livestock">Ganadería</string>
+    <string name="commerce">Comercio</string>
+    <string name="tourism">Turismo</string>
+    <string name="fishing">Pesca</string>
+    <string name="others">Otros</string>
+    <string name="livelihood">Medio de vida</string>
+
+    <string name="amount_lost">Cantidad perdido</string>
+    <string name="amount_affected">Cantidad afectado</string>
+
+    <string name="crops_bread">Cultivos pan llevar</string>
+    <string name="crops_permanent">Cultivos permanentes</string>
+    <string name="crops_transitional">Cultivos transitorios</string>
+    <string name="crops_no_permanent">Cultivos no permanentes</string>
+    <string name="beekeeping">Apicultura</string>
+
+    <string name="bovine">Vacuno</string>
+    <string name="equine">Equino</string>
+    <string name="ovine">Ovino</string>
+    <string name="camelid">Camelido</string>
+    <string name="porcine">Porcino</string>
+    <string name="minor_animals">Animales menores</string>
+
+    <string name="store">Tienda/Bodega</string>
+    <string name="restaurant">Restaurante</string>
+    <string name="workshop">Taller</string>
+    <string name="shoe_shop">Zapatería</string>
+
+    <string name="tourist_service">Servicio turístico de recreación</string>
+    <string name="lodging">Hospedaje</string>
+    <string name="tourist_transport">Emp. de trans. turístico</string>
+    <string name="hotel">Hotel</string>
+
+    <string name="natural_resource">Recurso natural</string>
+    <string name="fish_farm">Piscigranja</string>
+    <string name="fishing_tackle">Aparejos de pesca</string>
+    <string name="boat">Embarcación</string>
+    <string name="canning">Conservera</string>
 </resources>

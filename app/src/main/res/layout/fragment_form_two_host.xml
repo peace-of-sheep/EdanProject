@@ -5,9 +5,20 @@
     android:orientation="vertical"
     android:layout_height="match_parent">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            app:title="@string/form_two"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.appbar.AppBarLayout>
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/form_host_fragment_container"
-        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:name="tech.ankainn.edanapplication.ui.common.ScopeNavHostFragment"
+        app:navGraph="@navigation/form_two_graph"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
@@ -24,7 +35,6 @@
             android:tint="@color/colorPrimary"
             android:layout_marginHorizontal="@dimen/dim_sma"
             android:contentDescription="@string/save"
-            app:tooltipText="@string/save"
             android:padding="@dimen/dim_nor"
             android:background="@drawable/ripple_oval"
             android:src="@drawable/ic_save_24"
@@ -32,11 +42,20 @@
             android:layout_height="wrap_content"/>
 
         <ImageButton
+            android:id="@+id/btn_form_two_switch"
+            android:tint="@color/colorPrimary"
+            android:padding="@dimen/dim_nor"
+            android:background="@drawable/ripple_oval"
+            android:src="@drawable/ic_folder_24dp"
+            android:layout_marginHorizontal="@dimen/dim_sma"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageButton
             android:id="@+id/btn_camera"
             android:tint="@color/colorPrimary"
             android:layout_marginHorizontal="@dimen/dim_sma"
             android:contentDescription="@string/camera"
-            app:tooltipText="@string/camera"
             android:padding="@dimen/dim_nor"
             android:background="@drawable/ripple_oval"
             android:src="@drawable/ic_photo_camera_24"
@@ -53,7 +72,6 @@
             android:tint="@color/colorPrimary"
             android:layout_marginHorizontal="@dimen/dim_sma"
             android:contentDescription="@string/back"
-            app:tooltipText="@string/back"
             android:padding="@dimen/dim_nor"
             android:background="@drawable/ripple_oval"
             android:src="@drawable/ic_arrow_back_24"
@@ -65,7 +83,6 @@
             android:tint="@color/colorPrimary"
             android:layout_marginHorizontal="@dimen/dim_sma"
             android:contentDescription="@string/next"
-            app:tooltipText="@string/next"
             android:padding="@dimen/dim_nor"
             android:background="@drawable/ripple_oval"
             android:src="@drawable/ic_arrow_forward_24"

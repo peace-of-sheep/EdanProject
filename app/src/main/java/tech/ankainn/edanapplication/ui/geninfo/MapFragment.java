@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.NavBackStackEntry;
 import androidx.navigation.Navigation;
 
@@ -17,8 +18,9 @@ import tech.ankainn.edanapplication.R;
 import tech.ankainn.edanapplication.binding.Converter;
 import tech.ankainn.edanapplication.databinding.FragmentMapBinding;
 import tech.ankainn.edanapplication.ui.common.BindingFragment;
-
-import static tech.ankainn.edanapplication.util.NavigationUtil.getViewModelProvider;
+import tech.ankainn.edanapplication.ui.common.ScopeNavHostFragment;
+import tech.ankainn.edanapplication.util.InjectorUtil;
+import tech.ankainn.edanapplication.viewmodel.GenInfViewModelFactory;
 
 public class MapFragment extends BindingFragment<FragmentMapBinding> {
 
@@ -27,21 +29,12 @@ public class MapFragment extends BindingFragment<FragmentMapBinding> {
     private GenInfViewModel viewModel;
 
     @Override
-    protected FragmentMapBinding makeBinding(LayoutInflater inflater, ViewGroup container) {
-        return FragmentMapBinding.inflate(inflater, container, false);
-    }
-
-    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        int form = MapFragmentArgs.fromBundle(requireArguments()).getForm();
-        int destinationId = form == 1 ? R.id.form_one_host_fragment : R.id.form_two_host_fragment;
-
-        NavBackStackEntry owner = Navigation
-                .findNavController(requireActivity(), R.id.fragment_container)
-                .getBackStackEntry(destinationId);
-        viewModel = new ViewModelProvider(owner).get(GenInfViewModel.class);
+        ViewModelStoreOwner owner = ScopeNavHostFragment.getOwner(this);
+        GenInfViewModelFactory factory = InjectorUtil.provideGenInfViewModelFactory();
+        viewModel = new ViewModelProvider(owner, factory).get(GenInfViewModel.class);
 
         mapViewWrapper = new MapViewWrapper(binding().mapView, savedInstanceState, getViewLifecycleOwner());
 

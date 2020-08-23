@@ -25,11 +25,6 @@ import tech.ankainn.edanapplication.util.OnAfterTextChanged;
 public class PreviewFragment extends BindingFragment<FragmentPreviewBinding> {
 
     @Override
-    protected FragmentPreviewBinding makeBinding(LayoutInflater inflater, ViewGroup container) {
-        return FragmentPreviewBinding.inflate(inflater, container, false);
-    }
-
-    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 

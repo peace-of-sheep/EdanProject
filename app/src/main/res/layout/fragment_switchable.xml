@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
 
     <data>
         <import type="android.text.InputType" />
@@ -9,17 +8,18 @@
             name="title"
             type="String" />
         <variable
-            name="adapter"
-            type="androidx.recyclerview.widget.RecyclerView.Adapter" />
-        <variable
             name="btnText"
             type="String" />
         <variable
             name="bottomVisibility"
             type="boolean" />
+        <variable
+            name="data"
+            type="tech.ankainn.edanapplication.model.formOne.SelectableData" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -27,65 +27,42 @@
             android:layout_margin="@dimen/dim_nor"
             android:textStyle="bold"
             android:textSize="@dimen/text_xxbig"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             android:text="@{title, default=Default_title}"
             android:id="@+id/title_switchable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_marginStart="@dimen/dim_nor"
-            android:layout_marginEnd="@dimen/dim_nor"
-            android:isScrollContainer="false"
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layoutManager="tech.ankainn.edanapplication.ui.formOne.SwitchableFragment$NoScrollLayoutManager"
-            app:adapter="@{adapter}"
-            tools:listitem="@layout/layout_item_switch"
-            tools:itemCount="5"
-            app:layout_constraintTop_toBottomOf="@id/title_switchable" />
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         <com.google.android.material.button.MaterialButton
             app:visibleGone="@{bottomVisibility}"
-            android:text="@{btnText}"
-            android:layout_margin="@dimen/dim_nor"
-            app:layout_constraintTop_toBottomOf="@id/recycler_view"
-            app:layout_constraintStart_toStartOf="parent"
+            android:text="@{btnText, default=BOTTOM}"
             android:id="@+id/btn_activities"
+            android:layout_marginHorizontal="@dimen/dim_nor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <com.google.android.material.textfield.TextInputLayout
+            android:layout_margin="@dimen/dim_nor"
             android:id="@+id/layout_observation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/observation"
-            app:layout_constraintBottom_toTopOf="@+id/btn_next"
-            app:layout_constraintTop_toBottomOf="@id/btn_activities"
-            app:layout_constraintVertical_bias="0.0"
             app:visibleGone="@{bottomVisibility}">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:text="@={data.observation}"
                 android:id="@+id/text_observation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:inputType="@{InputType.TYPE_NULL}"
-                android:maxLines="3"
                 android:minLines="3" />
 
         </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.button.MaterialButton
-            android:layout_marginStart="@dimen/dim_sma"
-            android:layout_marginEnd="@dimen/dim_sma"
-            android:id="@+id/btn_next"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/next"
-            app:layout_constraintBottom_toBottomOf="parent"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </layout>

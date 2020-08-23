@@ -3,27 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <import type="android.text.InputType" />
+        <import type="tech.ankainn.edanapplication.binding.Converter" />
         <variable
             name="title"
             type="String" />
         <variable
-            name="quantityVisibility"
-            type="boolean" />
-        <variable
-            name="switchVisibility"
-            type="boolean" />
+            name="holder"
+            type="tech.ankainn.edanapplication.model.formOne.SelectableItemData" />
     </data>
 
     <LinearLayout
+        android:layout_marginTop="@dimen/dim_nor"
+        android:layout_marginHorizontal="@dimen/dim_nor"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <com.google.android.material.textview.MaterialTextView
-            android:layout_gravity="start"
             android:text="@{title, default= TITLE}"
-            android:layout_marginEnd="@dimen/dim_nor"
             android:maxLines="3"
             android:minLines="3"
             android:gravity="center_vertical"
@@ -31,29 +28,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_gravity="start"
-            android:layout_marginEnd="@dimen/dim_nor"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            android:visibility="gone"
-            app:visibleGone="@{quantityVisibility}"
-            android:hint="@string/quantity"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/text_quantity"
-                android:maxLength="5"
-                android:inputType="@{InputType.TYPE_NULL}"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
         <com.google.android.material.switchmaterial.SwitchMaterial
-            android:layout_gravity="start"
-            android:paddingTop="@dimen/dim_nor"
-            app:visibleGone="@{switchVisibility}"
+            android:layout_marginHorizontal="@dimen/dim_sma"
+            android:checked="@={holder.selection}"
+            app:visibleGone="@{holder.selection != null}"
             app:useMaterialThemeColors="false"
             app:track="@drawable/switch_track"
             android:thumb="@drawable/switch_thumb"
@@ -63,6 +41,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_gravity="start"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            app:visibleGone="@{holder.quantity != null}"
+            android:hint="@string/quantity"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:text="@={Converter.integerToString(holder.quantity)}"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:maxLength="5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
 </layout>

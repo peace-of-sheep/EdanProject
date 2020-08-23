@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <import type="android.text.InputType"/>
+        <import type="tech.ankainn.edanapplication.binding.Converter" />
+        <variable
+            name="livelihood"
+            type="tech.ankainn.edanapplication.model.formTwo.LivelihoodData" />
+    </data>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/root"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_marginHorizontal="@dimen/dim_nor"
+            android:layout_marginTop="@dimen/dim_nor"
+            android:hint="@string/livelihood"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <AutoCompleteTextView
+                android:imeOptions="actionDone"
+                android:id="@+id/text_livelihood"
+                textDropDown="@={livelihood.name}"
+                dropdown="@{@stringArray/livelihood}"
+                android:inputType="@{InputType.TYPE_NULL}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_marginHorizontal="@dimen/dim_nor"
+            android:layout_marginTop="@dimen/dim_nor"
+            android:hint="@string/type"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <AutoCompleteTextView
+                android:imeOptions="actionDone"
+                android:id="@+id/text_type"
+                textDropDown="@={livelihood.type}"
+                android:inputType="@{InputType.TYPE_NULL}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_marginTop="@dimen/dim_nor"
+            android:layout_marginHorizontal="@dimen/dim_nor"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:hint="@string/amount_lost"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:imeOptions="actionDone"
+                android:text="@={Converter.integerToString(livelihood.amountLost)}"
+                android:inputType="number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_margin="@dimen/dim_nor"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+            android:hint="@string/amount_affected"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:imeOptions="actionDone"
+                android:text="@={Converter.integerToString(livelihood.amountAffected)}"
+                android:inputType="number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:gravity="end"
+            android:paddingVertical="4dp"
+            android:paddingHorizontal="12dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_save"
+                android:text="@string/save"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Flush"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </LinearLayout>
+</layout>

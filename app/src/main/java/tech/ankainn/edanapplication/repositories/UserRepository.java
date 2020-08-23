@@ -10,6 +10,7 @@ import tech.ankainn.edanapplication.AppExecutors;
 import tech.ankainn.edanapplication.model.AuthCredentials;
 import tech.ankainn.edanapplication.retrofit.ApiService;
 import tech.ankainn.edanapplication.retrofit.RestResponse;
+import tech.ankainn.edanapplication.retrofit.Service;
 import timber.log.Timber;
 
 public class UserRepository {
@@ -17,14 +18,14 @@ public class UserRepository {
     private static UserRepository instance;
 
     private AppExecutors appExecutors;
-    private ApiService apiService;
+    private Service apiService;
 
-    private UserRepository(AppExecutors appExecutors, ApiService apiService) {
+    private UserRepository(AppExecutors appExecutors, Service apiService) {
         this.appExecutors = appExecutors;
         this.apiService = apiService;
     }
 
-    public static UserRepository getInstance(AppExecutors appExecutors, ApiService apiService) {
+    public static UserRepository getInstance(AppExecutors appExecutors, Service apiService) {
         if(instance == null) {
             synchronized (UserRepository.class) {
                 if(instance == null) {

@@ -18,6 +18,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textview.MaterialTextView;
 
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class BottomOptionsFragment extends BottomSheetDialogFragment {
+
 
     private static boolean open = false;
 
@@ -47,7 +49,7 @@ public class BottomOptionsFragment extends BottomSheetDialogFragment {
     private String emitter;
 
     private OnOption listener = pos -> new Handler().postDelayed(() -> {
-        BottomOptions.getInstance().setOption(emitter, pos);
+        Options.getInstance().setOption(emitter, pos);
         dismiss();
     }, 100L);
 

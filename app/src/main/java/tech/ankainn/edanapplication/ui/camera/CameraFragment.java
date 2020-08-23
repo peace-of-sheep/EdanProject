@@ -32,11 +32,6 @@ import timber.log.Timber;
 public class CameraFragment extends BindingFragment<FragmentCameraBinding> {
 
     @Override
-    protected FragmentCameraBinding makeBinding(LayoutInflater inflater, ViewGroup container) {
-        return FragmentCameraBinding.inflate(inflater, container, false);
-    }
-
-    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (hasCameraPermission()) {

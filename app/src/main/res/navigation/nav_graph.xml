@@ -36,6 +36,11 @@
         android:name="tech.ankainn.edanapplication.ui.formOne.FormOneHostFragment"
         android:label="FormOneHostFragment">
 
+        <argument
+            android:name="form_one_id"
+            app:argType="long"
+            android:defaultValue="0L" />
+
         <action
             android:id="@+id/action_form_one_to_camera"
             app:destination="@+id/camera_graph"/>
@@ -45,6 +50,11 @@
         android:id="@+id/form_two_host_fragment"
         android:name="tech.ankainn.edanapplication.ui.formTwoA.FormTwoHostFragment"
         android:label="FormTwoHostFragment" >
+
+        <argument
+            android:name="form_two_id"
+            app:argType="long"
+            android:defaultValue="0L" />
 
         <action
             android:id="@+id/action_form_two_to_camera"

@@ -11,11 +11,18 @@ import java.util.concurrent.Executors;
 
 public class AppExecutors {
 
+    private static AppExecutors instance;
+
     private final Executor mDiskIO;
-
     private final Executor mNetworkIO;
-
     private final Executor mMainThread;
+
+    public static AppExecutors getInstance() {
+        if(instance == null) {
+            instance = new AppExecutors();
+        }
+        return instance;
+    }
 
     private AppExecutors(Executor diskIO, Executor networkIO, Executor mainThread) {
         this.mDiskIO = diskIO;
@@ -23,7 +30,7 @@ public class AppExecutors {
         this.mMainThread = mainThread;
     }
 
-    public AppExecutors() {
+    private AppExecutors() {
         this(Executors.newSingleThreadExecutor(), Executors.newFixedThreadPool(3),
                 new MainThreadExecutor());
     }

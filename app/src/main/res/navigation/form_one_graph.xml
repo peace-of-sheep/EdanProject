@@ -2,75 +2,45 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/form_one_graph"
-    app:startDestination="@id/form_one_map_fragment">
+    app:startDestination="@id/map_fragment">
 
     <fragment
-        android:id="@+id/form_one_map_fragment"
-        android:label="FormOneMapFragment"
-        android:name="tech.ankainn.edanapplication.ui.geninfo.MapFragment" >
-
-        <argument
-            android:name="form"
-            app:argType="integer"
-            android:defaultValue="1" />
-
-        <action
-            android:id="@+id/action_back"
-            app:destination="@id/form_one_gen_info_fragment"
-            app:popUpToInclusive="true"
-            app:popUpTo="@id/form_one_map_fragment"/>
-
-        <action
-            android:id="@+id/action_next"
-            app:destination="@id/form_one_location_fragment"
-            app:popUpToInclusive="true"
-            app:popUpTo="@id/form_one_map_fragment"/>
-    </fragment>
+        android:id="@+id/map_fragment"
+        android:label="MapFragment"
+        android:name="tech.ankainn.edanapplication.ui.geninfo.MapFragment" />
 
     <fragment
-        android:id="@+id/form_one_location_fragment"
-        android:label="FormOneLocationFragment"
-        android:name="tech.ankainn.edanapplication.ui.geninfo.LocationFragment" >
-
-        <argument
-            android:name="form"
-            app:argType="integer"
-            android:defaultValue="1" />
-
-        <action
-            android:id="@+id/action_back"
-            app:destination="@id/form_one_map_fragment"
-            app:popUpToInclusive="true"
-            app:popUpTo="@id/form_one_location_fragment"/>
-
-        <action
-            android:id="@+id/action_next"
-            app:destination="@id/form_one_gen_info_fragment"
-            app:popUpToInclusive="true"
-            app:popUpTo="@id/form_one_location_fragment"/>
-    </fragment>
+        android:id="@+id/location_fragment"
+        android:label="LocationFragment"
+        android:name="tech.ankainn.edanapplication.ui.geninfo.LocationFragment" />
 
     <fragment
-        android:id="@+id/form_one_gen_info_fragment"
-        android:label="FormOneGenInfoFragment"
-        android:name="tech.ankainn.edanapplication.ui.geninfo.GenInfFragment" >
+        android:id="@+id/gen_inf_fragment"
+        android:label="GenInfFragment"
+        android:name="tech.ankainn.edanapplication.ui.geninfo.GenInfFragment" />
 
-        <argument
-            android:name="form"
-            app:argType="integer"
-            android:defaultValue="1" />
+    <fragment
+        android:id="@+id/damage_one_fragment"
+        android:label="DamageOneFragment"
+        android:name="tech.ankainn.edanapplication.ui.formOne.DamageOneFragment" />
 
-        <action
-            android:id="@+id/action_back"
-            app:destination="@id/form_one_location_fragment"
-            app:popUpToInclusive="true"
-            app:popUpTo="@id/form_one_gen_info_fragment"/>
+    <fragment
+        android:id="@+id/damage_two_fragment"
+        android:label="DamageTwoFragment"
+        android:name="tech.ankainn.edanapplication.ui.formOne.DamageTwoFragment" />
 
-        <action
-            android:id="@+id/action_next"
-            app:destination="@id/form_one_map_fragment"
-            app:popUpToInclusive="true"
-            app:popUpTo="@id/form_one_gen_info_fragment"/>
-    </fragment>
+    <fragment
+        android:id="@+id/damage_three_fragment"
+        android:label="DamageThreeFragment"
+        android:name="tech.ankainn.edanapplication.ui.formOne.DamageThreeFragment" />
 
+    <fragment
+        android:id="@+id/activities_fragment"
+        android:label="ActivitiesFragment"
+        android:name="tech.ankainn.edanapplication.ui.formOne.ActivitiesFragment" />
+
+    <fragment
+        android:id="@+id/needs_fragment"
+        android:label="NeedsFragment"
+        android:name="tech.ankainn.edanapplication.ui.formOne.NeedsFragment" />
 </navigation>

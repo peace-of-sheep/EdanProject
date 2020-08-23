@@ -18,6 +18,7 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
+import tech.ankainn.edanapplication.AppExecutors;
 import tech.ankainn.edanapplication.R;
 import tech.ankainn.edanapplication.databinding.FragmentGalleryBinding;
 import tech.ankainn.edanapplication.ui.common.BindingFragment;
@@ -43,11 +44,6 @@ public class GalleryFragment extends BindingFragment<FragmentGalleryBinding> {
     };
 
     @Override
-    protected FragmentGalleryBinding makeBinding(LayoutInflater inflater, ViewGroup container) {
-        return FragmentGalleryBinding.inflate(inflater, container, false);
-    }
-
-    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
@@ -56,14 +52,14 @@ public class GalleryFragment extends BindingFragment<FragmentGalleryBinding> {
 
         GalleryViewModel viewModel = viewModelProvider.get(GalleryViewModel.class);
 
-        GalleryAdapter adapter = new GalleryAdapter();
+        GalleryAdapter adapter = new GalleryAdapter(AppExecutors.getInstance());
         binding().recyclerView.setAdapter(adapter);
 
         binding().setEmptyVisibility(viewModel.isEmpty());
 
         viewModel.getList().observe(getViewLifecycleOwner(), list -> {
             binding().setEmptyVisibility(viewModel.isEmpty());
-            adapter.replace(list);
+            adapter.submitList(list);
         });
 
         binding().btnAddPhoto.setOnClickListener(v ->

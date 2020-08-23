@@ -1,41 +1,46 @@
 package tech.ankainn.edanapplication.ui.host;
 
-import android.app.Application;
-
-import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
+import androidx.lifecycle.ViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import tech.ankainn.edanapplication.model.formOne.FormOneData;
 import tech.ankainn.edanapplication.model.formTwo.FormTwoData;
+import tech.ankainn.edanapplication.repositories.FormOneRepository;
 import tech.ankainn.edanapplication.repositories.FormTwoRepository;
-import tech.ankainn.edanapplication.ui.common.BaseViewModel;
-import tech.ankainn.edanapplication.model.factory.FormTwoFactory;
-import tech.ankainn.edanapplication.util.Metadata;
+import tech.ankainn.edanapplication.util.Tuple2;
 
-public class FilesViewModel extends BaseViewModel {
+public class FilesViewModel extends ViewModel {
 
-    private FormTwoRepository formTwoRepository;
+    private MediatorLiveData<List<Tuple2<Boolean, FormOneData>>> listFormOne = new MediatorLiveData<>();
+    private MediatorLiveData<List<Tuple2<Boolean, FormTwoData>>> listFormTwo = new MediatorLiveData<>();
 
-    private MediatorLiveData<List<Metadata<FormTwoData>>> list = new MediatorLiveData<>();
+    private long tempFormOneId = 0L;
+    private long tempFormTwoId = 0L;
 
-    private Metadata<FormTwoData> activeItem;
+    public FilesViewModel(FormOneRepository formOneRepository, FormTwoRepository formTwoRepository) {
 
-    public FilesViewModel(@NonNull Application application) {
-        super(application);
-        formTwoRepository = getApplication().getFormTwoRepository();
+        LiveData<List<FormOneData>> sourceFormOne = formOneRepository.getAllFormsFromDb();
+        listFormOne.addSource(sourceFormOne, source -> {
+            if (!source.isEmpty()) {
+                List<Tuple2<Boolean, FormOneData>> result = new ArrayList<>();
+                for (FormOneData formOneData : source) result.add(new Tuple2<>(false, formOneData));
+                listFormOne.setValue(result);
+            }
+        });
 
         LiveData<List<FormTwoData>> source = formTwoRepository.getAllFormsFromDb();
-        list.addSource(source, listData -> {
-            if (listData == null || listData.size() == 0) return;
+        listFormTwo.addSource(source, listData -> {
+            if (listData == null) return;
 
-            List<Metadata<FormTwoData>> result = new ArrayList<>();
+            List<Tuple2<Boolean, FormTwoData>> result = new ArrayList<>();
             for (FormTwoData data : listData) {
-                result.add(new Metadata<>(data, false));
+                result.add(new Tuple2<>(false, data));
             }
-            list.setValue(result);
+            listFormTwo.setValue(result);
         });
 
         /*
@@ -60,22 +65,21 @@ public class FilesViewModel extends BaseViewModel {
         */
     }
 
-    public LiveData<List<Metadata<FormTwoData>>> getList() {
-        return list;
+    public LiveData<List<Tuple2<Boolean, FormOneData>>> getListFormOne() {
+        return listFormOne;
     }
 
-    public void setActiveFile(FormTwoData formTwoData, boolean  loading) {
-        activeItem = new Metadata<>(formTwoData, loading);
+    public LiveData<List<Tuple2<Boolean, FormTwoData>>> getListFormTwo() {
+        return listFormTwo;
     }
 
-    public void createFormOneFile() {}
-
-    public void createFormTwoFile() {
-        formTwoRepository.createFormTwoData();
+    public void setActiveItem(long formId) {
+        tempFormTwoId = formId;
     }
 
-    public void updateFormTwoFile() {
-        formTwoRepository.updateFormTwoData(activeItem.data);
-        activeItem = null;
+    public long getActiveItem() {
+        long copy = tempFormTwoId;
+        tempFormTwoId = 0L;
+        return copy;
     }
 }

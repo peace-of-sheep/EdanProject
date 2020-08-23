@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <import type="tech.ankainn.edanapplication.binding.Converter"/>
+        <variable
+            name="livelihood"
+            type="tech.ankainn.edanapplication.model.formTwo.LivelihoodData" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_view"
+        android:layout_marginHorizontal="@dimen/dim_nor"
+        android:layout_marginTop="@dimen/dim_nor"
+        android:elevation="@dimen/dim_sma"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_name"
+                android:layout_marginTop="@dimen/dim_nor"
+                android:layout_marginHorizontal="@dimen/dim_nor"
+                android:text="@{livelihood.name, default=NAME}"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_type"
+                android:layout_marginTop="@dimen/dim_nor"
+                android:layout_marginHorizontal="@dimen/dim_nor"
+                android:text="@{livelihood.type, default=TYPE}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_amount_lost"
+                android:text="@{@string/amount_lost_affected_args(livelihood.amountLost, livelihood.amountAffected), default=AMOUNT}"
+                android:layout_margin="@dimen/dim_nor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

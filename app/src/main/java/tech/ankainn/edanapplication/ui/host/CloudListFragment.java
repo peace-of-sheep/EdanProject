@@ -8,11 +8,6 @@ import tech.ankainn.edanapplication.ui.common.BindingFragment;
 
 public class CloudListFragment extends BindingFragment<FragmentCloudListBinding> {
 
-    @Override
-    protected FragmentCloudListBinding makeBinding(LayoutInflater inflater, ViewGroup container) {
-        return FragmentCloudListBinding.inflate(inflater, container, false);
-    }
-
     /*@Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);

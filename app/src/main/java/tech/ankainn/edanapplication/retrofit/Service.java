@@ -4,11 +4,13 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+
 import tech.ankainn.edanapplication.model.AuthCredentials;
 import tech.ankainn.edanapplication.model.api.DataResponse;
 import tech.ankainn.edanapplication.model.api.ApiFormTwo;
 
-public interface ApiService {
+public interface Service {
+
     @POST("usuarios/auth")
     Call<RestResponse<String>> postSignInAuth(@Body AuthCredentials authCredentials);
 

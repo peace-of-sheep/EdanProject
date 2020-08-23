@@ -16,11 +16,6 @@ import tech.ankainn.edanapplication.ui.common.BindingFragment;
 public class LoginFragment extends BindingFragment<FragmentLoginBinding> {
 
     @Override
-    protected FragmentLoginBinding makeBinding(LayoutInflater inflater, ViewGroup container) {
-        return FragmentLoginBinding.inflate(inflater, container, false);
-    }
-
-    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 

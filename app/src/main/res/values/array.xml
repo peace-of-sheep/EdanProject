@@ -134,4 +134,52 @@
         <item>Anexo</item>
         <item>Otros</item>
     </string-array>
+
+    <string-array name="livelihood">
+        <item>@string/farming</item>
+        <item>@string/livestock</item>
+        <item>@string/commerce</item>
+        <item>@string/tourism</item>
+        <item>@string/fishing</item>
+        <item>@string/others</item>
+    </string-array>
+
+    <string-array name="farming">
+        <item>@string/crops_bread</item>
+        <item>@string/crops_permanent</item>
+        <item>@string/crops_transitional</item>
+        <item>@string/crops_no_permanent</item>
+        <item>@string/beekeeping</item>
+    </string-array>
+
+    <string-array name="livestock">
+        <item>@string/bovine</item>
+        <item>@string/equine</item>
+        <item>@string/ovine</item>
+        <item>@string/camelid</item>
+        <item>@string/porcine</item>
+        <item>@string/minor_animals</item>
+    </string-array>
+
+    <string-array name="commerce">
+        <item>@string/store</item>
+        <item>@string/restaurant</item>
+        <item>@string/workshop</item>
+        <item>@string/shoe_shop</item>
+    </string-array>
+
+    <string-array name="tourism">
+        <item>@string/tourist_service</item>
+        <item>@string/lodging</item>
+        <item>@string/tourist_transport</item>
+        <item>@string/hotel</item>
+    </string-array>
+
+    <string-array name="fishing">
+        <item>@string/natural_resource</item>
+        <item>@string/fish_farm</item>
+        <item>@string/fishing_tackle</item>
+        <item>@string/boat</item>
+        <item>@string/canning</item>
+    </string-array>
 </resources>
