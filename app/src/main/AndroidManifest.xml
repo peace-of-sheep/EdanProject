@@ -3,8 +3,12 @@
     tools:ignore="LockedOrientationActivity"
     package="tech.ankainn.edanapplication">
 
+    <!-- permission for camera use -->
     <uses-feature android:name="android.hardware.camera.any" />
     <uses-permission android:name="android.permission.CAMERA" />
+
+    <!-- permission for location with gps -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:name=".BaseApp"

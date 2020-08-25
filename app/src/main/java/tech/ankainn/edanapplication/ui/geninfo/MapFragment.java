@@ -1,20 +1,24 @@
 package tech.ankainn.edanapplication.ui.geninfo;
 
+import android.Manifest;
+import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
-import androidx.navigation.NavBackStackEntry;
-import androidx.navigation.Navigation;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 
-import tech.ankainn.edanapplication.R;
 import tech.ankainn.edanapplication.binding.Converter;
 import tech.ankainn.edanapplication.databinding.FragmentMapBinding;
 import tech.ankainn.edanapplication.ui.common.BindingFragment;
@@ -23,6 +27,23 @@ import tech.ankainn.edanapplication.util.InjectorUtil;
 import tech.ankainn.edanapplication.viewmodel.GenInfViewModelFactory;
 
 public class MapFragment extends BindingFragment<FragmentMapBinding> {
+
+    private final PermissionListener listener = new PermissionListener() {
+        @Override
+        public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
+            viewModel.getLastLocation();
+        }
+
+        @Override
+        public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
+            Toast.makeText(requireContext(), "Permission not granted", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
+            permissionToken.continuePermissionRequest();
+        }
+    };
 
     private MapViewWrapper mapViewWrapper;
 
@@ -33,15 +54,17 @@ public class MapFragment extends BindingFragment<FragmentMapBinding> {
         super.onActivityCreated(savedInstanceState);
 
         ViewModelStoreOwner owner = ScopeNavHostFragment.getOwner(this);
-        GenInfViewModelFactory factory = InjectorUtil.provideGenInfViewModelFactory();
+        GenInfViewModelFactory factory = InjectorUtil.provideGenInfViewModelFactory(requireContext());
         viewModel = new ViewModelProvider(owner, factory).get(GenInfViewModel.class);
 
         mapViewWrapper = new MapViewWrapper(binding().mapView, savedInstanceState, getViewLifecycleOwner());
 
         binding().getRoot().post(() -> binding().mapView.getMapAsync(this::onMapCallback));
+
+        binding().btnLocation.setOnClickListener(v -> getLastLocation(requireContext()));
     }
 
-    public void onMapCallback(GoogleMap map) {
+    private void onMapCallback(GoogleMap map) {
         map.setTrafficEnabled(false);
         map.getUiSettings().setRotateGesturesEnabled(false);
         map.getUiSettings().setTiltGesturesEnabled(false);
@@ -63,5 +86,12 @@ public class MapFragment extends BindingFragment<FragmentMapBinding> {
     public void onLowMemory() {
         super.onLowMemory();
         mapViewWrapper.onLowMemory();
+    }
+
+    private void getLastLocation(Context context) {
+        Dexter.withContext(context)
+                .withPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+                .withListener(listener)
+                .check();
     }
 }

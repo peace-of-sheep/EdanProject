@@ -2,6 +2,8 @@ package tech.ankainn.edanapplication.util;
 
 import android.content.Context;
 
+import com.google.android.gms.location.LocationServices;
+
 import tech.ankainn.edanapplication.AppExecutors;
 import tech.ankainn.edanapplication.db.EdanDatabase;
 import tech.ankainn.edanapplication.repositories.Cache;
@@ -17,8 +19,10 @@ import tech.ankainn.edanapplication.viewmodel.GenInfViewModelFactory;
 
 public class InjectorUtil {
 
-    private static GenInfRepository getGenInfRepository() {
-        return GenInfRepository.getInstance(Cache.getInstance());
+    private static GenInfRepository getGenInfRepository(Context context) {
+        return GenInfRepository.getInstance(AppExecutors.getInstance(),
+                LocationServices.getFusedLocationProviderClient(context),
+                Cache.getInstance());
     }
 
     private static FormOneRepository getFormOneRepository(Context context) {
@@ -47,7 +51,7 @@ public class InjectorUtil {
         return new FormOneViewModelFactory(getFormOneRepository(context));
     }
 
-    public static GenInfViewModelFactory provideGenInfViewModelFactory() {
-        return new GenInfViewModelFactory(getGenInfRepository());
+    public static GenInfViewModelFactory provideGenInfViewModelFactory(Context context) {
+        return new GenInfViewModelFactory(getGenInfRepository(context));
     }
 }

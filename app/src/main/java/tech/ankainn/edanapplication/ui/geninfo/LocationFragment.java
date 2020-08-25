@@ -28,7 +28,7 @@ public class LocationFragment extends BindingFragment<FragmentLocationBinding> {
         super.onActivityCreated(savedInstanceState);
 
         ViewModelStoreOwner owner = ScopeNavHostFragment.getOwner(this);
-        GenInfViewModelFactory factory = InjectorUtil.provideGenInfViewModelFactory();
+        GenInfViewModelFactory factory = InjectorUtil.provideGenInfViewModelFactory(requireContext());
         viewModel = new ViewModelProvider(owner, factory).get(GenInfViewModel.class);
 
         viewModel.getMapLocationData().observe(getViewLifecycleOwner(),

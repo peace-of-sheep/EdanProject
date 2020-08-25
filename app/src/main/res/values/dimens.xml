@@ -15,4 +15,10 @@
     <dimen name="text_small">12sp</dimen>
 
     <dimen name="google_map_logo_padding">40dp</dimen>
+
+    <dimen name="design_card_elevation">4dp</dimen>
+    <dimen name="design_card_corner">4dp</dimen>
+
+    <dimen name="design_navigator_elevation">8dp</dimen>
+    <dimen name="design_navigator_height">56dp</dimen>
 </resources>
