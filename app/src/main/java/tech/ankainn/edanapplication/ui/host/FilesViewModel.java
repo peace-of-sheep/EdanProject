@@ -8,76 +8,55 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tech.ankainn.edanapplication.model.formOne.FormOneData;
+import tech.ankainn.edanapplication.model.formOne.FormOneSubset;
 import tech.ankainn.edanapplication.model.formTwo.FormTwoData;
+import tech.ankainn.edanapplication.model.formTwo.FormTwoSubset;
 import tech.ankainn.edanapplication.repositories.FormOneRepository;
 import tech.ankainn.edanapplication.repositories.FormTwoRepository;
 import tech.ankainn.edanapplication.util.Tuple2;
 
 public class FilesViewModel extends ViewModel {
 
-    private MediatorLiveData<List<Tuple2<Boolean, FormOneData>>> listFormOne = new MediatorLiveData<>();
-    private MediatorLiveData<List<Tuple2<Boolean, FormTwoData>>> listFormTwo = new MediatorLiveData<>();
+    private MediatorLiveData<List<Tuple2<Boolean, FormOneSubset>>> listFormOne = new MediatorLiveData<>();
+    private MediatorLiveData<List<Tuple2<Boolean, FormTwoSubset>>> listFormTwo = new MediatorLiveData<>();
 
     private long tempFormOneId = 0L;
     private long tempFormTwoId = 0L;
 
     public FilesViewModel(FormOneRepository formOneRepository, FormTwoRepository formTwoRepository) {
 
-        LiveData<List<FormOneData>> sourceFormOne = formOneRepository.getAllFormsFromDb();
-        listFormOne.addSource(sourceFormOne, source -> {
-            if (!source.isEmpty()) {
-                List<Tuple2<Boolean, FormOneData>> result = new ArrayList<>();
-                for (FormOneData formOneData : source) result.add(new Tuple2<>(false, formOneData));
+        LiveData<List<FormOneSubset>> sourceFormOne = formOneRepository.loadAllFormOneSubset();
+        listFormOne.addSource(sourceFormOne, list -> {
+            if (!list.isEmpty()) {
+                List<Tuple2<Boolean, FormOneSubset>> result = new ArrayList<>();
+                for (FormOneSubset formOneSubset : list) result.add(new Tuple2<>(false, formOneSubset));
                 listFormOne.setValue(result);
             }
         });
 
-        LiveData<List<FormTwoData>> source = formTwoRepository.getAllFormsFromDb();
+        LiveData<List<FormTwoSubset>> source = formTwoRepository.loadAllFormTwoSubset();
         listFormTwo.addSource(source, listData -> {
-            if (listData == null) return;
-
-            List<Tuple2<Boolean, FormTwoData>> result = new ArrayList<>();
-            for (FormTwoData data : listData) {
-                result.add(new Tuple2<>(false, data));
-            }
-            listFormTwo.setValue(result);
-        });
-
-        /*
-        MutableLiveData<Metadata<FormTwoData>> loading = new MutableLiveData<>();
-        list.addSource(loading, loadingData -> {
-            if(list.getValue() == null) return;
-            List<Metadata<FormTwoData>> temp = new ArrayList<>(list.getValue());
-
-            for (int i = 0; i < temp.size(); i++) {
-                if (temp.get(i).data.id == loadingData.data.id) {
-                    temp.set(i, loadingData);
-                    list.setValue(temp);
-                    return;
-                }
+            if (!listData.isEmpty()) {
+                List<Tuple2<Boolean, FormTwoSubset>> result = new ArrayList<>();
+                for (FormTwoSubset data : listData) result.add(new Tuple2<>(false, data));
+                listFormTwo.setValue(result);
             }
         });
-        */
-
-        /*
-        MutableLiveData<FormTwoData> upload = new MutableLiveData<>();
-        LiveData<Integer> result = Transformations.switchMap(upload, input -> formTwoRepository.postFormTwo(input));
-        */
     }
 
-    public LiveData<List<Tuple2<Boolean, FormOneData>>> getListFormOne() {
+    public LiveData<List<Tuple2<Boolean, FormOneSubset>>> getListFormOne() {
         return listFormOne;
     }
 
-    public LiveData<List<Tuple2<Boolean, FormTwoData>>> getListFormTwo() {
+    public LiveData<List<Tuple2<Boolean, FormTwoSubset>>> getListFormTwo() {
         return listFormTwo;
     }
 
-    public void setActiveItem(long formId) {
+    public void setActiveFormTwoItem(long formId) {
         tempFormTwoId = formId;
     }
 
-    public long getActiveItem() {
+    public long getActiveFormTwoItem() {
         long copy = tempFormTwoId;
         tempFormTwoId = 0L;
         return copy;

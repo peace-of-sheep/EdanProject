@@ -1,4 +1,4 @@
-package tech.ankainn.edanapplication.retrofit;
+package tech.ankainn.edanapplication.api;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

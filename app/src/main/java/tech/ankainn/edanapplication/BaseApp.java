@@ -3,9 +3,6 @@ package tech.ankainn.edanapplication;
 import android.app.Application;
 
 import tech.ankainn.edanapplication.db.EdanDatabase;
-import tech.ankainn.edanapplication.repositories.FormTwoRepository;
-import tech.ankainn.edanapplication.repositories.UserRepository;
-import tech.ankainn.edanapplication.retrofit.ApiService;
 import tech.ankainn.edanapplication.util.CrashReportingTree;
 import timber.log.Timber;
 

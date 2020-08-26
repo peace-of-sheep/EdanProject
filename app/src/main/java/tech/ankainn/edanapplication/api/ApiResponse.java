@@ -1,4 +1,4 @@
-package tech.ankainn.edanapplication.retrofit;
+package tech.ankainn.edanapplication.api;
 
 public class ApiResponse<T> {
 

@@ -8,9 +8,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import tech.ankainn.edanapplication.AppExecutors;
 import tech.ankainn.edanapplication.model.AuthCredentials;
-import tech.ankainn.edanapplication.retrofit.ApiService;
-import tech.ankainn.edanapplication.retrofit.RestResponse;
-import tech.ankainn.edanapplication.retrofit.Service;
+import tech.ankainn.edanapplication.api.RestResponse;
+import tech.ankainn.edanapplication.api.EdanApiService;
 import timber.log.Timber;
 
 public class UserRepository {
@@ -18,14 +17,14 @@ public class UserRepository {
     private static UserRepository instance;
 
     private AppExecutors appExecutors;
-    private Service apiService;
+    private EdanApiService apiService;
 
-    private UserRepository(AppExecutors appExecutors, Service apiService) {
+    private UserRepository(AppExecutors appExecutors, EdanApiService apiService) {
         this.appExecutors = appExecutors;
         this.apiService = apiService;
     }
 
-    public static UserRepository getInstance(AppExecutors appExecutors, Service apiService) {
+    public static UserRepository getInstance(AppExecutors appExecutors, EdanApiService apiService) {
         if(instance == null) {
             synchronized (UserRepository.class) {
                 if(instance == null) {

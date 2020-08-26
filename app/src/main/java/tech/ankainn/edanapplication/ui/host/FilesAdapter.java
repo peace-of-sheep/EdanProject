@@ -37,17 +37,17 @@ public class FilesAdapter extends BindingAdapter<Tuple2<Boolean, FormTwoData>, L
     @Override
     protected LayoutItemFormTwoBinding createBinding(LayoutInflater inflater, ViewGroup parent) {
         LayoutItemFormTwoBinding binding = LayoutItemFormTwoBinding.inflate(inflater, parent, false);
-        binding.cardView.setOnClickListener(v -> {
+        /*binding.cardView.setOnClickListener(v -> {
             FormTwoData formTwoData = binding.getFormTwo();
             boolean loading = binding.getLoading();
             fileClickListener.onClick(formTwoData, loading);
-        });
+        });*/
         return binding;
     }
 
     @Override
     protected void bind(LayoutItemFormTwoBinding binding, Tuple2<Boolean, FormTwoData> tuple2) {
-        binding.setFormTwo(tuple2.second);
+        //binding.setFormTwo(tuple2.second);
         binding.setLoading(tuple2.first);
     }
 

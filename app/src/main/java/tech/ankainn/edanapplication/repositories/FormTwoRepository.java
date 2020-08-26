@@ -2,7 +2,6 @@ package tech.ankainn.edanapplication.repositories;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Transformations;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -24,13 +23,14 @@ import tech.ankainn.edanapplication.model.dto.FormTwoCompleteData;
 import tech.ankainn.edanapplication.model.dto.LivelihoodEntity;
 import tech.ankainn.edanapplication.model.dto.MemberEntity;
 import tech.ankainn.edanapplication.model.formTwo.FormTwoData;
+import tech.ankainn.edanapplication.model.formTwo.FormTwoSubset;
 import tech.ankainn.edanapplication.model.formTwo.GenInfData;
 import tech.ankainn.edanapplication.model.formTwo.LivelihoodData;
 import tech.ankainn.edanapplication.model.formTwo.MapLocationData;
 import tech.ankainn.edanapplication.model.formTwo.MemberData;
-import tech.ankainn.edanapplication.retrofit.ApiResponse;
+import tech.ankainn.edanapplication.api.ApiResponse;
 import tech.ankainn.edanapplication.model.factory.FormTwoFactory;
-import tech.ankainn.edanapplication.retrofit.Service;
+import tech.ankainn.edanapplication.api.EdanApiService;
 import timber.log.Timber;
 
 public class FormTwoRepository {
@@ -40,12 +40,12 @@ public class FormTwoRepository {
     private static FormTwoRepository instance;
 
     private AppExecutors appExecutors;
-    private Service apiService;
+    private EdanApiService apiService;
     private FormTwoDao formTwoDao;
     private Cache cache;
 
     public static FormTwoRepository getInstance(AppExecutors appExecutors,
-                                                Service apiService,
+                                                EdanApiService apiService,
                                                 EdanDatabase edanDatabase,
                                                 Cache cache) {
         if(instance == null) {
@@ -58,16 +58,15 @@ public class FormTwoRepository {
         return instance;
     }
 
-    private FormTwoRepository(AppExecutors appExecutors, Service apiService, EdanDatabase edanDatabase, Cache cache) {
+    private FormTwoRepository(AppExecutors appExecutors, EdanApiService apiService, EdanDatabase edanDatabase, Cache cache) {
         this.appExecutors = appExecutors;
         this.apiService = apiService;
         this.cache = cache;
         formTwoDao = edanDatabase.formTwoDao();
     }
 
-    public LiveData<List<FormTwoData>> getAllFormsFromDb() {
-        LiveData<List<FormTwoCompleteData>> source = formTwoDao.getAllFormTwo();
-        return Transformations.map(source, FormTwoFactory::fromDbList);
+    public LiveData<List<FormTwoSubset>> loadAllFormTwoSubset() {
+        return formTwoDao.loadAllFormTwoSubset();
     }
 
     public LiveData<FormTwoData> getCurrentFormTwoData() {
@@ -109,9 +108,10 @@ public class FormTwoRepository {
 
     private void loadFormTwoDataById(long id) {
         appExecutors.diskIO().execute(() -> {
-            FormTwoCompleteData source = formTwoDao.loadFormTwoById(id);
 
+            FormTwoCompleteData source = formTwoDao.loadFormTwoById(id);
             FormTwoData formTwoData = FormTwoFactory.entityToData(source);
+
             cache.setFormTwoData(formTwoData);
             cache.setGenInfData(formTwoData.genInfData);
             cache.setMapLocationData(formTwoData.mapLocationData);
@@ -125,8 +125,7 @@ public class FormTwoRepository {
         }
 
         appExecutors.diskIO().execute(() -> {
-            formTwoData.dataVersion++;
-
+            
             FormTwoEntity formTwoEntity = FormTwoFactory.dataToEntity(formTwoData);
 
             List<MemberEntity> listMemberResult = new ArrayList<>();

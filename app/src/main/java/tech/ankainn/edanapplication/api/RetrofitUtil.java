@@ -1,4 +1,4 @@
-package tech.ankainn.edanapplication.retrofit;
+package tech.ankainn.edanapplication.api;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -14,7 +14,7 @@ public class RetrofitUtil {
 
     }
 
-    public static Service createApiService() {
+    public static EdanApiService createApiService() {
 
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
 
@@ -35,6 +35,6 @@ public class RetrofitUtil {
                 .client(okHttpClient)
                 /*.callbackExecutor()*/
                 .build()
-                .create(Service.class);
+                .create(EdanApiService.class);
     }
 }

@@ -14,6 +14,7 @@ import tech.ankainn.edanapplication.R;
 import tech.ankainn.edanapplication.databinding.LayoutItemFormOneBinding;
 import tech.ankainn.edanapplication.databinding.LayoutListBinding;
 import tech.ankainn.edanapplication.model.formOne.FormOneData;
+import tech.ankainn.edanapplication.model.formOne.FormOneSubset;
 import tech.ankainn.edanapplication.ui.common.BindingAdapter2;
 import tech.ankainn.edanapplication.ui.common.BindingFragment;
 import tech.ankainn.edanapplication.ui.common.ScopeNavHostFragment;
@@ -31,8 +32,8 @@ public class ListFormOneFragment extends BindingFragment<LayoutListBinding> {
         FilesViewModelFactory factory = InjectorUtil.provideFilesViewModelFactory(requireContext());
         FilesViewModel viewModel = new ViewModelProvider(owner, factory).get(FilesViewModel.class);
 
-        BindingAdapter2<LayoutItemFormOneBinding, Tuple2<Boolean, FormOneData>> adapter =
-                new BindingAdapter2<LayoutItemFormOneBinding, Tuple2<Boolean, FormOneData>>(
+        BindingAdapter2<LayoutItemFormOneBinding, Tuple2<Boolean, FormOneSubset>> adapter =
+                new BindingAdapter2<LayoutItemFormOneBinding, Tuple2<Boolean, FormOneSubset>>(
                         (oldItem, newItem) -> oldItem.second.id == newItem.second.id,
                         (oldItem, newItem) -> Objects.equals(oldItem.second.dataVersion, newItem.second.dataVersion),
                         (binding, data) -> {

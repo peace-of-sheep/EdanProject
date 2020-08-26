@@ -8,7 +8,7 @@
             type="boolean" />
         <variable
             name="formOne"
-            type="tech.ankainn.edanapplication.model.formOne.FormOneData" />
+            type="tech.ankainn.edanapplication.model.formOne.FormOneSubset" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -35,14 +35,14 @@
                 android:layout_height="wrap_content"/>
 
             <com.google.android.material.textview.MaterialTextView
-                android:text="@{@string/location_args(formOne.genInfData.department, formOne.genInfData.province, formOne.genInfData.district), default=LOCATION}"
+                android:text="@{@string/location_args(formOne.department, formOne.province, formOne.district), default=LOCATION}"
                 android:layout_marginTop="@dimen/dim_nor"
                 android:layout_marginHorizontal="@dimen/dim_nor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:text="@{@string/date_hour_args(formOne.genInfData.date, formOne.genInfData.hour), default=TIME}"
+                android:text="@{@string/date_hour_args(formOne.date, formOne.hour), default=TIME}"
                 android:layout_marginTop="@dimen/dim_nor"
                 android:layout_marginHorizontal="@dimen/dim_nor"
                 android:layout_width="match_parent"

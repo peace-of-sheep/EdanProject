@@ -1,4 +1,4 @@
-package tech.ankainn.edanapplication.retrofit;
+package tech.ankainn.edanapplication.api;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -9,9 +9,9 @@ public class ApiService {
 
     private static final ApiService ourInstance = new ApiService();
 
-    private Service service;
+    private EdanApiService service;
 
-    public static Service getService() {
+    public static EdanApiService getService() {
         return ourInstance.service;
     }
 
@@ -19,7 +19,7 @@ public class ApiService {
         service = create();
     }
 
-    private Service create() {
+    private EdanApiService create() {
         String baseUrl = "http://64.227.22.60:3000/";
 
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
@@ -34,6 +34,6 @@ public class ApiService {
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build()
-                .create(Service.class);
+                .create(EdanApiService.class);
     }
 }

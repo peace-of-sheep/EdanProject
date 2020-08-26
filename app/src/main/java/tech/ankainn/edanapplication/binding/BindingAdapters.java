@@ -1,6 +1,7 @@
 package tech.ankainn.edanapplication.binding;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -16,6 +17,8 @@ import com.bumptech.glide.Glide;
 import java.util.Objects;
 
 import tech.ankainn.edanapplication.R;
+import tech.ankainn.edanapplication.util.Tagger;
+import timber.log.Timber;
 
 public class BindingAdapters {
 
@@ -30,13 +33,13 @@ public class BindingAdapters {
     @BindingAdapter(value = "textDropDown")
     public static void setTextDropDown(AutoCompleteTextView view, String value) {
         String oldValue = view.getText().toString();
-        if(!Objects.equals(oldValue, value)) {
-            Runnable r = () -> view.setText(value, false);
-            if(view.isLaidOut()) {
-                r.run();
-            } else {
-                view.post(r);
-            }
+        if (TextUtils.isEmpty(oldValue) && TextUtils.isEmpty(value)) return;
+
+        Runnable r = () -> view.setText(value, false);
+        if(view.isLaidOut()) {
+            r.run();
+        } else {
+            view.post(r);
         }
     }
 

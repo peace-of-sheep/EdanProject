@@ -1,4 +1,4 @@
-package tech.ankainn.edanapplication.retrofit;
+package tech.ankainn.edanapplication.api;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -9,7 +9,7 @@ import tech.ankainn.edanapplication.model.AuthCredentials;
 import tech.ankainn.edanapplication.model.api.DataResponse;
 import tech.ankainn.edanapplication.model.api.ApiFormTwo;
 
-public interface Service {
+public interface EdanApiService {
 
     @POST("usuarios/auth")
     Call<RestResponse<String>> postSignInAuth(@Body AuthCredentials authCredentials);

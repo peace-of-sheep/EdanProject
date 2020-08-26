@@ -25,8 +25,7 @@ import static tech.ankainn.edanapplication.util.NavigationUtil.getChildNavContro
 
 public class FormTwoHostFragment extends BindingFragment<FragmentFormTwoHostBinding> implements OwnerFragment {
 
-    private static final int[] destinationsId = {R.id.household_fragment, R.id.members_fragment,
-            R.id.map_fragment, R.id.gen_inf_fragment};
+    private static final int[] destinationsId = {R.id.household_fragment, R.id.members_fragment, R.id.map_fragment, R.id.gen_inf_fragment};
 
     private FormTwoViewModel viewModel;
 

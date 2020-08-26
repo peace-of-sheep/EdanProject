@@ -1,12 +1,9 @@
 package tech.ankainn.edanapplication.repositories;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Transformations;
 
 import com.google.android.gms.maps.model.LatLng;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import tech.ankainn.edanapplication.AppExecutors;
@@ -15,9 +12,10 @@ import tech.ankainn.edanapplication.db.FormOneDao;
 import tech.ankainn.edanapplication.model.dto.FormOneEntity;
 import tech.ankainn.edanapplication.model.factory.FormOneFactory;
 import tech.ankainn.edanapplication.model.formOne.FormOneData;
+import tech.ankainn.edanapplication.model.formOne.FormOneSubset;
 import tech.ankainn.edanapplication.model.formTwo.GenInfData;
 import tech.ankainn.edanapplication.model.formTwo.MapLocationData;
-import tech.ankainn.edanapplication.retrofit.Service;
+import tech.ankainn.edanapplication.api.EdanApiService;
 
 public class FormOneRepository {
 
@@ -26,12 +24,12 @@ public class FormOneRepository {
     private static FormOneRepository instance;
 
     private AppExecutors appExecutors;
-    private Service service;
+    private EdanApiService service;
     private FormOneDao formOneDao;
     private Cache cache;
 
     public static FormOneRepository getInstance(AppExecutors appExecutors,
-                                                Service service,
+                                                EdanApiService service,
                                                 EdanDatabase edanDatabase,
                                                 Cache cache) {
         if(instance == null) {
@@ -44,19 +42,15 @@ public class FormOneRepository {
         return instance;
     }
 
-    private FormOneRepository(AppExecutors appExecutors, Service service, EdanDatabase edanDatabase, Cache cache) {
+    private FormOneRepository(AppExecutors appExecutors, EdanApiService service, EdanDatabase edanDatabase, Cache cache) {
         this.appExecutors = appExecutors;
         this.service = service;
         formOneDao = edanDatabase.formOneDao();
         this.cache = cache;
     }
 
-    public LiveData<List<FormOneData>> getAllFormsFromDb() {
-        LiveData<List<FormOneEntity>> rawData = formOneDao.getAllFormOne();
-        return Transformations.map(rawData,
-                listEntity -> listEntity == null || listEntity.isEmpty()
-                        ? Collections.emptyList()
-                        : FormOneFactory.createDataListFromEntityList(listEntity));
+    public LiveData<List<FormOneSubset>> loadAllFormOneSubset() {
+        return formOneDao.loadAllFormOneSubset();
     }
 
     public LiveData<FormOneData> getCurrentFormOneData() {

@@ -31,8 +31,9 @@ import tech.ankainn.edanapplication.model.formTwo.GenInfData;
 import tech.ankainn.edanapplication.model.formTwo.HouseholdData;
 import tech.ankainn.edanapplication.model.formTwo.LivelihoodData;
 import tech.ankainn.edanapplication.model.formTwo.MemberData;
-import tech.ankainn.edanapplication.model.formTwo.MapLocationData;
-import tech.ankainn.edanapplication.retrofit.ApiListResponse;
+import tech.ankainn.edanapplication.api.ApiListResponse;
+import tech.ankainn.edanapplication.util.Tagger;
+import timber.log.Timber;
 
 public class FormTwoFactory {
 
@@ -94,6 +95,7 @@ public class FormTwoFactory {
     }
 
     public static FormTwoData entityToData(FormTwoCompleteData source) {
+
         FormTwoData formTwoData = createEmptyFormTwoData();
 
         formTwoData.id = source.formTwoEntity.formTwoId;

@@ -14,9 +14,13 @@ import tech.ankainn.edanapplication.model.dto.FormTwoCompleteData;
 import tech.ankainn.edanapplication.model.dto.FormTwoEntity;
 import tech.ankainn.edanapplication.model.dto.LivelihoodEntity;
 import tech.ankainn.edanapplication.model.dto.MemberEntity;
+import tech.ankainn.edanapplication.model.formTwo.FormTwoSubset;
 
 @Dao
 public abstract class FormTwoDao {
+
+    @Query("SELECT form_two_id, data_version, department, province, district, date, hour, address, lot FROM form_two_table ORDER BY form_two_id DESC")
+    public abstract LiveData<List<FormTwoSubset>> loadAllFormTwoSubset();
 
     @Transaction
     @Query("SELECT * FROM form_two_table ORDER BY form_two_id DESC")
