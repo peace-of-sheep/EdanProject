@@ -61,6 +61,7 @@ public class FormTwoFactory {
         formTwoData.genInfData = GenInfFactory.createEmptyGenInf();
 
         formTwoData.householdData = new HouseholdData();
+        formTwoData.householdData.address = "";
         formTwoData.householdData.lot = "";
         formTwoData.householdData.owner = false;
         formTwoData.householdData.condition = "";
@@ -114,6 +115,7 @@ public class FormTwoFactory {
         formTwoData.genInfData.locality = source.formTwoEntity.locality;
         formTwoData.genInfData.zone = source.formTwoEntity.zone;
 
+        formTwoData.householdData.address = source.formTwoEntity.address;
         formTwoData.householdData.lot = source.formTwoEntity.lot;
         formTwoData.householdData.owner = source.formTwoEntity.owner;
         formTwoData.householdData.condition = source.formTwoEntity.condition;
@@ -204,6 +206,7 @@ public class FormTwoFactory {
         formTwoEntity.locality = formTwoData.genInfData.locality;
         formTwoEntity.zone = formTwoData.genInfData.zone;
 
+        formTwoEntity.address = formTwoData.householdData.address;
         formTwoEntity.lot = formTwoData.householdData.lot;
         formTwoEntity.owner = formTwoData.householdData.owner;
         formTwoEntity.condition = formTwoData.householdData.condition;

@@ -35,6 +35,8 @@
     <string name="select_form">Select form</string>
     <string name="form_one">Form One</string>
     <string name="form_two">Form Two</string>
+    <string name="short_form_two_a" translatable="false">2a</string>
+    <string name="short_form_two_b" translatable="false">2b</string>
 
     <string name="title_damage_one">@string/life_health</string>
     <string name="injured_people">Injured people</string>
@@ -73,6 +75,7 @@
     <string name="other_needs">Other needs</string>
     
     <string name="household_info">Household Information</string>
+    <string name="household_address">Address</string>
     <string name="household_lot_number">N°/Lot</string>
     <string name="household_owner">Owner</string>
     <string name="household_condition">Household condition</string>

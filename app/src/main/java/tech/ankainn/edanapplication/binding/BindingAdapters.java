@@ -2,7 +2,6 @@ package tech.ankainn.edanapplication.binding;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -19,8 +18,6 @@ import java.util.Objects;
 import tech.ankainn.edanapplication.R;
 
 public class BindingAdapters {
-
-    private static final int POS_TAG = 1;
 
     @BindingAdapter(value = "visibleGone")
     public static void showHide(View view, boolean show) {

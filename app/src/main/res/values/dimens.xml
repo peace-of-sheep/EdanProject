@@ -20,5 +20,6 @@
     <dimen name="design_card_corner">4dp</dimen>
 
     <dimen name="design_navigator_elevation">8dp</dimen>
-    <dimen name="design_navigator_height">56dp</dimen>
+    <dimen name="design_navigator_item_height">56dp</dimen>
+    <dimen name="design_navigator_item_max_width">64dp</dimen>
 </resources>

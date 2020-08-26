@@ -18,11 +18,15 @@ import tech.ankainn.edanapplication.ui.common.BindingFragment;
 import tech.ankainn.edanapplication.ui.common.OwnerFragment;
 import tech.ankainn.edanapplication.util.InjectorUtil;
 import tech.ankainn.edanapplication.util.NavigationUI2;
+import tech.ankainn.edanapplication.view.NavigatorItem;
 import tech.ankainn.edanapplication.viewmodel.FormTwoViewModelFactory;
 
 import static tech.ankainn.edanapplication.util.NavigationUtil.getChildNavController;
 
 public class FormTwoHostFragment extends BindingFragment<FragmentFormTwoHostBinding> implements OwnerFragment {
+
+    private static final int[] destinationsId = {R.id.household_fragment, R.id.members_fragment,
+            R.id.map_fragment, R.id.gen_inf_fragment};
 
     private FormTwoViewModel viewModel;
 
@@ -48,12 +52,14 @@ public class FormTwoHostFragment extends BindingFragment<FragmentFormTwoHostBind
         long tempId = FormTwoHostFragmentArgs.fromBundle(requireArguments()).getFormTwoId();
         viewModel.setFormTwoId(tempId);
 
-        binding().btnSave.setOnClickListener(v -> {
+        binding().navigator.setDestinations(destinationsId);
+        binding().navigator.addItemView(new NavigatorItem(R.drawable.ic_save_24, R.string.save, item -> {
             viewModel.saveFormTwo();
             parentNavController.popBackStack();
-        });
-        binding().btnCamera.setOnClickListener(v ->
-                parentNavController.navigate(FormTwoHostFragmentDirections.actionFormTwoToCamera()));
+        }));
+        binding().navigator.addItemView(new NavigatorItem(R.drawable.ic_photo_camera_24, R.string.camera,
+                item -> parentNavController.navigate(FormTwoHostFragmentDirections.actionFormTwoToCamera())));
+
 
         Options.getInstance().observe(getViewLifecycleOwner(), (emitter, option) -> {
             if (emitter.equals("back") && option == 0) {
@@ -63,20 +69,20 @@ public class FormTwoHostFragment extends BindingFragment<FragmentFormTwoHostBind
         });
 
         NavController childNavController = getChildNavController(getChildFragmentManager(), R.id.form_host_fragment_container);
-        final int[] destinations = {R.id.map_fragment, R.id.gen_inf_fragment, R.id.household_fragment, R.id.members_fragment};
-        NavigationUI2.setupWithNavController(binding().btnNext, binding().btnBack, destinations, childNavController);
+        NavigationUI2.setupWithNavController(binding().navigator, childNavController);
 
-        binding().btnFormTwoSwitch.setOnClickListener(v -> {
-            if (childNavController.getCurrentDestination().getId() != R.id.livelihood_fragment) {
-                BindingAdapters.showHide(binding().btnNext, false);
-                BindingAdapters.showHide(binding().btnBack, false);
-                childNavController.navigate(R.id.livelihood_fragment);
-            } else {
-                BindingAdapters.showHide(binding().btnNext, true);
-                BindingAdapters.showHide(binding().btnBack, true);
-                childNavController.popBackStack();
-            }
-        });
+        binding().navigator.addItemView(new NavigatorItem(R.drawable.ic_folder_24dp, R.string.short_form_two_b,
+                item -> {
+                    if (childNavController.getCurrentDestination().getId() != R.id.livelihood_fragment) {
+                        binding().navigator.showHideArrows(false);
+                        item.setLabel(R.string.short_form_two_a);
+                        childNavController.navigate(R.id.livelihood_fragment);
+                    } else {
+                        binding().navigator.showHideArrows(true);
+                        item.setLabel(R.string.short_form_two_b);
+                        childNavController.popBackStack();
+                    }
+        }));
 
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), backPressedCallback);
     }

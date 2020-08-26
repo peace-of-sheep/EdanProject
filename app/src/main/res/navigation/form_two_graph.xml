@@ -2,17 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/form_two_graph"
-    app:startDestination="@id/map_fragment">
-
-    <fragment
-        android:id="@+id/map_fragment"
-        android:label="MapFragment"
-        android:name="tech.ankainn.edanapplication.ui.geninfo.MapFragment" />
-
-    <fragment
-        android:id="@+id/gen_inf_fragment"
-        android:label="GenInfFragment"
-        android:name="tech.ankainn.edanapplication.ui.geninfo.GenInfFragment" />
+    app:startDestination="@id/household_fragment">
 
     <fragment
         android:id="@+id/household_fragment"
@@ -23,6 +13,16 @@
         android:id="@+id/members_fragment"
         android:label="MembersFragment"
         android:name="tech.ankainn.edanapplication.ui.formTwoA.MembersFragment" />
+
+    <fragment
+        android:id="@+id/map_fragment"
+        android:label="MapFragment"
+        android:name="tech.ankainn.edanapplication.ui.geninfo.MapFragment" />
+
+    <fragment
+        android:id="@+id/gen_inf_fragment"
+        android:label="GenInfFragment"
+        android:name="tech.ankainn.edanapplication.ui.geninfo.GenInfFragment" />
 
     <fragment
         android:id="@+id/livelihood_fragment"

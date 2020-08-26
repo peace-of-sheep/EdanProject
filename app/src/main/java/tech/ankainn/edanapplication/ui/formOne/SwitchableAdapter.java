@@ -17,6 +17,7 @@ public class SwitchableAdapter extends RecyclerView.Adapter<BindingViewHolder<La
     private static final String DATA = "data";
 
     private final List<String> names;
+    private boolean showQuantities;
 
     private List<SelectableItemData> selectableHolderData;
 
@@ -24,11 +25,17 @@ public class SwitchableAdapter extends RecyclerView.Adapter<BindingViewHolder<La
         this.names = names;
     }
 
+    public SwitchableAdapter(List<String> names, boolean showQuantities) {
+        this.names = names;
+        this.showQuantities = showQuantities;
+    }
+
     @NonNull
     @Override
     public BindingViewHolder<LayoutItemSwitchBinding> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutItemSwitchBinding binding =
                 LayoutItemSwitchBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        binding.setShowQuantity(showQuantities);
         return new BindingViewHolder<>(binding);
     }
 

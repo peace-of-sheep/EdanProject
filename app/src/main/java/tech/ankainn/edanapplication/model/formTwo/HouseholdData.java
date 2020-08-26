@@ -2,6 +2,7 @@ package tech.ankainn.edanapplication.model.formTwo;
 
 public class HouseholdData {
 
+    public String address;
     public String lot;
     public Boolean owner;
     public String condition;

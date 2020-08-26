@@ -1,6 +1,7 @@
 package tech.ankainn.edanapplication.ui.formOne;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.Nullable;
@@ -17,10 +18,15 @@ import tech.ankainn.edanapplication.ui.common.BindingFragment;
 import tech.ankainn.edanapplication.ui.common.OwnerFragment;
 import tech.ankainn.edanapplication.util.InjectorUtil;
 import tech.ankainn.edanapplication.util.NavigationUI2;
+import tech.ankainn.edanapplication.view.NavigatorItem;
 
 import static tech.ankainn.edanapplication.util.NavigationUtil.getChildNavController;
 
 public class FormOneHostFragment extends BindingFragment<FragmentFormOneHostBinding> implements OwnerFragment {
+
+    private static final int[] destinationsId = {R.id.map_fragment, R.id.location_fragment, R.id.gen_inf_fragment,
+            R.id.damage_one_fragment, R.id.damage_two_fragment, R.id.damage_three_fragment,
+            R.id.activities_fragment, R.id.needs_fragment};
 
     private OnBackPressedCallback backPressedCallback = new OnBackPressedCallback(true) {
         @Override
@@ -44,16 +50,16 @@ public class FormOneHostFragment extends BindingFragment<FragmentFormOneHostBind
         long tempId = FormOneHostFragmentArgs.fromBundle(requireArguments()).getFormOneId();
         viewModel.setFormOneId(tempId);
 
-        binding().btnSave.setOnClickListener(v -> {
-            viewModel.saveFormOne();
-            parentNavController.popBackStack();
-        });
+        binding().navigator.setDestinations(destinationsId);
+        binding().navigator.addItemView(new NavigatorItem(R.drawable.ic_save_24, R.string.save, item -> {
+                    viewModel.saveFormOne();
+                    parentNavController.popBackStack();
+        }));
+        binding().navigator.addItemView(new NavigatorItem(R.drawable.ic_photo_camera_24, R.string.camera,
+                item -> parentNavController.navigate(FormOneHostFragmentDirections.actionFormOneToCamera())));
 
         NavController childNavController = getChildNavController(getChildFragmentManager(), R.id.form_host_fragment_container);
-        final int[] destinations = {R.id.map_fragment, R.id.location_fragment, R.id.gen_inf_fragment,
-                R.id.damage_one_fragment, R.id.damage_two_fragment, R.id.damage_three_fragment,
-                R.id.activities_fragment, R.id.needs_fragment};
-        NavigationUI2.setupWithNavController(binding().btnNext, binding().btnBack, destinations, childNavController);
+        NavigationUI2.setupWithNavController(binding().navigator, childNavController);
 
         Options.getInstance().observe(getViewLifecycleOwner(), (emitter, option) -> {
             if(emitter.equals("back") && option == 0) {

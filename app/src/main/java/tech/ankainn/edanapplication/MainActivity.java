@@ -36,18 +36,4 @@ public class MainActivity extends AppCompatActivity {
                     .setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
         }
     }
-
-    /*
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
-            Cache cache = Cache.getInstance();
-            FormOneData formOneData = cache.getFormOneData().getValue();
-            Timber.tag(Tagger.DUMPER)
-                    .d("onKeyDown: %s", formOneData == null ? "no form one data in cache" : new Gson().toJson(formOneData));
-            return true;
-        } else {
-            return super.onKeyDown(keyCode, event);
-        }
-    }*/
 }

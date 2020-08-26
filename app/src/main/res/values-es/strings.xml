@@ -73,6 +73,7 @@
     <string name="other_needs">Otras necesidades</string>
 
     <string name="household_info">Información de la Vivienda</string>
+    <string name="household_address">Dirección</string>
     <string name="household_lot_number">N°/Lote</string>
     <string name="household_owner">Propietario</string>
     <string name="household_condition">Condición de la vivienda</string>

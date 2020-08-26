@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="address_args">Dirección: <b>%s</b></string>
+    <string name="lot_args">Lote: <b>%s</b></string>
+
+    <string name="date_hour_args">Fecha: <b>%s</b> - <b>%s</b></string>
+
     <string name="description_args">Descripción: <b>%s</b></string>
     <string name="amount_lost_affected_args"><b>%d</b> P - <b>%d</b> A</string>
 </resources>

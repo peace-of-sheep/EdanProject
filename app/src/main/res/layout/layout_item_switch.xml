@@ -10,6 +10,9 @@
         <variable
             name="holder"
             type="tech.ankainn.edanapplication.model.formOne.SelectableItemData" />
+        <variable
+            name="showQuantity"
+            type="boolean"/>
     </data>
 
     <LinearLayout
@@ -44,7 +47,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_gravity="start"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            app:visibleGone="@{holder.quantity != null}"
+            app:visibleGone="@{showQuantity}"
             android:hint="@string/quantity"
             android:layout_width="100dp"
             android:layout_height="wrap_content">

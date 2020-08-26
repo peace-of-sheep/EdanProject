@@ -1,8 +1,6 @@
 package tech.ankainn.edanapplication.ui.formOne;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
@@ -31,7 +29,7 @@ public class DamageOneFragment extends BindingFragment<FragmentSwitchableBinding
         binding().setBottomVisibility(false);
 
         List<String> names = Arrays.asList(getResources().getStringArray(R.array.damage_one));
-        SwitchableAdapter adapter = new SwitchableAdapter(names);
+        SwitchableAdapter adapter = new SwitchableAdapter(names, true);
         binding().recyclerView.setAdapter(adapter);
 
         viewModel.getDamageOne().observe(getViewLifecycleOwner(), selectableData ->

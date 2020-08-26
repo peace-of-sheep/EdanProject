@@ -18,7 +18,6 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textview.MaterialTextView;
 
 import java.util.ArrayList;
@@ -31,20 +30,19 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class BottomOptionsFragment extends BottomSheetDialogFragment {
 
-
-    private static boolean open = false;
-
-    private static String KEY_EMITTER = "key_emitter";
-    private static String KEY_TTL = "key_ttl";
-    private static String KEY_OPTIONS_NUM = "key_options_n";
-    private static String KEY_OPTIONS_TEXT = "key_options_text";
-    private static String KEY_OPTIONS_DRAWABLES = "key_options_drawables";
+    private static final String KEY_EMITTER = "key_emitter";
+    private static final String KEY_TTL = "key_ttl";
+    private static final String KEY_OPTIONS_NUM = "key_options_n";
+    private static final String KEY_OPTIONS_TEXT = "key_options_text";
+    private static final String KEY_OPTIONS_DRAWABLES = "key_options_drawables";
 
     @StringRes
-    private static int defaultIdTitle = R.string.options;
+    private static final int defaultIdTitle = R.string.options;
 
     @DrawableRes
-    private static int defaultIdDrawable = R.drawable.ic_folder_24dp;
+    private static final int defaultIdDrawable = R.drawable.ic_folder_24dp;
+
+    private static boolean open = false;
 
     private String emitter;
 
@@ -149,10 +147,6 @@ public class BottomOptionsFragment extends BottomSheetDialogFragment {
         public Builder setTitle(@StringRes int title) {
             idTitle = title;
             return this;
-        }
-
-        public Builder addOption(@StringRes int text) {
-            return addOption(text, defaultIdDrawable);
         }
 
         public Builder addOption(@StringRes int text, @DrawableRes int drawable) {

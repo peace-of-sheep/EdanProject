@@ -32,7 +32,7 @@ public class FormTwoEntity {
     public String locality;
     public String zone;
 
-    @ColumnInfo(name = "lot")
+    public String address;
     public String lot;
     public Boolean owner;
     public String condition;

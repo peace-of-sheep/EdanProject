@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="tech.ankainn.edanapplication.binding.Converter"/>
         <variable
@@ -12,6 +13,8 @@
     </data>
 
     <com.google.android.material.card.MaterialCardView
+        app:cardElevation="@dimen/design_card_elevation"
+        app:cardCornerRadius="@dimen/design_card_corner"
         android:id="@+id/card_view"
         android:layout_marginTop="@dimen/dim_nor"
         android:layout_marginHorizontal="@dimen/dim_nor"
@@ -19,8 +22,6 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:padding="@dimen/dim_nor"
-            android:layout_marginBottom="@dimen/dim_nor"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -35,21 +36,28 @@
                 android:layout_height="wrap_content"/>
 
             <com.google.android.material.textview.MaterialTextView
-                android:text="@{@string/date_hour_args(formTwo.genInfData.date, formTwo.genInfData.hour)}"
+                android:text="@{@string/address_args(formTwo.householdData.address), default=ADDRESS}"
                 android:layout_marginTop="@dimen/dim_nor"
                 android:layout_marginHorizontal="@dimen/dim_nor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
             <com.google.android.material.textview.MaterialTextView
-                android:text="@{formTwo.genInfData.typeDanger}"
+                android:text="@{@string/lot_args(formTwo.householdData.lot), default=LOT}"
                 android:layout_marginTop="@dimen/dim_nor"
                 android:layout_marginHorizontal="@dimen/dim_nor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
             <com.google.android.material.textview.MaterialTextView
-                android:text="@{formTwo.genInfData.department}"
+                android:text="@{@string/location_args(formTwo.genInfData.department, formTwo.genInfData.province, formTwo.genInfData.district), default=LOCATION}"
+                android:layout_marginTop="@dimen/dim_nor"
+                android:layout_marginHorizontal="@dimen/dim_nor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:text="@{@string/date_hour_args(formTwo.genInfData.date, formTwo.genInfData.hour), default=TIME}"
                 android:layout_marginTop="@dimen/dim_nor"
                 android:layout_marginHorizontal="@dimen/dim_nor"
                 android:layout_width="wrap_content"
@@ -61,14 +69,24 @@
                 android:layout_marginHorizontal="@dimen/dim_nor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
-        </LinearLayout>
 
-        <ProgressBar
-            visibleGone="@{loading}"
-            android:layout_gravity="bottom"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:indeterminate="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="20dp">
+
+                <ProgressBar
+                    visibleGone="@{loading}"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:indeterminate="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <View
+                    android:layout_gravity="bottom"
+                    android:background="?attr/colorError"
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp" />
+            </FrameLayout>
+        </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 </layout>
