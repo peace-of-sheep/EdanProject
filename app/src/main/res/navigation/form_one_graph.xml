@@ -15,11 +15,6 @@
         android:name="tech.ankainn.edanapplication.ui.geninfo.LocationFragment" />
 
     <fragment
-        android:id="@+id/gen_inf_fragment"
-        android:label="GenInfFragment"
-        android:name="tech.ankainn.edanapplication.ui.geninfo.GenInfFragment" />
-
-    <fragment
         android:id="@+id/damage_one_fragment"
         android:label="DamageOneFragment"
         android:name="tech.ankainn.edanapplication.ui.formOne.DamageOneFragment" />

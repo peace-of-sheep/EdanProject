@@ -24,7 +24,7 @@ import static tech.ankainn.edanapplication.util.NavigationUtil.getChildNavContro
 
 public class FormOneHostFragment extends BindingFragment<FragmentFormOneHostBinding> implements OwnerFragment {
 
-    private static final int[] destinationsId = {R.id.map_fragment, R.id.location_fragment, R.id.gen_inf_fragment,
+    private static final int[] destinationsId = {R.id.map_fragment, R.id.location_fragment,
             R.id.damage_one_fragment, R.id.damage_two_fragment, R.id.damage_three_fragment,
             R.id.activities_fragment, R.id.needs_fragment};
 

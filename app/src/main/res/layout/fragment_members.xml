@@ -5,7 +5,7 @@
     <data>
         <variable
             name="householdHead"
-            type="tech.ankainn.edanapplication.model.formTwo.MemberData" />
+            type="tech.ankainn.edanapplication.model.app.formTwo.MemberData" />
     </data>
 
     <LinearLayout
@@ -13,29 +13,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_marginTop="@dimen/dim_nor"
-            android:layout_marginHorizontal="@dimen/dim_big"
-            android:text="@string/family_head"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <include layout="@layout/layout_member"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            visibleGone="@{householdHead.dataVersion == 0}"
-            android:id="@+id/temp_head"
-            app:cancelVisibility="@{false}"
-            app:member="@{householdHead}"/>
-
-        <include layout="@layout/layout_item_member"
-            visibleGone="@{householdHead.dataVersion != 0}"
-            android:id="@+id/item_head"
-            app:member="@{householdHead}" />
-
         <FrameLayout
-            visibleGone="@{householdHead.dataVersion != 0}"
             android:id="@+id/btn_add_family"
             android:clickable="true"
             android:focusable="true"
@@ -59,13 +37,12 @@
         </FrameLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_marginTop="@dimen/dim_nor"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:id="@+id/recycler_view"
-            visibleGone="@{householdHead.dataVersion != 0}"
-            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="0dp" />
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/dim_nor"
+            android:layout_weight="1"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     </LinearLayout>
 </layout>

@@ -31,4 +31,16 @@ public class Converter {
             return null;
         }
     }
+
+    public static String appendBySlash(String... strings) {
+        if (strings.length > 0) {
+            StringBuilder sb = new StringBuilder();
+            for (String string : strings) {
+                sb.append(string).append("/");
+            }
+            sb.deleteCharAt(sb.length() - 1);
+            return sb.toString();
+        }
+        return null;
+    }
 }

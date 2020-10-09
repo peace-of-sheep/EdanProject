@@ -13,7 +13,8 @@ import androidx.core.content.ContextCompat;
 import com.google.gson.Gson;
 
 import tech.ankainn.edanapplication.databinding.ActivityFragmentContainerBinding;
-import tech.ankainn.edanapplication.model.formTwo.FormTwoData;
+import tech.ankainn.edanapplication.model.app.formOne.FormOneData;
+import tech.ankainn.edanapplication.model.app.formTwo.FormTwoData;
 import tech.ankainn.edanapplication.repositories.Cache;
 import tech.ankainn.edanapplication.util.Tagger;
 import timber.log.Timber;
@@ -50,9 +51,12 @@ public class MainActivity extends AppCompatActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
             Cache cache = Cache.getInstance();
-            FormTwoData formTwoData = cache.getFormTwoData().getValue();
+            /*FormOneData formOneData = cache.getFormOneData().getValue();
             Timber.tag(Tagger.DUMPER)
-                    .d("onKeyDown: %s", formTwoData == null ? "no form two data in cache" : new Gson().toJson(formTwoData));
+                    .d("onKeyDown: %s", formOneData == null ? "no form one data in cache" : new Gson().toJson(formOneData));*/
+
+            FormTwoData formTwoData = cache.getFormTwoData().getValue();
+            Timber.tag(Tagger.DUMPER).d("onKeyDown: %s", formTwoData == null ? "no form two data" : new Gson().toJson(formTwoData));
             return true;
         } else {
             return super.onKeyDown(keyCode, event);

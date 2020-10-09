@@ -8,7 +8,7 @@
             type="boolean" />
         <variable
             name="formOne"
-            type="tech.ankainn.edanapplication.model.formOne.FormOneSubset" />
+            type="tech.ankainn.edanapplication.model.app.formOne.FormOneSubset" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

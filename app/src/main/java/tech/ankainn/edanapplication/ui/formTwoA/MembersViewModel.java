@@ -1,97 +1,128 @@
 package tech.ankainn.edanapplication.ui.formTwoA;
 
+import android.content.Context;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import tech.ankainn.edanapplication.R;
+import tech.ankainn.edanapplication.model.api.ReniecData;
 import tech.ankainn.edanapplication.model.factory.FormTwoFactory;
-import tech.ankainn.edanapplication.model.formTwo.FormTwoData;
-import tech.ankainn.edanapplication.model.formTwo.MemberData;
+import tech.ankainn.edanapplication.model.app.formTwo.MemberData;
 import tech.ankainn.edanapplication.repositories.FormTwoRepository;
 
 public class MembersViewModel extends ViewModel {
 
-    private MediatorLiveData<List<MemberData>> copyList = new MediatorLiveData<>();
+    private final int arrayIdRes = R.array.id_types;
+    private final int arrayGenderRes = R.array.gender;
+    private final int arrayConditionRes = R.array.condition;
+    private final int arrayInjuryRes = R.array.personal_injury;
 
-    private MutableLiveData<Long> tempId = new MutableLiveData<>();
-    private MediatorLiveData<MemberData> dialogMember = new MediatorLiveData<>();
+    private FormTwoRepository formTwoRepository;
 
-    private List<MemberData> originalList;
+    private LiveData<List<MemberData>> listMemberData;
+    private List<MemberData> currentData;
+
+    private LiveData<MemberData> dialogMember;
+    private MemberData currentMemberData;
 
     private long countTempId = 0;
 
+    private MutableLiveData<String> dni = new MutableLiveData<>();
+    private LiveData<ReniecData> personReniecData;
+
     public MembersViewModel(FormTwoRepository formTwoRepository) {
-        LiveData<FormTwoData> source = formTwoRepository.getCurrentFormTwoData();
+        this.formTwoRepository = formTwoRepository;
 
-        copyList.addSource(source, formTwoData -> {
-            if(formTwoData != null && formTwoData.listMemberData != null) {
-
-                originalList = formTwoData.listMemberData;
-
-                for (MemberData memberData : originalList) {
-                    memberData.tempId = ++countTempId;
-                }
-
-                copyList.setValue(new ArrayList<>(originalList));
+        LiveData<List<MemberData>> source = formTwoRepository.loadListMemberData();
+        listMemberData = Transformations.map(source, listMemberData -> {
+            for (MemberData memberData : listMemberData) {
+                memberData.tempId = countTempId++;
             }
+            this.currentData = listMemberData;
+            return listMemberData;
         });
 
-        dialogMember.addSource(tempId, tempId -> {
-            if (tempId == 0L) {
-                MemberData memberData = FormTwoFactory.createEmptyMemberData();
-                dialogMember.setValue(memberData);
+        LiveData<MemberData> sourceMemberData = formTwoRepository.loadCurrentMemberData();
+        dialogMember = Transformations.map(sourceMemberData, memberData -> {
+            this.currentMemberData = memberData;
+            return memberData;
+        });
+
+        personReniecData = Transformations.switchMap(dni, dni -> {
+            if (dni == null) {
+                return new MutableLiveData<>(null);
             } else {
-                for (MemberData memberData : originalList) {
-                    if (tempId == memberData.tempId) {
-                        MemberData update = FormTwoFactory.cloneMemberData(memberData);
-                        dialogMember.setValue(update);
-                        return;
-                    }
-                }
+                return formTwoRepository.searchPersonData(dni);
             }
         });
-    }
-
-    public void searchTempId(long tempId) {
-        this.tempId.setValue(tempId);
     }
 
     public LiveData<List<MemberData>> getListMemberData() {
-        return copyList;
+        return listMemberData;
     }
 
     public LiveData<MemberData> getDialogMemberData() {
         return dialogMember;
     }
 
-    public void pushActiveMemberData() {
-        MemberData memberData = dialogMember.getValue();
-        if (memberData == null) return;
-
-        memberData.dataVersion++;
-
-        if (memberData.tempId == 0L) {
-            memberData.tempId = ++countTempId;
-            originalList.add(memberData);
-        } else {
-            for (int i = 0; i < originalList.size(); i++) {
-                if (originalList.get(i).tempId == memberData.tempId) {
-                    originalList.set(i, memberData);
-                    break;
-                }
-            }
-        }
-
-        copyList.setValue(new ArrayList<>(originalList));
+    public void createMemberData() {
+        formTwoRepository.saveCacheMemberData(FormTwoFactory.createEmptyMemberData());
     }
 
-    public MemberData getTempHead() {
-        MemberData memberData = FormTwoFactory.createEmptyMemberData();
-        dialogMember.setValue(memberData);
-        return memberData;
+    public void updateMemberData(long tempId) {
+        for (MemberData memberData : currentData) {
+            if (memberData.tempId == tempId) {
+                MemberData toUpdateData = FormTwoFactory.cloneMemberData(memberData);
+                formTwoRepository.saveCacheMemberData(toUpdateData);
+            }
+        }
+    }
+
+    public void clearMemberData() {
+        formTwoRepository.clearCacheMemberData();
+    }
+
+    public void pushActiveMemberData() {
+        currentMemberData.dataVersion++;
+        formTwoRepository.pushCacheMemberData(currentMemberData);
+    }
+
+    public void searchPersonByDni(String dni) {
+        this.dni.setValue(dni);
+    }
+
+    public LiveData<ReniecData> getPersonReniecData() {
+        return personReniecData;
+    }
+
+    public void setDocumentType(Context context, int pos) {
+        String[] documentType = getDataFromResource(context, arrayIdRes);
+        currentMemberData.typeIdentification = documentType[pos];
+        currentMemberData.codeIdentification = pos + 1;
+    }
+    public void setGender(Context context, int pos) {
+        String[] genders = getDataFromResource(context, arrayGenderRes);
+        currentMemberData.gender = genders[pos];
+        currentMemberData.codeGender = String.valueOf(genders[pos].charAt(0));
+    }
+    public void setCondition(Context context, int pos) {
+        String[] conditions = getDataFromResource(context, arrayConditionRes);
+        currentMemberData.condition = conditions[pos];
+        currentMemberData.codeCondition = Integer.toString(pos);
+    }
+    public void setInjury(Context context, int pos) {
+        String[] injuries = getDataFromResource(context, arrayInjuryRes);
+        currentMemberData.personalInjury = injuries[pos];
+        currentMemberData.codePersonalInjury = Integer.toString(pos);
+    }
+
+    private String[] getDataFromResource(Context context, int arrayRes) {
+        return context.getResources().getStringArray(arrayRes);
     }
 }

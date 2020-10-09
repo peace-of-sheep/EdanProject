@@ -1,7 +1,5 @@
 package tech.ankainn.edanapplication.global;
 
-import tech.ankainn.edanapplication.util.CallbackDispatcher;
-
 public class Picker extends CallbackDispatcher<Picker.Callback> {
 
     private static Picker instance;

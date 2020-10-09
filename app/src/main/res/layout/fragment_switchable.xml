@@ -15,7 +15,7 @@
             type="boolean" />
         <variable
             name="data"
-            type="tech.ankainn.edanapplication.model.formOne.SelectableData" />
+            type="tech.ankainn.edanapplication.model.app.formOne.SelectableData" />
     </data>
 
     <LinearLayout

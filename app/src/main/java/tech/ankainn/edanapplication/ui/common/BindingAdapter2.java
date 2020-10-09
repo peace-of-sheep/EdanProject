@@ -31,8 +31,8 @@ public class BindingAdapter2<VB extends ViewBinding, D> extends ListAdapter<D, B
 
     private List<Tuple2<String, OnBindingPayload<VB, D>>> listPayloads;
 
-    protected BindingAdapter2(@NonNull OnItemsDiff<D> diffItems,
-                              @NonNull OnContentDiff<D> diffContents,
+    protected BindingAdapter2(@NonNull OnItemsTheSame<D> diffItems,
+                              @NonNull OnContentTheSame<D> diffContents,
                               @NotNull OnBinding<VB, D> onBinding) {
         super(new AsyncDifferConfig.Builder<>(
                 new DiffUtil.ItemCallback<D>() {
@@ -88,11 +88,14 @@ public class BindingAdapter2<VB extends ViewBinding, D> extends ListAdapter<D, B
         VB binding = ViewBindingUtil.inflate(getClass(), inflater, parent, false);
         BindingViewHolder<VB> holder = new BindingViewHolder<>(binding);
         holder.binding.getRoot().setOnClickListener(v -> {
-            if (onItemClick != null) onItemClick.onClick(holder.binding);
+            int pos = holder.getAdapterPosition();
+            if (onItemClick != null && pos != RecyclerView.NO_POSITION)
+                onItemClick.onClick(pos, holder.binding);
         });
         holder.binding.getRoot().setOnLongClickListener(v -> {
-            if (onLongItemClick != null) {
-                onLongItemClick.onLongClick(holder.binding);
+            int pos = holder.getAdapterPosition();
+            if (onLongItemClick != null && pos != RecyclerView.NO_POSITION) {
+                onLongItemClick.onLongClick(pos, holder.binding);
                 return true;
             } else {
                 return false;
@@ -125,20 +128,20 @@ public class BindingAdapter2<VB extends ViewBinding, D> extends ListAdapter<D, B
         }
     }
 
-    public interface OnItemsDiff<D> {
+    public interface OnItemsTheSame<D> {
         boolean areItemTheSame(D oldItem, D newItem);
     }
 
-    public interface OnContentDiff<D> {
+    public interface OnContentTheSame<D> {
         boolean areContentsTheSame(D oldItem, D newItem);
     }
 
     public interface OnItemClick<VB extends ViewBinding> {
-        void onClick(VB itemBinding);
+        void onClick(int pos, VB itemBinding);
     }
 
     public interface OnLongItemClick<VB extends ViewBinding> {
-        void onLongClick(VB itemBinding);
+        void onLongClick(int pos, VB itemBinding);
     }
 
     public interface OnBinding<VB extends ViewBinding, T> {

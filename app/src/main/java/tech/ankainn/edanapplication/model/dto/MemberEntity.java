@@ -16,14 +16,28 @@ public class MemberEntity {
 
     @ColumnInfo(name = "data_version")
     public Integer dataVersion;
+
+    @ColumnInfo(name = "type_identification")
+    public String typeIdentification;
+    @ColumnInfo(name = "code_identification")
+    public Integer codeIdentification;
+    @ColumnInfo(name = "text_identification")
+    public Integer textIdentification;
+
+    public String surname;
     public String name;
+    public String birthdate;
     public Integer age;
     public String gender;
-    @ColumnInfo(name = "identification_type")
-    public String identificationType;
-    @ColumnInfo(name = "identification_type_number")
-    public Integer identificationNumber;
+    @ColumnInfo(name = "code_gender")
+    public String codeGender;
+
+
     public String condition;
+    @ColumnInfo(name = "code_condition")
+    public String codeCondition = "";
     @ColumnInfo(name = "personal_injury")
     public String personalInjury;
+    @ColumnInfo(name = "code_personal_injury")
+    public String codePersonalInjury = "";
 }

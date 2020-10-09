@@ -2,6 +2,22 @@
 <resources>
     <string name="app_name" translatable="false">Edan</string>
 
+    <string name="barrio" translatable="false">Barrio</string>
+    <string name="sector" translatable="false">Sector</string>
+    <string name="urbanizacion" translatable="false">Urbanización</string>
+
+    <string name="caserio" translatable="false">Caserío</string>
+    <string name="anexo" translatable="false">Anexo</string>
+
+    <string name="calle" translatable="false">Calle</string>
+    <string name="manzana" translatable="false">Manzana</string>
+
+    <string name="edificio" translatable="false">Edificio</string>
+    <string name="piso" translatable="false">Piso</string>
+    <string name="dpto" translatable="false">Dpto</string>
+
+
+
     <string name="hello">Hello</string>
     <string name="user_input">User</string>
     <string name="pass_input">Password</string>
@@ -11,10 +27,21 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="next">Next</string>
+    <string name="back">Back</string>
+    <string name="accept">Accept</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="description">Description</string>
+    <string name="forms">Forms</string>
+    <string name="user">User</string>
+    <string name="name">Name</string>
 
     <string name="default_loading">Loading</string>
 
     <string name="quantity">Quantity</string>
+
+    <string name="none">None</string>
 
     <string name="latitude">Latitude</string>
     <string name="longitude">Longitude</string>
@@ -23,7 +50,7 @@
     <string name="reference_point">Reference point</string>
 
     <string name="danger_group">Danger group</string>
-    <string name="danger_type">Danger type</string>
+    <string name="danger_type">Danger</string>
     <string name="occurrence_date">Date of occurrence</string>
     <string name="occurrence_hour">Time of occurrence</string>
     <string name="department">Department</string>
@@ -122,12 +149,6 @@
     <string name="immigration_card">Immigration card</string>
     <string name="another_document">Another document</string>
     <string name="capture_image">Capture image</string>
-    <string name="accept">Accept</string>
-    <string name="back">Back</string>
-    <string name="delete">Delete</string>
-    <string name="description">Description</string>
-    <string name="forms">Forms</string>
-    <string name="user">User</string>
     <string name="add_family_member">Add family member</string>
     <string name="surname_name">Surname, Name</string>
 
@@ -143,8 +164,6 @@
     <string name="personal_injury">Personal injury</string>
     <string name="missing">Missing</string>
     <string name="deceased">Deceased</string>
-    <string name="cancel">Cancel</string>
-    <string name="save">Save</string>
     <string name="camera">Camera</string>
 
     <string name="empty_list">Empty list</string>
@@ -205,4 +224,8 @@
     <string name="fishing_tackle">Fishing tackle</string>
     <string name="boat">Boat</string>
     <string name="canning">Canning</string>
+    <string name="search">Search</string>
+    <string name="birthdate">Birthdate</string>
+    <string name="household_use">Use of the household</string>
+    <string name="surname">Surname</string>
 </resources>

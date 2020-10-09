@@ -24,23 +24,19 @@ public class HostFragment extends BindingFragment<FragmentHostBinding> implement
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        NavController navController = getChildNavController(getChildFragmentManager(), R.id.host_fragment_container);
-        NavigationUI.setupWithNavController(binding().bnv, navController);
+        NavController childNavController = getChildNavController(getChildFragmentManager(), R.id.host_fragment_container);
+        NavigationUI.setupWithNavController(binding().bnv, childNavController);
 
-        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
-            if(destination.getId() == R.id.user_fragment) {
-                binding().btnAdd.hide();
-            } else {
-                binding().btnAdd.show();
-            }
-        });
-
-        binding().btnAdd.setOnClickListener(v ->
+        /*binding().btnAdd.setOnClickListener(v ->
                 new BottomOptionsFragment.Builder("select")
                         .setTitle(R.string.select_form)
                         .addOption(R.string.form_one, R.drawable.ic_folder_24dp)
                         .addOption(R.string.form_two, R.drawable.ic_folder_24dp)
-                        .build(getParentFragmentManager()));
+                        .build(getParentFragmentManager()));*/
+
+        binding().btnAdd.setOnClickListener(v ->
+                Navigation.findNavController(requireActivity(), R.id.fragment_container)
+                        .navigate(HostFragmentDirections.actionHostToFormTwo()));
 
         Options.getInstance().observe(getViewLifecycleOwner(), (emitter, option) -> {
             if ("select".equals(emitter)) {

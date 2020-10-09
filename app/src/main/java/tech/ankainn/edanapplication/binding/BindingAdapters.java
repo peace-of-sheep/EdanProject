@@ -74,13 +74,19 @@ public class BindingAdapters {
         return temp != null ? (int) temp : -1;
     }
 
-    @BindingAdapter(value = "dropdown")
-    public static void setDropdown(AutoCompleteTextView textView, String[] array) {
+    @BindingAdapter(value = {"dropdown", "defaultSelection"}, requireAll = false)
+    public static void setDropdown(AutoCompleteTextView textView, String[] array, Integer defaultValue) {
+        if (array == null) return;
+
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                         textView.getContext(),
                         R.layout.layout_dropdown_menu_item,
                         array);
         textView.setAdapter(adapter);
+
+        if (defaultValue != null) {
+            setTextDropDown(textView, array[defaultValue]);
+        }
     }
 
     @BindingAdapter(value = "imageUri")

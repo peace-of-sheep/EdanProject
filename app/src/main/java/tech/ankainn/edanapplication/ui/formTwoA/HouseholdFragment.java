@@ -1,25 +1,12 @@
 package tech.ankainn.edanapplication.ui.formTwoA;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
-
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStoreOwner;
-import androidx.navigation.NavBackStackEntry;
-import androidx.navigation.Navigation;
 
-import com.google.gson.Gson;
-
-import tech.ankainn.edanapplication.R;
 import tech.ankainn.edanapplication.databinding.FragmentHouseholdBinding;
 import tech.ankainn.edanapplication.ui.common.BindingFragment;
-import tech.ankainn.edanapplication.ui.common.ScopeNavHostFragment;
 import tech.ankainn.edanapplication.util.InjectorUtil;
-import tech.ankainn.edanapplication.util.Tagger;
-import tech.ankainn.edanapplication.viewmodel.FormTwoViewModelFactory;
-import timber.log.Timber;
 
 public class HouseholdFragment extends BindingFragment<FragmentHouseholdBinding> {
 
@@ -27,9 +14,24 @@ public class HouseholdFragment extends BindingFragment<FragmentHouseholdBinding>
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        ViewModelStoreOwner owner = ScopeNavHostFragment.getOwner(this);
-        FormTwoViewModelFactory factory = InjectorUtil.provideFormTwoViewModelFactory(requireContext());
-        FormTwoViewModel viewModel = new ViewModelProvider(owner, factory).get(FormTwoViewModel.class);
+        ViewModelProvider.Factory factory = InjectorUtil.provideViewModelFactory(requireContext());
+        FormTwoViewModel viewModel = new ViewModelProvider(this, factory).get(FormTwoViewModel.class);
+
+        binding().textUseHousehold.setOnItemClickListener((p, v, pos, id) -> {
+            viewModel.setHouseholdUse(requireContext(), pos);
+        });
+        binding().textCondition.setOnItemClickListener((p, v, pos, id) -> {
+            viewModel.setHouseholdCondition(requireContext(), pos);
+        });
+        binding().textRoof.setOnItemClickListener((p, v, pos, id) -> {
+            viewModel.setTypeRoof(requireContext(), pos);
+        });
+        binding().textWall.setOnItemClickListener((p, v, pos, id) -> {
+            viewModel.setTypeWall(requireContext(), pos);
+        });
+        binding().textFloor.setOnItemClickListener((p, v, pos, id) -> {
+            viewModel.setTypeFloor(requireContext(), pos);
+        });
 
         viewModel.getHouseholdData().observe(getViewLifecycleOwner(),
                 householdData -> binding().setHousehold(householdData));

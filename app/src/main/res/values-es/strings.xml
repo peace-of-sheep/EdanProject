@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-
     <string name="hello">Hola</string>
     <string name="user_input">Usuario</string>
     <string name="pass_input">Contraseña</string>
@@ -11,10 +10,21 @@
     <string name="yes">Sí</string>
     <string name="no">No</string>
     <string name="next">Siguiente</string>
+    <string name="back">Atrás</string>
+    <string name="accept">Aceptar</string>
+    <string name="delete">Eliminar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="save">Guardar</string>
+    <string name="description">Descripción</string>
+    <string name="forms">Formularios</string>
+    <string name="user">Usuario</string>
+    <string name="name">Nombre</string>
 
     <string name="default_loading">Cargando</string>
 
     <string name="quantity">Cantidad</string>
+
+    <string name="none">Ninguno</string>
 
     <string name="latitude">Latitud</string>
     <string name="longitude">Longitud</string>
@@ -23,19 +33,18 @@
     <string name="reference_point">Punto de referencia</string>
 
     <string name="danger_group">Grupo peligro</string>
-    <string name="danger_type">Tipo peligro</string>
-    <string name="occurrence_date">Fecha de ocurrencia</string>
-    <string name="occurrence_hour">Hora de ocurrencia</string>
+    <string name="danger_type">Peligro</string>
+    <string name="occurrence_date">Fecha de evento</string>
+    <string name="occurrence_hour">Hora de evento</string>
     <string name="department">Departamento</string>
     <string name="province">Provincia</string>
     <string name="district">Distrito</string>
-    <string name="locality">Localidad</string>
+    <string name="locality">Centro Poblado</string>
     <string name="zone_type">Tipo de zona</string>
 
     <string name="select_form">Seleccionar formulario</string>
     <string name="form_one">Formulario Rápido</string>
     <string name="form_two">Formulario 2A/2B</string>
-
 
     <string name="injured_people">Lesionados (Heridos)</string>
     <string name="trapped_people">Personas atrapadas</string>
@@ -120,12 +129,6 @@
     <string name="immigration_card">Carnet de extranjería</string>
     <string name="another_document">Otro documento</string>
     <string name="capture_image">Capturar imagen</string>
-    <string name="accept">Aceptar</string>
-    <string name="back">Atrás</string>
-    <string name="delete">Eliminar</string>
-    <string name="description">Descripción</string>
-    <string name="forms">Formularios</string>
-    <string name="user">Usuario</string>
     <string name="add_family_member">Añadir miembro de familia</string>
     <string name="surname_name">Apellido, Nombre</string>
     <string name="gender">Género</string>
@@ -141,8 +144,6 @@
     <string name="missing">Desaparecido</string>
     <string name="deceased">Fallecido</string>
     <string name="title_damage_one">@string/life_health</string>
-    <string name="cancel">Cancelar</string>
-    <string name="save">Guardar</string>
     <string name="camera">Cámara</string>
 
     <string name="empty_list">Lista vacía</string>
@@ -156,8 +157,8 @@
     <string name="upload_error">Hubo un error, intenter mas tarde</string>
     <string name="map">Mapa</string>
     <string name="gen_inf">General information</string>
-    <string name="household">Household</string>
-    <string name="members">Members</string>
+    <string name="household">Vivienda</string>
+    <string name="members">Miembros</string>
     <string name="back_quit">¿Estás seguro de salir del formulario actual?</string>
 
     <!-- recursos medios de vida -->
@@ -202,4 +203,8 @@
     <string name="fishing_tackle">Aparejos de pesca</string>
     <string name="boat">Embarcación</string>
     <string name="canning">Conservera</string>
+    <string name="search">Buscar</string>
+    <string name="birthdate">Fecha de nacimiento</string>
+    <string name="household_use">Uso de la instalación</string>
+    <string name="surname">Apellido</string>
 </resources>

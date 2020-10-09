@@ -6,7 +6,7 @@
         <import type="tech.ankainn.edanapplication.binding.Converter" />
         <variable
             name="livelihood"
-            type="tech.ankainn.edanapplication.model.formTwo.LivelihoodData" />
+            type="tech.ankainn.edanapplication.model.app.formTwo.LivelihoodData" />
     </data>
 
     <LinearLayout

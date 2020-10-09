@@ -14,6 +14,7 @@ import tech.ankainn.edanapplication.model.dto.MemberEntity;
 @Database(entities = {FormOneEntity.class, FormTwoEntity.class, MemberEntity.class, LivelihoodEntity.class}, version = 1, exportSchema = false)
 public abstract class EdanDatabase extends RoomDatabase {
 
+    public abstract UserDao userDao();
     public abstract FormTwoDao formTwoDao();
     public abstract FormOneDao formOneDao();
 

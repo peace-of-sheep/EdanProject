@@ -5,7 +5,7 @@
         <import type="tech.ankainn.edanapplication.binding.Converter"/>
         <variable
             name="livelihood"
-            type="tech.ankainn.edanapplication.model.formTwo.LivelihoodData" />
+            type="tech.ankainn.edanapplication.model.app.formTwo.LivelihoodData" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -22,7 +22,7 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/text_name"
+                android:id="@+id/text_surname"
                 android:layout_marginTop="@dimen/dim_nor"
                 android:layout_marginHorizontal="@dimen/dim_nor"
                 android:text="@{livelihood.name, default=NAME}"

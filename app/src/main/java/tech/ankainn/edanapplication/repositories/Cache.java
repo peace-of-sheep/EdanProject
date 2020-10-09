@@ -3,24 +3,20 @@ package tech.ankainn.edanapplication.repositories;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.google.gson.Gson;
-
-import tech.ankainn.edanapplication.model.formOne.FormOneData;
-import tech.ankainn.edanapplication.model.formTwo.FormTwoData;
-import tech.ankainn.edanapplication.model.formTwo.GenInfData;
-import tech.ankainn.edanapplication.model.formTwo.MapLocationData;
-import tech.ankainn.edanapplication.util.Tagger;
-import timber.log.Timber;
+import tech.ankainn.edanapplication.model.app.formOne.FormOneData;
+import tech.ankainn.edanapplication.model.app.formTwo.FormTwoData;
+import tech.ankainn.edanapplication.model.app.formTwo.MemberData;
+import tech.ankainn.edanapplication.model.app.geninf.GenInfData;
 
 public class Cache {
 
     private static Cache instance = new Cache();
 
     private MutableLiveData<GenInfData> genInfDataLiveData;
-    private MutableLiveData<MapLocationData> mapLocationDataLiveData;
+
+    private MutableLiveData<MemberData> memberDataLiveData;
 
     private MutableLiveData<FormTwoData> formTwoDataLiveData;
-
     private MutableLiveData<FormOneData> formOneDataLiveData;
 
     public static Cache getInstance() {
@@ -31,7 +27,7 @@ public class Cache {
         formTwoDataLiveData = new MutableLiveData<>();
         formOneDataLiveData = new MutableLiveData<>();
         genInfDataLiveData = new MutableLiveData<>();
-        mapLocationDataLiveData = new MutableLiveData<>();
+        memberDataLiveData = new MutableLiveData<>();
     }
 
     public LiveData<FormTwoData> getFormTwoData() {
@@ -46,8 +42,8 @@ public class Cache {
         return genInfDataLiveData;
     }
 
-    public LiveData<MapLocationData> getMapLocationData() {
-        return mapLocationDataLiveData;
+    public LiveData<MemberData> getMemberData() {
+        return memberDataLiveData;
     }
 
     public void setFormTwoData(FormTwoData formTwoData) {
@@ -62,7 +58,7 @@ public class Cache {
         genInfDataLiveData.postValue(genInfData);
     }
 
-    public void setMapLocationData(MapLocationData mapLocationData) {
-        mapLocationDataLiveData.postValue(mapLocationData);
+    public void setMemberData(MemberData memberData) {
+        memberDataLiveData.postValue(memberData);
     }
 }

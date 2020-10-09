@@ -8,7 +8,7 @@
             type="boolean" />
         <variable
             name="formTwoSubset"
-            type="tech.ankainn.edanapplication.model.formTwo.FormTwoSubset" />
+            type="tech.ankainn.edanapplication.model.dto.FormTwoSubset" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -42,13 +42,6 @@
                 android:layout_height="wrap_content" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:text="@{@string/address_args(formTwoSubset.address), default=ADDRESS}"
-                android:layout_marginTop="@dimen/dim_nor"
-                android:layout_marginHorizontal="@dimen/dim_nor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <com.google.android.material.textview.MaterialTextView
                 android:text="@{@string/lot_args(formTwoSubset.lot), default=LOT}"
                 android:layout_marginTop="@dimen/dim_nor"
                 android:layout_marginHorizontal="@dimen/dim_nor"
@@ -57,6 +50,13 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:text="@{@string/date_hour_args(formTwoSubset.date, formTwoSubset.hour), default=TIME}"
+                android:layout_marginTop="@dimen/dim_nor"
+                android:layout_marginHorizontal="@dimen/dim_nor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:text="@{Converter.integerToString(formTwoSubset.formTwoApiId), default=ID_API}"
                 android:layout_marginTop="@dimen/dim_nor"
                 android:layout_marginHorizontal="@dimen/dim_nor"
                 android:layout_width="wrap_content"
@@ -74,6 +74,7 @@
                     android:layout_height="wrap_content"/>
 
                 <View
+                    android:id="@+id/color_view"
                     android:layout_gravity="bottom"
                     android:background="?attr/colorError"
                     android:layout_width="match_parent"

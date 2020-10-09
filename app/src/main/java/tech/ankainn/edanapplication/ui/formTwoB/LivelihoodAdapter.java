@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil;
 
 import tech.ankainn.edanapplication.AppExecutors;
 import tech.ankainn.edanapplication.databinding.LayoutItemLivelihoodBinding;
-import tech.ankainn.edanapplication.model.formTwo.LivelihoodData;
+import tech.ankainn.edanapplication.model.app.formTwo.LivelihoodData;
 import tech.ankainn.edanapplication.ui.common.BindingAdapter;
 
 public class LivelihoodAdapter extends BindingAdapter<LivelihoodData, LayoutItemLivelihoodBinding> {

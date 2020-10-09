@@ -4,10 +4,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.ViewModel;
 
-import java.util.List;
-
-import tech.ankainn.edanapplication.model.formOne.FormOneData;
-import tech.ankainn.edanapplication.model.formOne.SelectableData;
+import tech.ankainn.edanapplication.model.app.formOne.FormOneData;
+import tech.ankainn.edanapplication.model.app.formOne.SelectableData;
 import tech.ankainn.edanapplication.repositories.FormOneRepository;
 
 public class SwitchableViewModel extends ViewModel {

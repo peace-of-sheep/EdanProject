@@ -11,10 +11,10 @@ import tech.ankainn.edanapplication.db.EdanDatabase;
 import tech.ankainn.edanapplication.db.FormOneDao;
 import tech.ankainn.edanapplication.model.dto.FormOneEntity;
 import tech.ankainn.edanapplication.model.factory.FormOneFactory;
-import tech.ankainn.edanapplication.model.formOne.FormOneData;
-import tech.ankainn.edanapplication.model.formOne.FormOneSubset;
-import tech.ankainn.edanapplication.model.formTwo.GenInfData;
-import tech.ankainn.edanapplication.model.formTwo.MapLocationData;
+import tech.ankainn.edanapplication.model.app.formOne.FormOneData;
+import tech.ankainn.edanapplication.model.app.formOne.FormOneSubset;
+import tech.ankainn.edanapplication.model.app.geninf.GenInfData;
+import tech.ankainn.edanapplication.model.app.geninf.MapLocationData;
 import tech.ankainn.edanapplication.api.EdanApiService;
 
 public class FormOneRepository {
@@ -93,7 +93,7 @@ public class FormOneRepository {
     private void createFormOneData() {
         FormOneData formOneData = FormOneFactory.createEmptyFormOneData();
 
-        MapLocationData mapLocationData = cache.getMapLocationData().getValue();
+        /*MapLocationData mapLocationData = cache.getMapLocationData().getValue();
         if (mapLocationData != null) {
             formOneData.mapLocationData = mapLocationData;
         } else {
@@ -107,7 +107,7 @@ public class FormOneRepository {
             formOneData.genInfData = genInfData;
         } else {
             cache.setGenInfData(formOneData.genInfData);
-        }
+        }*/
 
         cache.setFormOneData(formOneData);
     }
@@ -118,7 +118,7 @@ public class FormOneRepository {
             FormOneData formOneData = FormOneFactory.entityToData(formOneEntity);
 
             cache.setFormOneData(formOneData);
-            cache.setMapLocationData(formOneData.mapLocationData);
+            /*cache.setMapLocationData(formOneData.mapLocationData);*/
             cache.setGenInfData(formOneData.genInfData);
         });
     }

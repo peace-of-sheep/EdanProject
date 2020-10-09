@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tech.ankainn.edanapplication.model.factory.FormTwoFactory;
-import tech.ankainn.edanapplication.model.formTwo.FormTwoData;
-import tech.ankainn.edanapplication.model.formTwo.LivelihoodData;
+import tech.ankainn.edanapplication.model.app.formTwo.FormTwoData;
+import tech.ankainn.edanapplication.model.app.formTwo.LivelihoodData;
 import tech.ankainn.edanapplication.repositories.FormTwoRepository;
 
 public class LivelihoodViewModel extends ViewModel {
@@ -25,7 +25,7 @@ public class LivelihoodViewModel extends ViewModel {
     private long countTempId = 0;
 
     public LivelihoodViewModel(FormTwoRepository formTwoRepository) {
-        LiveData<FormTwoData> source = formTwoRepository.getCurrentFormTwoData();
+        /*LiveData<FormTwoData> source = formTwoRepository.getCurrentFormTwoData();
 
         copyList.addSource(source, formTwoData -> {
             if (formTwoData != null && formTwoData.listLivelihood != null) {
@@ -52,7 +52,7 @@ public class LivelihoodViewModel extends ViewModel {
                     }
                 }
             }
-        });
+        });*/
     }
 
     public LiveData<List<LivelihoodData>> getList() {

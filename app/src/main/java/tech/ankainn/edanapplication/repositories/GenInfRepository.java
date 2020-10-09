@@ -1,23 +1,23 @@
 package tech.ankainn.edanapplication.repositories;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.pm.PackageManager;
 import android.location.Location;
+import android.nfc.Tag;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresPermission;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 
 import tech.ankainn.edanapplication.AppExecutors;
-import tech.ankainn.edanapplication.model.factory.GenInfFactory;
-import tech.ankainn.edanapplication.model.formTwo.GenInfData;
-import tech.ankainn.edanapplication.model.formTwo.MapLocationData;
+import tech.ankainn.edanapplication.model.app.geninf.ExtraData;
+import tech.ankainn.edanapplication.model.app.geninf.GenInfData;
+import tech.ankainn.edanapplication.model.app.geninf.HeaderData;
+import tech.ankainn.edanapplication.model.app.geninf.MapLocationData;
+import tech.ankainn.edanapplication.util.Tagger;
+import tech.ankainn.edanapplication.util.Tuple2;
+import timber.log.Timber;
 
 public class GenInfRepository {
 
@@ -26,7 +26,6 @@ public class GenInfRepository {
     private AppExecutors appExecutors;
     private FusedLocationProviderClient locationProviderClient;
     private Cache cache;
-
 
     public static GenInfRepository getInstance(AppExecutors appExecutors,
                                                FusedLocationProviderClient client,
@@ -45,35 +44,51 @@ public class GenInfRepository {
         this.cache = cache;
     }
 
-    public LiveData<MapLocationData> getMapLocationData() {
-        return cache.getMapLocationData();
+    public LiveData<HeaderData> loadHeaderData() {
+        LiveData<GenInfData> source = cache.getGenInfData();
+        MediatorLiveData<HeaderData> result = new MediatorLiveData<>();
+        result.addSource(source, genInfData -> {
+            if (genInfData != null)
+                result.setValue(genInfData.headerData);
+        });
+        return result;
     }
 
-    public LiveData<GenInfData> getGenInfData() {
-        return cache.getGenInfData();
+    public LiveData<ExtraData> loadExtraData() {
+        LiveData<GenInfData> source = cache.getGenInfData();
+        MediatorLiveData<ExtraData> result = new MediatorLiveData<>();
+        result.addSource(source, genInfData -> {
+            if (genInfData != null) {
+                result.setValue(genInfData.extraData);
+            }
+        });
+        return result;
+    }
+
+    public LiveData<MapLocationData>  loadMapLocationData() {
+        LiveData<GenInfData> source = cache.getGenInfData();
+        MediatorLiveData<MapLocationData> result = new MediatorLiveData<>();
+        result.addSource(source, genInfData -> {
+            if (genInfData != null) {
+                result.setValue(genInfData.mapLocationData);
+            }
+        });
+        return result;
     }
 
     @RequiresPermission("android.permission.ACCESS_COARSE_LOCATION")
-    public void getLastLocation() throws SecurityException {
+    public LiveData<Tuple2<Double, Double>> loadLastLocation() throws SecurityException {
+        MutableLiveData<Tuple2<Double, Double>> latLng = new MutableLiveData<>();
         locationProviderClient.getLastLocation()
-                .addOnCompleteListener(appExecutors.diskIO(), locationTask -> {
+                .addOnCompleteListener(appExecutors.networkIO(), locationTask -> {
+                    Timber.tag(Tagger.DUMPER).d("loadLastLocation: %s", locationTask.getResult());
                     if (locationTask.isSuccessful() && locationTask.getResult() != null) {
-                        updateLocation(locationTask.getResult());
+                        Location location = locationTask.getResult();
+                        latLng.postValue(new Tuple2<>(location.getLatitude(), location.getLongitude()));
+                    } else {
+                        latLng.postValue(null);
                     }
                 });
-    }
-
-    private void updateLocation(Location location) {
-        MapLocationData originalData = cache.getMapLocationData().getValue();
-        if (originalData == null) return;
-
-        originalData.latitude = location.getLatitude();
-        originalData.longitude = location.getLongitude();
-
-        if (location.hasAltitude()) {
-            originalData.altitude = (int) location.getAltitude();
-        }
-
-        cache.setMapLocationData(originalData);
+        return latLng;
     }
 }

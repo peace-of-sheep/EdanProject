@@ -5,7 +5,7 @@
         <import type="tech.ankainn.edanapplication.binding.Converter" />
         <variable
             name="mapLocation"
-            type="tech.ankainn.edanapplication.model.formTwo.MapLocationData" />
+            type="tech.ankainn.edanapplication.model.app.geninf.MapLocationData" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:text="@={Converter.integerToString(mapLocation.altitude)}"
+                    android:text="@={Converter.doubleToString(mapLocation.altitude)}"
                     android:maxLength="5"
                     android:inputType="number"
                     android:layout_width="match_parent"

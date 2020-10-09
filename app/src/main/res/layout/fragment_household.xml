@@ -6,7 +6,7 @@
         <import type="android.text.InputType" />
         <variable
             name="household"
-            type="tech.ankainn.edanapplication.model.formTwo.HouseholdData" />
+            type="tech.ankainn.edanapplication.model.app.formTwo.HouseholdData" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -18,27 +18,9 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/layout_address"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="@dimen/dim_nor"
-                android:layout_marginHorizontal="@dimen/dim_nor"
-                android:hint="@string/household_address"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:text="@={household.address}"
-                    android:inputType="text"
-                    android:imeOptions="actionDone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/sw_owner"
-                app:layout_constraintTop_toBottomOf="@id/layout_address"
+                app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginHorizontal="@dimen/dim_nor"
                 android:layout_marginTop="@dimen/dim_nor"
                 android:id="@+id/layout_lot_number"
@@ -77,8 +59,27 @@
                 android:layout_height="wrap_content" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/layout_condition"
+                android:id="@+id/layout_use_household"
+                android:hint="@string/household_use"
                 app:layout_constraintTop_toBottomOf="@id/layout_lot_number"
+                android:layout_marginHorizontal="@dimen/dim_nor"
+                android:layout_marginTop="@dimen/dim_nor"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <AutoCompleteTextView
+                    android:id="@+id/text_use_household"
+                    dropdown="@{@stringArray/household_use}"
+                    textDropDown="@{household.useHouse}"
+                    android:inputType="@{InputType.TYPE_NULL}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_condition"
+                app:layout_constraintTop_toBottomOf="@id/layout_use_household"
                 android:layout_marginHorizontal="@dimen/dim_nor"
                 android:layout_marginTop="@dimen/dim_nor"
                 android:layout_width="match_parent"
@@ -89,7 +90,7 @@
 
                 <AutoCompleteTextView
                     dropdown="@{@stringArray/household_condition}"
-                    textDropDown="@={household.condition}"
+                    textDropDown="@{household.conditionHouse}"
                     android:inputType="@{InputType.TYPE_NULL}"
                     android:id="@+id/text_condition"
                     android:layout_width="match_parent"
@@ -119,8 +120,7 @@
 
                 <AutoCompleteTextView
                     dropdown="@{@stringArray/roof_types}"
-                    textDropDown="@={household.roof}"
-                    itemPosition="@={household.idRoof}"
+                    textDropDown="@{household.typeRoof}"
                     android:inputType="@{InputType.TYPE_NULL}"
                     android:id="@+id/text_roof"
                     android:layout_width="match_parent"
@@ -141,8 +141,8 @@
 
                 <AutoCompleteTextView
                     dropdown="@{@stringArray/wall_types}"
-                    textDropDown="@={household.wall}"
-                    itemPosition="@={household.idWall}"
+                    textDropDown="@={household.typeWall}"
+                    itemPosition="@={household.codeWall}"
                     android:inputType="@{InputType.TYPE_NULL}"
                     android:id="@+id/text_wall"
                     android:layout_width="match_parent"
@@ -163,8 +163,7 @@
 
                 <AutoCompleteTextView
                     dropdown="@{@stringArray/floor_types}"
-                    textDropDown="@={household.floor}"
-                    itemPosition="@={household.idFloor}"
+                    textDropDown="@{household.typeFloor}"
                     android:inputType="@{InputType.TYPE_NULL}"
                     android:id="@+id/text_floor"
                     android:layout_width="match_parent"

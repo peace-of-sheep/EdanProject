@@ -1,5 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="bsu">
+        <item>@string/barrio</item>
+        <item>@string/sector</item>
+        <item>@string/urbanizacion</item>
+        <item>@string/none</item>
+    </string-array>
+
+    <string-array name="ca">
+        <item>@string/caserio</item>
+        <item>@string/anexo</item>
+        <item>@string/none</item>
+    </string-array>
+
+    <string-array name="cm">
+        <item>@string/calle</item>
+        <item>@string/manzana</item>
+        <item>@string/none</item>
+    </string-array>
+
     <string-array name="damage_one">
         <item>@string/injured_people</item>
         <item>@string/trapped_people</item>
@@ -35,6 +54,11 @@
         <item>@string/humanitarian_goods</item>
         <item>@string/heavy_machinery</item>
         <item>@string/technical_assistance</item>
+    </string-array>
+
+    <string-array name="household_use">
+        <item>@string/household</item>
+        <item>@string/livelihood</item>
     </string-array>
     
     <string-array name="household_condition">
@@ -99,15 +123,15 @@
     </string-array>
 
     <string-array name="group_danger">
-        <item>item1</item>
-        <item>item2</item>
-        <item>item3</item>
+        <item>Group1</item>
+        <item>Group2</item>
+        <item>Group3</item>
     </string-array>
 
     <string-array name="type_danger">
-        <item>item1</item>
-        <item>item2</item>
-        <item>item3</item>
+        <item>Danger1</item>
+        <item>Danger2</item>
+        <item>Danger3</item>
     </string-array>
 
     <string-array name="departments">
@@ -123,16 +147,6 @@
     <string-array name="districts">
         <item>Lima</item>
         <item>Cusco</item>
-    </string-array>
-
-    <string-array name="zones">
-        <item>Barrio</item>
-        <item>Sector</item>
-        <item>Urbanización</item>
-        <item>Centro poblado</item>
-        <item>Caserío</item>
-        <item>Anexo</item>
-        <item>Otros</item>
     </string-array>
 
     <string-array name="livelihood">

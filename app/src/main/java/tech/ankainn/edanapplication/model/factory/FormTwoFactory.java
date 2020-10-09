@@ -7,33 +7,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tech.ankainn.edanapplication.binding.Converter;
-import tech.ankainn.edanapplication.model.api.Condition;
-import tech.ankainn.edanapplication.model.api.Document;
-import tech.ankainn.edanapplication.model.api.Etario;
-import tech.ankainn.edanapplication.model.api.Familia;
-import tech.ankainn.edanapplication.model.api.ApiFormTwo;
-import tech.ankainn.edanapplication.model.api.FormTwoCab;
-import tech.ankainn.edanapplication.model.api.GrupoEtarios;
-import tech.ankainn.edanapplication.model.api.GruposVulnerables;
-import tech.ankainn.edanapplication.model.api.InformacionEspecial;
-import tech.ankainn.edanapplication.model.api.InformacionRegular;
-import tech.ankainn.edanapplication.model.api.InformacionVivienda;
-import tech.ankainn.edanapplication.model.api.LifeHealth;
-import tech.ankainn.edanapplication.model.api.MaterialType;
-import tech.ankainn.edanapplication.model.api.PersonalInjury;
-import tech.ankainn.edanapplication.model.api.Responsable;
-import tech.ankainn.edanapplication.model.dto.FormTwoCompleteData;
+import tech.ankainn.edanapplication.model.api.formtwo.DocumentRemote;
+import tech.ankainn.edanapplication.model.api.formtwo.FamiliesRemote;
+import tech.ankainn.edanapplication.model.api.formtwo.FamilyRemote;
+import tech.ankainn.edanapplication.model.api.formtwo.FormTwoHeaderRemote;
+import tech.ankainn.edanapplication.model.api.formtwo.FormTwoRemote;
+import tech.ankainn.edanapplication.model.api.formtwo.HouseholdRemote;
+import tech.ankainn.edanapplication.model.api.formtwo.InformationRemote;
+import tech.ankainn.edanapplication.model.api.formtwo.MaterialTypeRemote;
+import tech.ankainn.edanapplication.model.api.formtwo.ResponsableRemote;
+import tech.ankainn.edanapplication.model.app.formTwo.HouseholdData;
+import tech.ankainn.edanapplication.model.app.geninf.ExtraData;
+import tech.ankainn.edanapplication.model.app.geninf.MapLocationData;
+import tech.ankainn.edanapplication.model.dto.FormTwoCompleteEntity;
 import tech.ankainn.edanapplication.model.dto.FormTwoEntity;
+import tech.ankainn.edanapplication.model.dto.HeaderEntity;
 import tech.ankainn.edanapplication.model.dto.LivelihoodEntity;
 import tech.ankainn.edanapplication.model.dto.MemberEntity;
-import tech.ankainn.edanapplication.model.formTwo.FormTwoData;
-import tech.ankainn.edanapplication.model.formTwo.GenInfData;
-import tech.ankainn.edanapplication.model.formTwo.HouseholdData;
-import tech.ankainn.edanapplication.model.formTwo.LivelihoodData;
-import tech.ankainn.edanapplication.model.formTwo.MemberData;
-import tech.ankainn.edanapplication.api.ApiListResponse;
-import tech.ankainn.edanapplication.util.Tagger;
-import timber.log.Timber;
+import tech.ankainn.edanapplication.model.app.formTwo.FormTwoData;
+import tech.ankainn.edanapplication.model.app.geninf.GenInfData;
+import tech.ankainn.edanapplication.model.app.formTwo.LivelihoodData;
+import tech.ankainn.edanapplication.model.app.formTwo.MemberData;
 
 public class FormTwoFactory {
 
@@ -52,39 +46,11 @@ public class FormTwoFactory {
     }
 
     public static FormTwoData createEmptyFormTwoData() {
-        FormTwoData formTwoData = new FormTwoData();
-
-        formTwoData.dataVersion = 0;
-        formTwoData.formTwoApiId = -1;
-
-        formTwoData.mapLocationData = GenInfFactory.createEmptyMapLocation();
-
-        formTwoData.genInfData = GenInfFactory.createEmptyGenInf();
-
-        formTwoData.householdData = new HouseholdData();
-        formTwoData.householdData.address = "";
-        formTwoData.householdData.lot = "";
-        formTwoData.householdData.owner = false;
-        formTwoData.householdData.condition = "";
-        formTwoData.householdData.idWall = -1;
-        formTwoData.householdData.wall = "";
-        formTwoData.householdData.idFloor = -1;
-        formTwoData.householdData.floor = "";
-        formTwoData.householdData.idRoof = -1;
-        formTwoData.householdData.roof = "";
-
-        formTwoData.listMemberData = new ArrayList<>();
-
-        formTwoData.listLivelihood = new ArrayList<>();
-
-        return formTwoData;
+        return new FormTwoData();
     }
 
     public static MemberData createEmptyMemberData() {
-        MemberData memberData = new MemberData();
-        memberData.dataVersion = 0;
-
-        return memberData;
+        return new MemberData();
     }
 
     public static LivelihoodData createEmptyLivelihoodData() {
@@ -94,79 +60,109 @@ public class FormTwoFactory {
         return livelihoodData;
     }
 
-    public static FormTwoData entityToData(FormTwoCompleteData source) {
+    public static MemberData memberDataFromEntity(MemberEntity memberEntity) {
+        MemberData memberData = new MemberData();
 
-        FormTwoData formTwoData = createEmptyFormTwoData();
+        memberData.id = memberEntity.memberId;
+        memberData.formTwoOwnerId = memberEntity.formTwoOwnerId;
 
-        formTwoData.id = source.formTwoEntity.formTwoId;
+        memberData.dataVersion = memberEntity.dataVersion;
 
-        formTwoData.formTwoApiId = source.formTwoEntity.formTwoApiId;
+        memberData.typeIdentification = memberEntity.typeIdentification;
+        memberData.codeIdentification = memberEntity.codeIdentification;
+        memberData.textIdentification = memberEntity.textIdentification;
+        memberData.surname = memberEntity.surname;
+        memberData.name = memberEntity.name;
+        memberData.birthDate = memberEntity.birthdate;
+        memberData.age = memberEntity.age;
+        memberData.gender = memberEntity.gender;
+        memberData.codeGender = memberEntity.codeGender;
+        memberData.condition = memberEntity.condition;
+        memberData.codeCondition = memberEntity.codeCondition;
+        memberData.personalInjury = memberEntity.personalInjury;
+        memberData.codePersonalInjury = memberEntity.codePersonalInjury;
 
-        formTwoData.dataVersion = source.formTwoEntity.dataVersion;
+        return memberData;
+    }
 
-        formTwoData.mapLocationData.latitude = source.formTwoEntity.latitude;
-        formTwoData.mapLocationData.longitude = source.formTwoEntity.longitude;
+    public static MemberEntity dataToEntity(MemberData memberData) {
+        MemberEntity memberEntity = new MemberEntity();
 
-        formTwoData.genInfData.groupDanger = source.formTwoEntity.groupDanger;
-        formTwoData.genInfData.typeDanger = source.formTwoEntity.typeDanger;
-        formTwoData.genInfData.date = source.formTwoEntity.date;
-        formTwoData.genInfData.hour = source.formTwoEntity.hour;
-        formTwoData.genInfData.department = source.formTwoEntity.department;
-        formTwoData.genInfData.province = source.formTwoEntity.province;
-        formTwoData.genInfData.district = source.formTwoEntity.district;
-        formTwoData.genInfData.locality = source.formTwoEntity.locality;
-        formTwoData.genInfData.zone = source.formTwoEntity.zone;
+        memberEntity.memberId = memberData.id;
+        memberEntity.formTwoOwnerId = memberData.formTwoOwnerId;
 
-        formTwoData.householdData.address = source.formTwoEntity.address;
-        formTwoData.householdData.lot = source.formTwoEntity.lot;
-        formTwoData.householdData.owner = source.formTwoEntity.owner;
-        formTwoData.householdData.condition = source.formTwoEntity.condition;
-        formTwoData.householdData.idRoof = source.formTwoEntity.idRoof;
-        formTwoData.householdData.roof = source.formTwoEntity.roof;
-        formTwoData.householdData.idWall = source.formTwoEntity.idWall;
-        formTwoData.householdData.wall = source.formTwoEntity.wall;
-        formTwoData.householdData.idFloor = source.formTwoEntity.idFloor;
-        formTwoData.householdData.floor = source.formTwoEntity.floor;
+        memberEntity.dataVersion = memberData.dataVersion;
+
+        memberEntity.typeIdentification = memberData.typeIdentification;
+        memberEntity.codeIdentification = memberData.codeIdentification;
+        memberEntity.textIdentification = memberData.textIdentification;
+
+        memberEntity.surname = memberData.surname;
+        memberEntity.name = memberData.name;
+        memberEntity.birthdate = memberData.birthDate;
+        memberEntity.age = memberData.age;
+        memberEntity.gender = memberData.gender;
+        memberEntity.codeGender = memberData.codeGender;
+
+        memberEntity.condition = memberData.condition;
+        memberEntity.codeCondition = memberData.codeCondition;
+        memberEntity.personalInjury = memberData.personalInjury;
+        memberEntity.codePersonalInjury = memberData.codePersonalInjury;
+
+        return memberEntity;
+    }
+
+    public static FormTwoData dataFromEntity(FormTwoEntity formTwoEntity) {
+        FormTwoData formTwoData = new FormTwoData();
+
+        formTwoData.id = formTwoEntity.formTwoId;
+        formTwoData.formTwoApiId = formTwoEntity.formTwoApiId;
+
+        formTwoData.dataVersion = formTwoEntity.dataVersion;
+
+        formTwoData.genInfData = GenInfFactory.genInfDataFromEntity(formTwoEntity);
+
+        HouseholdData householdData = formTwoData.householdData;
+        householdData.lot = formTwoEntity.lot;
+        householdData.owner = formTwoEntity.owner;
+        householdData.useHouse = formTwoEntity.useHouse;
+        householdData.codeUseHouse = formTwoEntity.codeUseHouse;
+        householdData.conditionHouse = formTwoEntity.conditionHouse;
+        householdData.codeConditionHouse = formTwoEntity.codeConditionHouse;
+
+        householdData.typeRoof = formTwoEntity.typeRoof;
+        householdData.codeRoof = formTwoEntity.codeRoof;
+        householdData.typeWall = formTwoEntity.typeWall;
+        householdData.codeWall = formTwoEntity.codeWall;
+        householdData.typeFloor = formTwoEntity.typeFloor;
+        householdData.codeFloor = formTwoEntity.codeFloor;
+
+        return formTwoData;
+    }
+
+    public static FormTwoData dataFromEntityComplete(FormTwoCompleteEntity source) {
+
+        FormTwoData formTwoData = dataFromEntity(source.formTwoEntity);
 
         List<MemberData> tempMembers = new ArrayList<>();
         for (MemberEntity memberEntity : source.memberEntityList) {
-            MemberData memberData = entityToData(memberEntity);
+            MemberData memberData = memberDataFromEntity(memberEntity);
             tempMembers.add(memberData);
         }
 
         if(tempMembers.size() != 0)
             formTwoData.listMemberData = tempMembers;
 
-        List<LivelihoodData> tempLivelihoods = new ArrayList<>();
+        /*List<LivelihoodData> tempLivelihoods = new ArrayList<>();
         for (LivelihoodEntity livelihoodEntity : source.livelihoodEntityList) {
             LivelihoodData livelihoodData = entityToData(livelihoodEntity);
             tempLivelihoods.add(livelihoodData);
         }
 
         if(tempLivelihoods.size() != 0)
-            formTwoData.listLivelihood = tempLivelihoods;
+            formTwoData.listLivelihood = tempLivelihoods;*/
 
         return formTwoData;
-    }
-
-    public static MemberData entityToData(MemberEntity source) {
-        MemberData memberData = new MemberData();
-
-        memberData.id = source.memberId;
-
-        memberData.formTwoOwnerId = source.formTwoOwnerId;
-
-        memberData.dataVersion = source.dataVersion;
-
-        memberData.name = source.name;
-        memberData.age = source.age;
-        memberData.gender = source.gender;
-        memberData.identificationType = source.identificationType;
-        memberData.identificationNumber = source.identificationNumber;
-        memberData.condition = source.condition;
-        memberData.personalInjury = source.personalInjury;
-
-        return memberData;
     }
 
     public static LivelihoodData entityToData(LivelihoodEntity source) {
@@ -195,51 +191,48 @@ public class FormTwoFactory {
 
         formTwoEntity.formTwoApiId = formTwoData.formTwoApiId;
 
-        formTwoEntity.latitude = formTwoData.mapLocationData.latitude;
-        formTwoEntity.longitude = formTwoData.mapLocationData.longitude;
+        GenInfData genInfData = formTwoData.genInfData;
+        formTwoEntity.headerEntity = GenInfFactory.headerDataToEntity(genInfData.headerData);
 
-        formTwoEntity.groupDanger = formTwoData.genInfData.groupDanger;
-        formTwoEntity.typeDanger = formTwoData.genInfData.typeDanger;
-        formTwoEntity.date = formTwoData.genInfData.date;
-        formTwoEntity.hour = formTwoData.genInfData.hour;
-        formTwoEntity.department = formTwoData.genInfData.department;
-        formTwoEntity.province = formTwoData.genInfData.province;
-        formTwoEntity.district = formTwoData.genInfData.district;
-        formTwoEntity.locality = formTwoData.genInfData.locality;
-        formTwoEntity.zone = formTwoData.genInfData.zone;
+        ExtraData extraData = genInfData.extraData;
+        formTwoEntity.locality = extraData.nameLocality;
+        formTwoEntity.codeLocality = extraData.codeLocality;
 
-        formTwoEntity.address = formTwoData.householdData.address;
-        formTwoEntity.lot = formTwoData.householdData.lot;
-        formTwoEntity.owner = formTwoData.householdData.owner;
-        formTwoEntity.condition = formTwoData.householdData.condition;
-        formTwoEntity.floor = formTwoData.householdData.floor;
-        formTwoEntity.wall = formTwoData.householdData.wall;
-        formTwoEntity.roof = formTwoData.householdData.roof;
-        formTwoEntity.idFloor = formTwoData.householdData.idFloor;
-        formTwoEntity.idWall = formTwoData.householdData.idWall;
-        formTwoEntity.idRoof = formTwoData.householdData.idRoof;
+        formTwoEntity.typeBSU = extraData.typeBSU;
+        formTwoEntity.codeBSU = extraData.codeBSU;
+        formTwoEntity.textBSU = extraData.nameBSU;
+
+        formTwoEntity.typeCM = extraData.typeCM;
+        formTwoEntity.codeCM = extraData.codeCM;
+        formTwoEntity.textCM = extraData.nameCM;
+
+        formTwoEntity.typeCA = extraData.typeCA;
+        formTwoEntity.codeCA = extraData.codeCA;
+        formTwoEntity.textCA = extraData.nameCA;
+
+        formTwoEntity.textEPD = extraData.nameEPD;
+
+        MapLocationData mapLocationData = genInfData.mapLocationData;
+        formTwoEntity.latitude = mapLocationData.latitude;
+        formTwoEntity.longitude = mapLocationData.longitude;
+
+        HouseholdData householdData = formTwoData.householdData;
+
+        formTwoEntity.lot = householdData.lot;
+        formTwoEntity.owner = householdData.owner;
+        formTwoEntity.useHouse = householdData.useHouse;
+        formTwoEntity.codeUseHouse = householdData.codeUseHouse;
+        formTwoEntity.conditionHouse = householdData.conditionHouse;
+        formTwoEntity.codeConditionHouse = householdData.codeConditionHouse;
+
+        formTwoEntity.typeFloor = householdData.typeFloor;
+        formTwoEntity.typeWall = householdData.typeWall;
+        formTwoEntity.typeRoof = householdData.typeRoof;
+        formTwoEntity.codeFloor = householdData.codeFloor;
+        formTwoEntity.codeWall = householdData.codeWall;
+        formTwoEntity.codeRoof = householdData.codeRoof;
 
         return formTwoEntity;
-    }
-
-    public static MemberEntity dataToEntity(MemberData memberData) {
-        MemberEntity memberEntity = new MemberEntity();
-
-        memberEntity.memberId = memberData.id;
-
-        memberEntity.formTwoOwnerId = memberData.formTwoOwnerId;
-
-        memberEntity.dataVersion = memberData.dataVersion;
-
-        memberEntity.name = memberData.name;
-        memberEntity.age = memberData.age;
-        memberEntity.gender = memberData.gender;
-        memberEntity.identificationType = memberData.identificationType;
-        memberEntity.identificationNumber = memberData.identificationNumber;
-        memberEntity.condition = memberData.condition;
-        memberEntity.personalInjury = memberData.personalInjury;
-
-        return memberEntity;
     }
 
     public static LivelihoodEntity dataToEntity(LivelihoodData livelihoodData) {
@@ -256,249 +249,77 @@ public class FormTwoFactory {
         return livelihoodEntity;
     }
 
-    public static ApiFormTwo apiFromData(FormTwoData formTwoData) {
-        ApiFormTwo result = new ApiFormTwo();
+    public static FormTwoRemote dataToRemote(FormTwoData formTwoData) {
+        FormTwoRemote formTwoRemote = new FormTwoRemote();
 
-        FormTwoCab formTwoCab = new FormTwoCab();
-        formTwoCab.setEvaluacionNro("1");
-        formTwoCab.setSinpadNro("sinpad");
-        formTwoCab.setPeligroTipo(formTwoData.genInfData.typeDanger);
-        formTwoCab.setEmpadronamientoFechaHora(formTwoData.genInfData.date + " " + formTwoData.genInfData.hour);
-        formTwoCab.setOcurrenciaFechaHora(formTwoData.genInfData.date + " " + formTwoData.genInfData.hour);
-        formTwoCab.setDepartamento(formTwoData.genInfData.department);
-        formTwoCab.setProvincia(formTwoData.genInfData.province);
-        formTwoCab.setDistrito(formTwoData.genInfData.district);
-        formTwoCab.setLocalidad(formTwoData.genInfData.locality);
-        formTwoCab.setSector("sector");
-        formTwoCab.setCalle("calle");
-        formTwoCab.setPiso("piso");
-        formTwoCab.setCentroPoblado("centro poblado");
-        formTwoCab.setCaserio("caserio");
-        formTwoCab.setAnexo("anexo");
-        formTwoCab.setHojaNro("001");
-        formTwoCab.setOtros(formTwoData.genInfData.zone);
-        result.setForm2aCab(formTwoCab);
-
-        //************************
-        InformacionVivienda informacionVivienda = new InformacionVivienda();
-        Integer lot = Converter.stringToInteger(formTwoData.householdData.lot);
-        informacionVivienda.setLoteNro(lot != null ? lot : 0);
-        informacionVivienda.setTenenciaPropia("si");
-        informacionVivienda.setCondicionUsoInstalacion(formTwoData.householdData.condition);
-        informacionVivienda.setCondicionViviendaPostDesastre(formTwoData.householdData.condition);
-
-        MaterialType materialType = new MaterialType();
-
-        materialType.setTecho(formTwoData.householdData.idRoof);
-        materialType.setPared(formTwoData.householdData.idWall);
-        materialType.setPiso(formTwoData.householdData.idFloor);
-
-        informacionVivienda.setTipoMaterialVivienda(materialType);
-        result.setInformacionVivienda(informacionVivienda);
-
-        //***********************
-        List<Familia> familiaList = new ArrayList<>();
-
-        for (MemberData householdMemberData : formTwoData.listMemberData) {
-            Familia familia = new Familia();
-
-            InformacionRegular informacionRegular = new InformacionRegular();
-
-            Responsable responsable = new Responsable();
-            responsable.setNombres(householdMemberData.name);
-            responsable.setApellidos(householdMemberData.name);
-            responsable.setEdad(householdMemberData.age);
-
-            Document document = new Document();
-            //TODO idType
-            document.setTipo(1);
-            document.setNro(householdMemberData.identificationNumber.toString());
-            responsable.setDocument(document);
-
-            informacionRegular.setResponsable(responsable);
-
-            LifeHealth vidaSalud = new LifeHealth();
-
-            Condition condition = new Condition();
-            // TODO personalInjury
-            condition.setAfectados(2);
-            condition.setDamnificados(1);
-            vidaSalud.setCondicion(condition);
-
-            PersonalInjury daniosPersonales = new PersonalInjury();
-
-            daniosPersonales.setDesaparecidos(2);
-            daniosPersonales.setFallecidos(1);
-            daniosPersonales.setLesionados(1);
-            vidaSalud.setDaniosPersonales(daniosPersonales);
-
-            informacionRegular.setVidaSalud(vidaSalud);
-
-            GrupoEtarios grupoEtarios = new GrupoEtarios();
-
-            Etario etario = new Etario();
-            etario.setF(1);
-            etario.setM(0);
-
-            grupoEtarios.setMenorA1(etario);
-            grupoEtarios.set_1A40(etario);
-            grupoEtarios.set_5A9(etario);
-            grupoEtarios.set_10A14(etario);
-            grupoEtarios.set_15A17(etario);
-            grupoEtarios.set_18A49(etario);
-            grupoEtarios.set_50A59(etario);
-            grupoEtarios.set_60AMas(etario);
-            informacionRegular.setGruposEtarios(grupoEtarios);
-
-            familia.setInformacionRegular(informacionRegular);
-
-            InformacionEspecial informacionEspecial = new InformacionEspecial();
-
-            GruposVulnerables gruposVulnerables = new GruposVulnerables();
-            gruposVulnerables.setGestantes(5);
-            gruposVulnerables.setPersonasConDiscapacidad(1);
-            gruposVulnerables.setTipoEnfermedadCronica(5);
-            informacionEspecial.setGruposVulnerables(gruposVulnerables);
-            familia.setInformacionEspecial(informacionEspecial);
-
-            familiaList.add(familia);
-        }
-
-        result.setFamilias(familiaList);
-
-        return result;
+        return formTwoRemote;
     }
 
-    public static List<FormTwoData> fromDbList(List<FormTwoCompleteData> source) {
-        List<FormTwoData> result = new ArrayList<>();
-        for (FormTwoCompleteData formTwoWithMembers : source) {
-            FormTwoData formTwoData = entityToData(formTwoWithMembers);
-            result.add(formTwoData);
+    public static FormTwoRemote completeEntityToRemote(FormTwoCompleteEntity formTwoCompleteEntity) {
+        FormTwoRemote formTwoRemote = new FormTwoRemote();
+
+        FormTwoEntity entity = formTwoCompleteEntity.formTwoEntity;
+        HeaderEntity headerEntity = entity.headerEntity;
+
+        //***********************************************
+        FormTwoHeaderRemote headerRemote = new FormTwoHeaderRemote();
+        headerRemote.setPeligroTipo(headerEntity.codeGroupDanger);
+        headerRemote.setEvaluacionNro(-1);
+
+        String eventDateTime = headerEntity.dateEvent + " " + headerEntity.hourEvent;
+        String creationDateTime = headerEntity.dateCreation + " " + headerEntity.hourCreation;
+
+        headerRemote.setOcurrenciaFechaHora(eventDateTime);
+        headerRemote.setEmpadronamientoFechaHora(creationDateTime);
+        headerRemote.setCentroPoblado(entity.locality);
+        headerRemote.setLocalidad(entity.locality);
+        headerRemote.setCaserio(entity.textCA);
+        headerRemote.setCalle(entity.textCM);
+        headerRemote.setPiso(Converter.stringToInteger(entity.textEPD));
+
+        formTwoRemote.setForm2aCab(headerRemote);
+
+        //***********************************************
+        HouseholdRemote householdRemote = new HouseholdRemote();
+        householdRemote.setCondicionViviendaPostDesastre(entity.codeConditionHouse);
+        householdRemote.setCondicionUsoInstalacion(entity.codeUseHouse);
+        householdRemote.setLoteNro(entity.lot);
+        householdRemote.setTenenciaPropia(entity.owner ? "S" : "N");
+
+        MaterialTypeRemote materialTypeRemote = new MaterialTypeRemote();
+        materialTypeRemote.setTecho(entity.codeRoof);
+        materialTypeRemote.setPared(entity.codeWall);
+        materialTypeRemote.setPiso(entity.codeFloor);
+
+        householdRemote.setTipoMaterialVivienda(materialTypeRemote);
+
+        formTwoRemote.setInformacionVivienda(householdRemote);
+
+        //************************************************
+        formTwoRemote.setFamilias(new FamiliesRemote());
+        formTwoRemote.getFamilias().setFamily(new FamilyRemote());
+        formTwoRemote.getFamilias().getFamily().setInformacionRegular(new InformationRemote());
+
+        ResponsableRemote responsableRemote = new ResponsableRemote();
+
+        List<MemberEntity> list = formTwoCompleteEntity.memberEntityList;
+        if (list != null && list.size() > 0) {
+            MemberEntity memberEntity = list.get(0);
+
+            responsableRemote.setApellidos(memberEntity.surname);
+            responsableRemote.setNombres(memberEntity.name);
+            responsableRemote.setEdad(Integer.toString(memberEntity.age));
+
+            DocumentRemote documentRemote = new DocumentRemote();
+            documentRemote.setNro(Integer.toString(memberEntity.textIdentification));
+            documentRemote.setTipo(Integer.toString(memberEntity.codeIdentification));
+
+            responsableRemote.setDocumento(documentRemote);
+
         }
-        return result;
-    }
 
-    public static List<FormTwoData> fromApiList(List<ApiListResponse.Datum> list) {
-        if(list == null || list.size() == 0)
-            return null;
+        formTwoRemote.getFamilias().getFamily().getInformacionRegular().setResponsable(responsableRemote);
 
-        List<FormTwoData> temp = new ArrayList<>();
-
-        for (ApiListResponse.Datum datum : list) {
-            FormTwoData formTwoData = new FormTwoData();
-            formTwoData.genInfData = new GenInfData();
-            formTwoData.formTwoApiId = datum.getFORM2ACABID();
-            formTwoData.genInfData.typeDanger = datum.getPELIGROTIPO();
-            formTwoData.genInfData.department = datum.getDEPARTAMENTO();
-            formTwoData.genInfData.date = datum.getOCURRENCIAFECHAHORA();
-            formTwoData.genInfData.hour = "";
-            temp.add(formTwoData);
-        }
-
-        return temp;
-    }
-
-    public static ApiFormTwo testApi() {
-        ApiFormTwo result = new ApiFormTwo();
-
-        FormTwoCab formTwoCab = new FormTwoCab();
-        formTwoCab.setEvaluacionNro("1");
-        formTwoCab.setSinpadNro("sinpad");
-        formTwoCab.setPeligroTipo("peligro");
-        formTwoCab.setEmpadronamientoFechaHora("2000-06-01 00:20:09");
-        formTwoCab.setOcurrenciaFechaHora("2020-06-01 10:20:00");
-        formTwoCab.setDepartamento("Lima");
-        formTwoCab.setProvincia("Lima");
-        formTwoCab.setDistrito("Lima");
-        formTwoCab.setLocalidad("Limatambo");
-        formTwoCab.setSector("sector");
-        formTwoCab.setCalle("calle");
-        formTwoCab.setPiso("piso");
-        formTwoCab.setCentroPoblado("centro poblado");
-        formTwoCab.setCaserio("caserio");
-        formTwoCab.setAnexo("anexo");
-        formTwoCab.setHojaNro("001");
-        formTwoCab.setOtros("otros");
-        result.setForm2aCab(formTwoCab);
-
-        //************************
-        InformacionVivienda informacionVivienda = new InformacionVivienda();
-        informacionVivienda.setLoteNro(1);
-        informacionVivienda.setTenenciaPropia("si");
-        informacionVivienda.setCondicionUsoInstalacion("vivienda");
-        informacionVivienda.setCondicionViviendaPostDesastre("afectada");
-
-        MaterialType materialType = new MaterialType();
-        materialType.setTecho(2);
-        materialType.setPared(1);
-        materialType.setPiso(1);
-        informacionVivienda.setTipoMaterialVivienda(materialType);
-        result.setInformacionVivienda(informacionVivienda);
-
-        //***********************
-        Familia familia1 = new Familia();
-
-        InformacionRegular informacionRegular = new InformacionRegular();
-
-        Responsable responsable = new Responsable();
-        responsable.setNombres("Will");
-        responsable.setApellidos("Smith");
-        responsable.setEdad(20);
-
-        Document document = new Document();
-        document.setTipo(1);
-        document.setNro("88888888");
-        responsable.setDocument(document);
-        informacionRegular.setResponsable(responsable);
-
-        LifeHealth vidaSalud = new LifeHealth();
-
-        Condition condition = new Condition();
-        condition.setAfectados(2);
-        condition.setDamnificados(1);
-        vidaSalud.setCondicion(condition);
-
-        PersonalInjury daniosPersonales = new PersonalInjury();
-
-        daniosPersonales.setDesaparecidos(2);
-        daniosPersonales.setFallecidos(1);
-        daniosPersonales.setLesionados(1);
-        vidaSalud.setDaniosPersonales(daniosPersonales);
-
-        informacionRegular.setVidaSalud(vidaSalud);
-
-        GrupoEtarios grupoEtarios = new GrupoEtarios();
-
-        Etario etario = new Etario();
-        etario.setF(1);
-        etario.setM(0);
-
-        grupoEtarios.setMenorA1(etario);
-        grupoEtarios.set_1A40(etario);
-        grupoEtarios.set_5A9(etario);
-        grupoEtarios.set_10A14(etario);
-        grupoEtarios.set_15A17(etario);
-        grupoEtarios.set_18A49(etario);
-        grupoEtarios.set_50A59(etario);
-        grupoEtarios.set_60AMas(etario);
-        informacionRegular.setGruposEtarios(grupoEtarios);
-
-        familia1.setInformacionRegular(informacionRegular);
-
-        InformacionEspecial informacionEspecial = new InformacionEspecial();
-
-        GruposVulnerables gruposVulnerables = new GruposVulnerables();
-        gruposVulnerables.setGestantes(5);
-        gruposVulnerables.setPersonasConDiscapacidad(1);
-        gruposVulnerables.setTipoEnfermedadCronica(5);
-        informacionEspecial.setGruposVulnerables(gruposVulnerables);
-        familia1.setInformacionEspecial(informacionEspecial);
-
-        List<Familia> familiaList = new ArrayList<>();
-        familiaList.add(familia1);
-
-        result.setFamilias(familiaList);
-
-        return result;
+        return formTwoRemote;
     }
 }

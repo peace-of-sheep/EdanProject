@@ -9,7 +9,7 @@
             type="String" />
         <variable
             name="holder"
-            type="tech.ankainn.edanapplication.model.formOne.SelectableItemData" />
+            type="tech.ankainn.edanapplication.model.app.formOne.SelectableItemData" />
         <variable
             name="showQuantity"
             type="boolean"/>

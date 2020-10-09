@@ -1,7 +1,5 @@
 package tech.ankainn.edanapplication.global;
 
-import tech.ankainn.edanapplication.util.CallbackDispatcher;
-
 public class Options extends CallbackDispatcher<Options.Callback> {
 
     private static Options instance;

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tech.ankainn.edanapplication.model.dto.FormOneEntity;
-import tech.ankainn.edanapplication.model.formOne.FormOneData;
-import tech.ankainn.edanapplication.model.formOne.SelectableData;
-import tech.ankainn.edanapplication.model.formOne.SelectableItemData;
+import tech.ankainn.edanapplication.model.app.formOne.FormOneData;
+import tech.ankainn.edanapplication.model.app.formOne.SelectableData;
+import tech.ankainn.edanapplication.model.app.formOne.SelectableItemData;
 
 public class FormOneFactory {
 
@@ -14,7 +14,7 @@ public class FormOneFactory {
         FormOneData formOneData = new FormOneData();
 
         formOneData.dataVersion = 0;
-        formOneData.mapLocationData = GenInfFactory.createEmptyMapLocation();
+
         formOneData.genInfData = GenInfFactory.createEmptyGenInf();
 
         formOneData.damageOne = new SelectableData(createSelectableList(false, 0, 5), null);
@@ -42,7 +42,7 @@ public class FormOneFactory {
         result.dataVersion = entity.dataVersion;
 
         result.mapLocationData = GenInfFactory.createMapLocationFromEntity(entity);
-        result.genInfData = GenInfFactory.createGenInfFromEntity(entity);
+        //result.genInfData = GenInfFactory.createGenInfFromEntity(entity);
 
         result.damageOne = createSelectableDataFromEntity(entity.damageOneQuantity, entity.damageOneBool, null);
         result.damageTwo = createSelectableDataFromEntity(null, entity.damageTwoBool, null);

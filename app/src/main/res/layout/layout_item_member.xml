@@ -6,7 +6,7 @@
         <import type="tech.ankainn.edanapplication.binding.Converter"/>
         <variable
             name="member"
-            type="tech.ankainn.edanapplication.model.formTwo.MemberData" />
+            type="tech.ankainn.edanapplication.model.app.formTwo.MemberData" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -38,17 +38,17 @@
                 android:layout_marginTop="@dimen/dim_nor"
                 android:layout_marginHorizontal="@dimen/dim_nor"
                 android:text="@{member.name}"
-                android:id="@+id/text_name"
+                android:id="@+id/text_surname"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"/>
 
             <com.google.android.material.textview.MaterialTextView
-                app:layout_constraintTop_toBottomOf="@id/text_name"
+                app:layout_constraintTop_toBottomOf="@id/text_surname"
                 app:layout_constraintStart_toEndOf="@id/img"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="@dimen/dim_nor"
                 android:layout_marginHorizontal="@dimen/dim_nor"
-                android:text="@{Converter.integerToString(member.identificationNumber)}"
+                android:text="@{Converter.integerToString(member.textIdentification)}"
                 android:id="@+id/text_id_number"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"/>

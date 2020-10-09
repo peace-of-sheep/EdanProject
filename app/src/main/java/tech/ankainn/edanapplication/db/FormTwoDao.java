@@ -10,25 +10,25 @@ import androidx.room.Update;
 
 import java.util.List;
 
-import tech.ankainn.edanapplication.model.dto.FormTwoCompleteData;
+import tech.ankainn.edanapplication.model.dto.FormTwoCompleteEntity;
 import tech.ankainn.edanapplication.model.dto.FormTwoEntity;
 import tech.ankainn.edanapplication.model.dto.LivelihoodEntity;
 import tech.ankainn.edanapplication.model.dto.MemberEntity;
-import tech.ankainn.edanapplication.model.formTwo.FormTwoSubset;
+import tech.ankainn.edanapplication.model.dto.FormTwoSubset;
 
 @Dao
 public abstract class FormTwoDao {
 
-    @Query("SELECT form_two_id, data_version, department, province, district, date, hour, address, lot FROM form_two_table ORDER BY form_two_id DESC")
+    @Query("SELECT form_two_id, form_two_api_id, data_version, department, province, district, date_event, hour_event, lot FROM form_two_table ORDER BY form_two_id DESC")
     public abstract LiveData<List<FormTwoSubset>> loadAllFormTwoSubset();
 
     @Transaction
     @Query("SELECT * FROM form_two_table ORDER BY form_two_id DESC")
-    public abstract LiveData<List<FormTwoCompleteData>> getAllFormTwo();
+    public abstract LiveData<List<FormTwoCompleteEntity>> getAllFormTwo();
 
     @Transaction
     @Query("SELECT * FROM form_two_table WHERE form_two_id = :formTwoId")
-    public abstract FormTwoCompleteData loadFormTwoById(long formTwoId);
+    public abstract FormTwoCompleteEntity loadFormTwoById(long formTwoId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract long insertFormTwo(FormTwoEntity formTwoEntity);

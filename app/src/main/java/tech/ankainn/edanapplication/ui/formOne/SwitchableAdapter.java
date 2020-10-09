@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import tech.ankainn.edanapplication.databinding.LayoutItemSwitchBinding;
-import tech.ankainn.edanapplication.model.formOne.SelectableItemData;
+import tech.ankainn.edanapplication.model.app.formOne.SelectableItemData;
 import tech.ankainn.edanapplication.ui.common.BindingViewHolder;
 
 public class SwitchableAdapter extends RecyclerView.Adapter<BindingViewHolder<LayoutItemSwitchBinding>> {

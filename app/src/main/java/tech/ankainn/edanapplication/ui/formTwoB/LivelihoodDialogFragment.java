@@ -69,9 +69,8 @@ public class LivelihoodDialogFragment extends BottomSheetDialogFragment {
 
         long tempId = getIdFromBundle(getArguments());
 
-        ViewModelStoreOwner owner = ScopeNavHostFragment.getOwner(this);
-        ViewModelProvider.Factory factory = InjectorUtil.provideFormTwoViewModelFactory(requireContext());
-        LivelihoodViewModel viewModel = new ViewModelProvider(owner, factory).get(LivelihoodViewModel.class);
+        ViewModelProvider.Factory factory = InjectorUtil.provideViewModelFactory(requireContext());
+        LivelihoodViewModel viewModel = new ViewModelProvider(this, factory).get(LivelihoodViewModel.class);
 
         viewModel.searchLivelihoodById(tempId);
 
@@ -106,7 +105,7 @@ public class LivelihoodDialogFragment extends BottomSheetDialogFragment {
                     return;
             }
             String[] array = getResources().getStringArray(arrayId);
-            BindingAdapters.setDropdown(binding.get().textType, array);
+            BindingAdapters.setDropdown(binding.get().textType, array, null);
         });
 
         binding.get().btnSave.setOnClickListener(v -> {

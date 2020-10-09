@@ -1,5 +1,6 @@
 package tech.ankainn.edanapplication.global;
 
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -123,6 +124,12 @@ public class BottomOptionsFragment extends BottomSheetDialogFragment {
         if (!requireActivity().isChangingConfigurations()) {
             open = false;
         }
+    }
+
+    @Override
+    public void onCancel(@NonNull DialogInterface dialog) {
+        super.onCancel(dialog);
+        listener.onOption(-1);
     }
 
     private interface OnOption {
