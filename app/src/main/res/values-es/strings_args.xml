@@ -7,4 +7,7 @@
 
     <string name="description_args">Descripción: <b>%s</b></string>
     <string name="amount_lost_affected_args"><b>%d</b> P - <b>%d</b> A</string>
+
+    <string name="not_sent_args">No enviado</string>
+    <string name="sent_args">Enviado: Id remoto %d</string>
 </resources>

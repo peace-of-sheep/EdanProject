@@ -9,21 +9,21 @@ import androidx.room.Update;
 
 import java.util.List;
 
-import tech.ankainn.edanapplication.model.dto.FormOneEntity;
+import tech.ankainn.edanapplication.model.app.formOne.FormOneData;
 import tech.ankainn.edanapplication.model.app.formOne.FormOneSubset;
 
 @Dao
 public interface FormOneDao {
 
-    @Query("SELECT form_one_id, data_version, department, province, district, date, hour FROM form_one_table ORDER BY form_one_id DESC")
+    @Query("SELECT form_one_id, data_version, department, province, district, date_event, hour_event FROM form_one_table ORDER BY form_one_id DESC")
     LiveData<List<FormOneSubset>> loadAllFormOneSubset();
 
     @Query("SELECT * FROM form_one_table WHERE form_one_id = :formOneId")
-    FormOneEntity loadFormOneById(long formOneId);
+    FormOneData loadFormOneById(long formOneId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    long insertFormOne(FormOneEntity formOneEntity);
+    long insertFormOne(FormOneData formOneData);
 
     @Update
-    void updateFormOne(FormOneEntity formOneEntity);
+    void updateFormOne(FormOneData formOneData);
 }

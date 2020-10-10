@@ -27,16 +27,12 @@ public class HostFragment extends BindingFragment<FragmentHostBinding> implement
         NavController childNavController = getChildNavController(getChildFragmentManager(), R.id.host_fragment_container);
         NavigationUI.setupWithNavController(binding().bnv, childNavController);
 
-        /*binding().btnAdd.setOnClickListener(v ->
+        binding().btnAdd.setOnClickListener(v ->
                 new BottomOptionsFragment.Builder("select")
                         .setTitle(R.string.select_form)
                         .addOption(R.string.form_one, R.drawable.ic_folder_24dp)
                         .addOption(R.string.form_two, R.drawable.ic_folder_24dp)
-                        .build(getParentFragmentManager()));*/
-
-        binding().btnAdd.setOnClickListener(v ->
-                Navigation.findNavController(requireActivity(), R.id.fragment_container)
-                        .navigate(HostFragmentDirections.actionHostToFormTwo()));
+                        .build(getParentFragmentManager()));
 
         Options.getInstance().observe(getViewLifecycleOwner(), (emitter, option) -> {
             if ("select".equals(emitter)) {

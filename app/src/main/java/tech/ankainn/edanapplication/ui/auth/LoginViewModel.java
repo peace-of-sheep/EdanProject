@@ -20,23 +20,17 @@ public class LoginViewModel extends ViewModel {
 
     public LoginViewModel(UserRepository userRepository) {
 
-        state.setValue(State.STILL);
+        LiveData<Boolean> result = Transformations.switchMap(authCredentials, userRepository::loadUser);
 
-        LiveData<Boolean> result = Transformations.switchMap(authCredentials, authCredentials -> {
-            state.setValue(State.LOADING);
-            return userRepository.loadUser(authCredentials);
-        });
-
-        state.addSource(result, loaded -> state.setValue(loaded ? State.SUCCESSFUL : State.ERROR));
-
-        singleEvent.addSource(state, currentState -> {
-            if (currentState == State.ERROR || currentState == State.SUCCESSFUL) {
-                singleEvent.setValue(currentState);
-            }
+        singleEvent.addSource(result, loaded -> {
+            State state = loaded ? State.SUCCESSFUL : State.ERROR;
+            this.state.setValue(state);
+            this.singleEvent.setValue(state);
         });
     }
 
     public void loadUser(AuthCredentials authCredentials) {
+        state.setValue(State.LOADING);
         this.authCredentials.setValue(authCredentials);
     }
 

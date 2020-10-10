@@ -29,7 +29,7 @@
                     android:inputType="numberDecimal|numberSigned"
                     android:text="@={Converter.doubleToString(mapLocation.latitude)}"
                     android:id="@+id/text_latitude"
-                    android:maxLength="8"
+                    android:maxLength="12"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -46,7 +46,7 @@
                     android:inputType="numberDecimal|numberSigned"
                     android:text="@={Converter.doubleToString(mapLocation.longitude)}"
                     android:id="@+id/text_longitude"
-                    android:maxLength="8"
+                    android:maxLength="12"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -61,7 +61,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:text="@={Converter.doubleToString(mapLocation.altitude)}"
                     android:maxLength="5"
-                    android:inputType="number"
+                    android:inputType="numberDecimal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </com.google.android.material.textfield.TextInputLayout>

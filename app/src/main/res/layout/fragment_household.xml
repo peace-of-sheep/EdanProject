@@ -31,7 +31,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:text="@={household.lot}"
-                    android:inputType="text"
+                    android:inputType="number"
                     android:imeOptions="actionDone"
                     android:id="@+id/text_lot_number"
                     android:layout_width="match_parent"

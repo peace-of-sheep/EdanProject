@@ -6,12 +6,13 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import tech.ankainn.edanapplication.model.dto.FormOneEntity;
-import tech.ankainn.edanapplication.model.dto.FormTwoEntity;
-import tech.ankainn.edanapplication.model.dto.LivelihoodEntity;
-import tech.ankainn.edanapplication.model.dto.MemberEntity;
+import tech.ankainn.edanapplication.model.app.auth.UserData;
+import tech.ankainn.edanapplication.model.app.formOne.FormOneData;
+import tech.ankainn.edanapplication.model.app.formTwo.FormTwoData;
+import tech.ankainn.edanapplication.model.app.formTwo.LivelihoodData;
+import tech.ankainn.edanapplication.model.app.formTwo.MemberData;
 
-@Database(entities = {FormOneEntity.class, FormTwoEntity.class, MemberEntity.class, LivelihoodEntity.class}, version = 1, exportSchema = false)
+@Database(entities = {UserData.class, FormOneData.class, FormTwoData.class, MemberData.class, LivelihoodData.class}, version = 1, exportSchema = false)
 public abstract class EdanDatabase extends RoomDatabase {
 
     public abstract UserDao userDao();

@@ -15,7 +15,7 @@ public class LocationFragment extends BindingFragment<FragmentLocationBinding> {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        ViewModelProvider.Factory factory = InjectorUtil.provideViewModelFactory(requireContext());
+        ViewModelProvider.Factory factory = InjectorUtil.provideGenInfViewModelFactory(requireContext());
         MapLocationViewModel viewModel = new ViewModelProvider(this, factory).get(MapLocationViewModel.class);
 
         viewModel.getMapLocationData().observe(getViewLifecycleOwner(),

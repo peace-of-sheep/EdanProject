@@ -11,14 +11,18 @@ import tech.ankainn.edanapplication.repositories.FormOneRepository;
 import tech.ankainn.edanapplication.repositories.FormTwoRepository;
 import tech.ankainn.edanapplication.repositories.GenInfRepository;
 import tech.ankainn.edanapplication.api.ApiService;
+import tech.ankainn.edanapplication.repositories.MemberRepository;
+import tech.ankainn.edanapplication.repositories.ReniecRepository;
 import tech.ankainn.edanapplication.repositories.UserRepository;
 import tech.ankainn.edanapplication.viewmodel.EdanViewModelFactory;
 import tech.ankainn.edanapplication.viewmodel.FormOneViewModelFactory;
+import tech.ankainn.edanapplication.viewmodel.FormTwoViewModelFactory;
+import tech.ankainn.edanapplication.viewmodel.GenInfViewModelFactory;
 
 public class InjectorUtil {
 
     private static UserRepository getUserRepository(Context context) {
-        return UserRepository.getInstance(AppExecutors.getInstance(),
+        return UserRepository.getInstance(AppExecutors.getInstance(), Cache.getInstance(),
                 ApiService.getGaldosService(), EdanDatabase.getInstance(context));
     }
 
@@ -37,19 +41,34 @@ public class InjectorUtil {
 
     private static FormTwoRepository getFormTwoRepository(Context context) {
         return FormTwoRepository.getInstance(AppExecutors.getInstance(),
-                ApiService.getEdanService(),
-                ApiService.getReniecService(),
                 ApiService.getGaldosService(),
                 EdanDatabase.getInstance(context.getApplicationContext()),
                 Cache.getInstance());
+    }
+
+    private static MemberRepository getMemberRepository() {
+        return MemberRepository.getInstance(Cache.getInstance());
+    }
+
+    private static ReniecRepository getReniecRepository() {
+        return ReniecRepository.getInstance(AppExecutors.getInstance(), ApiService.getReniecService());
     }
 
     public static FormOneViewModelFactory provideFormOneViewModelFactory(Context context) {
         return new FormOneViewModelFactory(getFormOneRepository(context));
     }
 
+    public static FormTwoViewModelFactory provideFormTwoViewModelFactory(Context context) {
+        return new FormTwoViewModelFactory(getFormTwoRepository(context), getMemberRepository(),
+                getReniecRepository());
+    }
+
     public static EdanViewModelFactory provideViewModelFactory(Context context) {
-        return new EdanViewModelFactory(getUserRepository(context), getGenInfRepository(context),
-                getFormOneRepository(context), getFormTwoRepository(context));
+        return new EdanViewModelFactory(getUserRepository(context), getFormOneRepository(context),
+                getFormTwoRepository(context));
+    }
+
+    public static GenInfViewModelFactory provideGenInfViewModelFactory(Context context) {
+        return new GenInfViewModelFactory(getGenInfRepository(context));
     }
 }

@@ -23,14 +23,14 @@ public class DamageThreeFragment extends BindingFragment<FragmentSwitchableBindi
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        ViewModelStoreOwner owner = ScopeNavHostFragment.getOwner(this);
         ViewModelProvider.Factory factory = InjectorUtil.provideFormOneViewModelFactory(requireContext());
-        SwitchableViewModel viewModel = new ViewModelProvider(owner, factory).get(SwitchableViewModel.class);
+        SwitchableViewModel viewModel = new ViewModelProvider(this, factory).get(SwitchableViewModel.class);
 
         binding().setTitle(getString(R.string.title_damage_three));
         binding().setBottomVisibility(false);
+        binding().setOptionsVisibility(false);
 
-        List<String> names = Arrays.asList(getResources().getStringArray(R.array.damage_three));
+        String[] names = getResources().getStringArray(R.array.damage_three);
         SwitchableAdapter adapter = new SwitchableAdapter(names);
         binding().recyclerView.setAdapter(adapter);
 

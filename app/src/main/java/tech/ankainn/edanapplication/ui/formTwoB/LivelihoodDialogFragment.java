@@ -69,7 +69,7 @@ public class LivelihoodDialogFragment extends BottomSheetDialogFragment {
 
         long tempId = getIdFromBundle(getArguments());
 
-        ViewModelProvider.Factory factory = InjectorUtil.provideViewModelFactory(requireContext());
+        ViewModelProvider.Factory factory = InjectorUtil.provideFormTwoViewModelFactory(requireContext());
         LivelihoodViewModel viewModel = new ViewModelProvider(this, factory).get(LivelihoodViewModel.class);
 
         viewModel.searchLivelihoodById(tempId);

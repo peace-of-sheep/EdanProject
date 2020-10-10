@@ -2,12 +2,20 @@ package tech.ankainn.edanapplication.ui.geninfo;
 
 import android.Manifest;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.DynamicDrawableSpan;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -42,21 +50,13 @@ public class MapFragment extends BindingFragment<FragmentMapBinding> {
             binding().mapView.getMapAsync(this::onMapCallback);
         });
 
-        ViewModelProvider.Factory factory = InjectorUtil.provideViewModelFactory(requireContext());
+        ViewModelProvider.Factory factory = InjectorUtil.provideGenInfViewModelFactory(requireContext());
         viewModel = new ViewModelProvider(this, factory).get(MapLocationViewModel.class);
+
+        binding().btnLocation.setOnClickListener(v -> getLastLocation(requireContext()));
 
         viewModel.getMapLocationData().observe(getViewLifecycleOwner(),
                 mapLocationData -> binding().setMapLocation(mapLocationData));
-
-        /*viewModel.getState().observe(getViewLifecycleOwner(), state -> {
-            if (state == MapLocationViewModel.State.LOADING) {
-                binding().btnLocation.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_arrow_forward_24));
-            } else {
-                binding().btnLocation.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.ic_my_location_24));
-            }
-        });
-
-        binding().btnLocation.setOnClickListener(v -> getLastLocation(requireContext()));*/
     }
 
     private void onMapCallback(GoogleMap map) {
@@ -84,7 +84,7 @@ public class MapFragment extends BindingFragment<FragmentMapBinding> {
 
     private void getLastLocation(Context context) {
         Dexter.withContext(context)
-                .withPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+                .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
                 .withListener(new PermissionListener() {
                     @Override
                     public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {

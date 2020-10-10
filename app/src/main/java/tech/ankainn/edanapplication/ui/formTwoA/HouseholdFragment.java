@@ -14,7 +14,7 @@ public class HouseholdFragment extends BindingFragment<FragmentHouseholdBinding>
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        ViewModelProvider.Factory factory = InjectorUtil.provideViewModelFactory(requireContext());
+        ViewModelProvider.Factory factory = InjectorUtil.provideFormTwoViewModelFactory(requireContext());
         FormTwoViewModel viewModel = new ViewModelProvider(this, factory).get(FormTwoViewModel.class);
 
         binding().textUseHousehold.setOnItemClickListener((p, v, pos, id) -> {

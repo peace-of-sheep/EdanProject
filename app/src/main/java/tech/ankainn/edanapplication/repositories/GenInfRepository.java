@@ -77,18 +77,13 @@ public class GenInfRepository {
     }
 
     @RequiresPermission("android.permission.ACCESS_COARSE_LOCATION")
-    public LiveData<Tuple2<Double, Double>> loadLastLocation() throws SecurityException {
-        MutableLiveData<Tuple2<Double, Double>> latLng = new MutableLiveData<>();
+    public LiveData<Location> loadLastLocation() throws SecurityException {
+        MutableLiveData<Location> fusedLocation = new MutableLiveData<>();
         locationProviderClient.getLastLocation()
                 .addOnCompleteListener(appExecutors.networkIO(), locationTask -> {
                     Timber.tag(Tagger.DUMPER).d("loadLastLocation: %s", locationTask.getResult());
-                    if (locationTask.isSuccessful() && locationTask.getResult() != null) {
-                        Location location = locationTask.getResult();
-                        latLng.postValue(new Tuple2<>(location.getLatitude(), location.getLongitude()));
-                    } else {
-                        latLng.postValue(null);
-                    }
+                    fusedLocation.postValue(locationTask.getResult());
                 });
-        return latLng;
+        return fusedLocation;
     }
 }

@@ -24,7 +24,7 @@ public class HeaderFragment extends BindingFragment<FragmentHeaderBinding> {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        ViewModelProvider.Factory factory = InjectorUtil.provideViewModelFactory(requireContext());
+        ViewModelProvider.Factory factory = InjectorUtil.provideGenInfViewModelFactory(requireContext());
         HeaderViewModel viewModel = new ViewModelProvider(this, factory).get(HeaderViewModel.class);
 
         TextInputLayoutUtil.setOnClickListener(binding().layoutDate,

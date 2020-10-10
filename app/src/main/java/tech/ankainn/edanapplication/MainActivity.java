@@ -12,6 +12,8 @@ import androidx.core.content.ContextCompat;
 
 import com.google.gson.Gson;
 
+import java.security.SecureRandom;
+
 import tech.ankainn.edanapplication.databinding.ActivityFragmentContainerBinding;
 import tech.ankainn.edanapplication.model.app.formOne.FormOneData;
 import tech.ankainn.edanapplication.model.app.formTwo.FormTwoData;
@@ -45,18 +47,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
             Cache cache = Cache.getInstance();
-            /*FormOneData formOneData = cache.getFormOneData().getValue();
-            Timber.tag(Tagger.DUMPER)
-                    .d("onKeyDown: %s", formOneData == null ? "no form one data in cache" : new Gson().toJson(formOneData));*/
 
+            FormOneData formOneData = cache.getFormOneData().getValue();
+            Timber.tag(Tagger.DUMPER).w("%s", formOneData == null ? "no form one data" : new Gson().toJson(formOneData));
             FormTwoData formTwoData = cache.getFormTwoData().getValue();
-            Timber.tag(Tagger.DUMPER).d("onKeyDown: %s", formTwoData == null ? "no form two data" : new Gson().toJson(formTwoData));
+            Timber.tag(Tagger.DUMPER).w("%s", formTwoData == null ? "no form two data" : new Gson().toJson(formTwoData));
             return true;
         } else {
             return super.onKeyDown(keyCode, event);

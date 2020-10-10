@@ -8,8 +8,6 @@ import androidx.lifecycle.ViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-import tech.ankainn.edanapplication.model.factory.FormTwoFactory;
-import tech.ankainn.edanapplication.model.app.formTwo.FormTwoData;
 import tech.ankainn.edanapplication.model.app.formTwo.LivelihoodData;
 import tech.ankainn.edanapplication.repositories.FormTwoRepository;
 

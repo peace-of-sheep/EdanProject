@@ -14,10 +14,12 @@ public class SwitchableViewModel extends ViewModel {
     private MediatorLiveData<SelectableData> damageTwo = new MediatorLiveData<>();
     private MediatorLiveData<SelectableData> damageThree = new MediatorLiveData<>();
     private MediatorLiveData<SelectableData> activities = new MediatorLiveData<>();
+    private MediatorLiveData<SelectableData> activitiesOthers = new MediatorLiveData<>();
     private MediatorLiveData<SelectableData> needs = new MediatorLiveData<>();
+    private MediatorLiveData<SelectableData> needsOthers = new MediatorLiveData<>();
 
     public SwitchableViewModel(FormOneRepository formOneRepository) {
-        LiveData<FormOneData> source = formOneRepository.getCurrentFormOneData();
+        LiveData<FormOneData> source = formOneRepository.loadCacheFormOneData();
 
         damageOne.addSource(source, formOneData -> {
             if (formOneData != null) {
@@ -40,9 +42,20 @@ public class SwitchableViewModel extends ViewModel {
                 activities.setValue(formOneData.activities);
             }
         });
+        activitiesOthers.addSource(source, formOneData -> {
+            if (formOneData != null) {
+                activitiesOthers.setValue(formOneData.activitiesOthers);
+            }
+        });
+
         needs.addSource(source, formOneData -> {
             if (formOneData != null) {
                 needs.setValue(formOneData.needs);
+            }
+        });
+        needsOthers.addSource(source, formOneData -> {
+            if (formOneData != null) {
+                needsOthers.setValue(formOneData.needsOthers);
             }
         });
     }
@@ -63,7 +76,15 @@ public class SwitchableViewModel extends ViewModel {
         return activities;
     }
 
+    public LiveData<SelectableData> getActivitiesOthers() {
+        return activitiesOthers;
+    }
+
     public LiveData<SelectableData> getNeeds() {
         return needs;
+    }
+
+    public LiveData<SelectableData> getNeedsOthers() {
+        return needsOthers;
     }
 }

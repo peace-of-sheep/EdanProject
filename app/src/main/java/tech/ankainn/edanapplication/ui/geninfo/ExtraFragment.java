@@ -19,7 +19,7 @@ public class ExtraFragment extends BindingFragment<FragmentExtraBinding> {
         boolean vis = ExtraFragmentArgs.fromBundle(requireArguments()).getVisibility();
         binding().setVisibility(vis);
 
-        ViewModelProvider.Factory factory = InjectorUtil.provideViewModelFactory(requireContext());
+        ViewModelProvider.Factory factory = InjectorUtil.provideGenInfViewModelFactory(requireContext());
         ExtraViewModel viewModel = new ViewModelProvider(this, factory).get(ExtraViewModel.class);
 
         binding().textLocality.setOnItemClickListener((p, v, pos, id) -> {

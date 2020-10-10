@@ -4,6 +4,10 @@
     android:id="@+id/form_two_graph"
     app:startDestination="@id/header_fragment">
 
+    <action
+        android:id="@+id/action_global_member"
+        app:destination="@id/member_fragment" />
+
     <fragment
         android:id="@+id/header_fragment"
         android:name="tech.ankainn.edanapplication.ui.geninfo.HeaderFragment"
@@ -31,9 +35,20 @@
         android:name="tech.ankainn.edanapplication.ui.formTwoA.HouseholdFragment" />
 
     <fragment
-        android:id="@+id/members_fragment"
-        android:label="MembersFragment"
+        android:id="@+id/list_member_fragment"
+        android:label="ListMemberFragment"
         android:name="tech.ankainn.edanapplication.ui.formTwoA.ListMemberFragment" />
+
+    <fragment
+        android:id="@+id/member_fragment"
+        android:label="MemberFragment"
+        android:name="tech.ankainn.edanapplication.ui.formTwoA.MemberFragment" >
+
+        <argument
+            android:name="member_id"
+            app:argType="long"
+            android:defaultValue="0L" />
+    </fragment>
 
     <fragment
         android:id="@+id/livelihood_fragment"

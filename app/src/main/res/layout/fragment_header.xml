@@ -22,11 +22,11 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/layout_danger_group"
+                android:hint="@string/danger_group"
+                android:labelFor="@id/text_danger_group"
                 android:layout_marginTop="@dimen/dim_nor"
                 android:layout_marginHorizontal="@dimen/dim_nor"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
-                android:hint="@string/danger_group"
-                android:labelFor="@id/text_danger_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -62,11 +62,11 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/layout_department"
+                android:hint="@string/department"
+                android:labelFor="@id/text_department"
                 android:layout_marginTop="@dimen/dim_nor"
                 android:layout_marginHorizontal="@dimen/dim_nor"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
-                android:hint="@string/department"
-                android:labelFor="@id/text_department"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 

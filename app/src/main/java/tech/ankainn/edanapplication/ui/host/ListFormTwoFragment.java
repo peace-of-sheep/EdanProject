@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -15,6 +16,7 @@ import androidx.navigation.Navigation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 import tech.ankainn.edanapplication.R;
@@ -27,6 +29,7 @@ import tech.ankainn.edanapplication.ui.common.BindingAdapter2;
 import tech.ankainn.edanapplication.ui.common.BindingFragment;
 import tech.ankainn.edanapplication.util.InjectorUtil;
 import tech.ankainn.edanapplication.util.Tuple2;
+import timber.log.Timber;
 
 public class ListFormTwoFragment extends BindingFragment<LayoutListBinding> {
 
@@ -48,6 +51,7 @@ public class ListFormTwoFragment extends BindingFragment<LayoutListBinding> {
                             binding.setFormTwoSubset(data.second);
                             binding.setLoading(data.first);
                             setCardColor(binding.colorView, data.second.formTwoApiId);
+                            setTextForRemoteId(binding.textRemoteId, data.second.formTwoApiId);
                         }
                 ) {}
                 .setOnItemCLick((pos, itemBinding) -> {
@@ -57,10 +61,15 @@ public class ListFormTwoFragment extends BindingFragment<LayoutListBinding> {
                             .addOption(R.string.upload, R.drawable.ic_cloud_upload_24)
                             .addOption(R.string.open_file, R.drawable.ic_folder_24dp)
                             .build(getParentFragmentManager());
-                });/*.addBindingPayload("loading", (binding, data) -> binding.setLoading(data.first));*/
+                });
         binding().recyclerView.setAdapter(adapter);
 
-        viewModel.getListFormTwo().observe(getViewLifecycleOwner(), adapter::submitList);
+        binding().setVisible(true);
+
+        viewModel.getListFormTwo().observe(getViewLifecycleOwner(), list -> {
+            binding().setVisible(list == null || list.isEmpty());
+            adapter.submitList(list);
+        });
 
         Options.getInstance().observe(getViewLifecycleOwner(), (emitter, option) -> {
             if ("item".equals(emitter)) {
@@ -101,6 +110,14 @@ public class ListFormTwoFragment extends BindingFragment<LayoutListBinding> {
         } else {
             int colorGreen = ContextCompat.getColor(context, android.R.color.holo_green_dark);
             colorView.setBackgroundColor(colorGreen);
+        }
+    }
+
+    private void setTextForRemoteId(TextView view, Integer value) {
+        if (value == -1) {
+            view.setText(getString(R.string.not_sent_args));
+        } else {
+            view.setText(getString(R.string.sent_args, value));
         }
     }
 }

@@ -42,7 +42,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/text_latitude"
                     android:text="@={Converter.doubleToString(mapLocation.latitude)}"
-                    android:maxLength="10"
+                    android:maxLength="12"
                     android:inputType="@{InputType.TYPE_NULL}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
@@ -59,19 +59,19 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/text_longitude"
                     android:text="@={Converter.doubleToString(mapLocation.longitude)}"
-                    android:maxLength="10"
+                    android:maxLength="12"
                     android:inputType="@{InputType.TYPE_NULL}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!--<androidx.appcompat.widget.AppCompatImageButton
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/btn_location"
                 android:layout_margin="@dimen/dim_nor"
                 android:layout_gravity="end"
                 android:src="@drawable/ic_my_location_24"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />-->
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
     </FrameLayout>

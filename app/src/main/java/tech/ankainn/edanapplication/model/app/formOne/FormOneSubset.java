@@ -14,6 +14,8 @@ public class FormOneSubset {
     public String province;
     public String district;
 
-    public String date;
-    public String hour;
+    @ColumnInfo(name = "date_event")
+    public String dateEvent;
+    @ColumnInfo(name = "hour_event")
+    public String hourEvent;
 }

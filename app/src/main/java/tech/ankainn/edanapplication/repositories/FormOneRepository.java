@@ -3,19 +3,22 @@ package tech.ankainn.edanapplication.repositories;
 import androidx.lifecycle.LiveData;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.Gson;
 
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import tech.ankainn.edanapplication.AppExecutors;
 import tech.ankainn.edanapplication.db.EdanDatabase;
 import tech.ankainn.edanapplication.db.FormOneDao;
-import tech.ankainn.edanapplication.model.dto.FormOneEntity;
-import tech.ankainn.edanapplication.model.factory.FormOneFactory;
 import tech.ankainn.edanapplication.model.app.formOne.FormOneData;
 import tech.ankainn.edanapplication.model.app.formOne.FormOneSubset;
 import tech.ankainn.edanapplication.model.app.geninf.GenInfData;
-import tech.ankainn.edanapplication.model.app.geninf.MapLocationData;
 import tech.ankainn.edanapplication.api.EdanApiService;
+import tech.ankainn.edanapplication.model.factory.ModelFactory;
+import tech.ankainn.edanapplication.util.Tagger;
+import timber.log.Timber;
 
 public class FormOneRepository {
 
@@ -42,7 +45,8 @@ public class FormOneRepository {
         return instance;
     }
 
-    private FormOneRepository(AppExecutors appExecutors, EdanApiService service, EdanDatabase edanDatabase, Cache cache) {
+    private FormOneRepository(AppExecutors appExecutors, EdanApiService service,
+                              EdanDatabase edanDatabase, Cache cache) {
         this.appExecutors = appExecutors;
         this.service = service;
         formOneDao = edanDatabase.formOneDao();
@@ -53,7 +57,7 @@ public class FormOneRepository {
         return formOneDao.loadAllFormOneSubset();
     }
 
-    public LiveData<FormOneData> getCurrentFormOneData() {
+    public LiveData<FormOneData> loadCacheFormOneData() {
         return cache.getFormOneData();
     }
 
@@ -68,58 +72,66 @@ public class FormOneRepository {
         }
     }
 
-    public void saveCurrentFormOneData() {
-        FormOneData formOneData = cache.getFormOneData().getValue();
-        if (formOneData == null) {
-            return;
-        }
-        appExecutors.diskIO().execute(() -> {
-            formOneData.dataVersion++;
-
-            FormOneEntity entity = FormOneFactory.dataToEntity(formOneData);
-
-            if (entity.formOneId == 0L) {
-                formOneDao.insertFormOne(entity);
-            } else {
-                formOneDao.updateFormOne(entity);
-            }
-        });
-    }
-
-    public void clearCurrentFormOneData() {
-        cache.setFormOneData(null);
-    }
-
     private void createFormOneData() {
-        FormOneData formOneData = FormOneFactory.createEmptyFormOneData();
-
-        /*MapLocationData mapLocationData = cache.getMapLocationData().getValue();
-        if (mapLocationData != null) {
-            formOneData.mapLocationData = mapLocationData;
-        } else {
-            formOneData.mapLocationData.latitude = defaultLatLng.latitude;
-            formOneData.mapLocationData.longitude = defaultLatLng.longitude;
-            cache.setMapLocationData(formOneData.mapLocationData);
-        }
+        FormOneData formOneData = ModelFactory.createEmptyFormOneData();
 
         GenInfData genInfData = cache.getGenInfData().getValue();
-        if (genInfData != null) {
-            formOneData.genInfData = genInfData;
-        } else {
+        if (genInfData == null) {
+            formOneData.genInfData.mapLocationData.latitude = defaultLatLng.latitude;
+            formOneData.genInfData.mapLocationData.longitude = defaultLatLng.longitude;
+
             cache.setGenInfData(formOneData.genInfData);
-        }*/
+        } else {
+            formOneData.genInfData = genInfData;
+        }
+
+        Calendar calendar = Calendar.getInstance();
+
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+
+        String dateCreation = String.format(Locale.getDefault(), "%02d/%02d/%04d", day, month, year);
+        String hourCreation = String.format(Locale.getDefault(), "%02d:%02d", hour, minute);
+
+        formOneData.genInfData.headerData.dateCreation = dateCreation;
+        formOneData.genInfData.headerData.hourCreation = hourCreation;
 
         cache.setFormOneData(formOneData);
     }
 
     private void loadFormOneData(long formOneId) {
         appExecutors.diskIO().execute(() -> {
-            FormOneEntity formOneEntity = formOneDao.loadFormOneById(formOneId);
-            FormOneData formOneData = FormOneFactory.entityToData(formOneEntity);
+            FormOneData formOneData = formOneDao.loadFormOneById(formOneId);
 
             cache.setFormOneData(formOneData);
-            /*cache.setMapLocationData(formOneData.mapLocationData);*/
             cache.setGenInfData(formOneData.genInfData);
         });
+    }
+
+    public void saveFormOneData() {
+        FormOneData formOneData = cache.getFormOneData().getValue();
+        if (formOneData == null) {
+            return;
+        }
+
+        appExecutors.diskIO().execute(() -> {
+            formOneData.dataVersion++;
+
+            Timber.tag(Tagger.DUMPER).d("FormOneRepository.saveForm: %s", new Gson().toJson(formOneData));
+
+            if (formOneData.id == 0L) {
+                formOneDao.insertFormOne(formOneData);
+            } else {
+                formOneDao.updateFormOne(formOneData);
+            }
+        });
+    }
+
+    public void clearCacheFormOneData() {
+        cache.setFormOneData(null);
     }
 }

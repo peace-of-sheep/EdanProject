@@ -1,4 +1,4 @@
-package tech.ankainn.edanapplication.model.media;
+package tech.ankainn.edanapplication.model.app.media;
 
 public class PhotoData {
     public String filePath;

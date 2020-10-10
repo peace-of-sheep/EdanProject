@@ -1,4 +1,4 @@
-package tech.ankainn.edanapplication.model.api;
+package tech.ankainn.edanapplication.model.api.formtwo;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

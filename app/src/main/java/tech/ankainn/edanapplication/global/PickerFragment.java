@@ -53,7 +53,7 @@ public class PickerFragment extends AppCompatDialogFragment {
      * Listener for date picker fragment.
      */
     private final DatePickerDialog.OnDateSetListener dateListener = (v, y, m ,d) -> {
-        String date = String.format(Locale.getDefault(), "%02d/%02d/%04d", d, m, y);
+        String date = String.format(Locale.getDefault(), "%02d/%02d/%04d", d, m+1, y);
         Picker.getInstance().setValue("date", date);
     };
 

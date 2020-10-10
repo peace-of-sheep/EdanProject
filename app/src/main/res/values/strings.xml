@@ -37,6 +37,9 @@
     <string name="user">User</string>
     <string name="name">Name</string>
 
+    <string name="online">Online</string>
+    <string name="offline">Offline</string>
+
     <string name="default_loading">Loading</string>
 
     <string name="quantity">Quantity</string>

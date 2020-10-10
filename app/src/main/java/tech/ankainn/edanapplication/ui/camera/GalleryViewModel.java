@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-import tech.ankainn.edanapplication.model.media.PhotoData;
+import tech.ankainn.edanapplication.model.app.media.PhotoData;
 
 public class GalleryViewModel extends ViewModel {
 

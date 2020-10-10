@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"/>
 
             <com.google.android.material.textview.MaterialTextView
-                android:text="@{Converter.integerToString(formTwoSubset.formTwoApiId), default=ID_API}"
+                android:id="@+id/text_remote_id"
                 android:layout_marginTop="@dimen/dim_nor"
                 android:layout_marginHorizontal="@dimen/dim_nor"
                 android:layout_width="wrap_content"

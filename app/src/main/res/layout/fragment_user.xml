@@ -1,12 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <ImageView
-        android:layout_gravity="center"
-        android:src="@drawable/logo_indeci"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <data>
+        <variable
+            name="user"
+            type="tech.ankainn.edanapplication.model.app.auth.UserData" />
+    </data>
 
-</FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_marginTop="@dimen/dim_xxxbig"
+            android:layout_gravity="center"
+            android:src="@drawable/logo_indeci"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:text="@{user.surname}"
+            android:layout_marginTop="@dimen/dim_xxbig"
+            android:layout_marginHorizontal="@dimen/dim_xxbig"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:text="@{user.name}"
+            android:layout_marginTop="@dimen/dim_xbig"
+            android:layout_marginHorizontal="@dimen/dim_xxbig"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:text="@{user.idenNum}"
+            android:layout_marginTop="@dimen/dim_xbig"
+            android:layout_marginHorizontal="@dimen/dim_xxbig"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:text="@{user.email}"
+            android:layout_marginTop="@dimen/dim_xbig"
+            android:layout_marginHorizontal="@dimen/dim_xxbig"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:text="@{user.online ? @string/online : @string/offline}"
+            android:layout_marginTop="@dimen/dim_xbig"
+            android:layout_marginHorizontal="@dimen/dim_xxbig"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+</layout>

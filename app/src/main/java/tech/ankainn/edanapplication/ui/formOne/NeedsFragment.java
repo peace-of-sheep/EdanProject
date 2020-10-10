@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
+import androidx.navigation.fragment.NavHostFragment;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,21 +24,26 @@ public class NeedsFragment extends BindingFragment<FragmentSwitchableBinding> {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        ViewModelStoreOwner owner = ScopeNavHostFragment.getOwner(this);
         ViewModelProvider.Factory factory = InjectorUtil.provideFormOneViewModelFactory(requireContext());
-        SwitchableViewModel viewModel = new ViewModelProvider(owner, factory).get(SwitchableViewModel.class);
+        SwitchableViewModel viewModel = new ViewModelProvider(this, factory).get(SwitchableViewModel.class);
 
         binding().setTitle(getString(R.string.title_needs));
         binding().setBottomVisibility(true);
+        binding().setOptionsVisibility(false);
         binding().setBtnText(getString(R.string.other_needs));
 
-        List<String> names = Arrays.asList(getResources().getStringArray(R.array.needs));
+        String[] names = getResources().getStringArray(R.array.needs);
         SwitchableAdapter adapter = new SwitchableAdapter(names);
         binding().recyclerView.setAdapter(adapter);
 
         viewModel.getNeeds().observe(getViewLifecycleOwner(), selectableData -> {
             binding().setData(selectableData);
             adapter.submitList(selectableData.list);
+        });
+
+        binding().btnMore.setOnClickListener(v -> {
+            NavHostFragment.findNavController(this)
+                    .navigate(ActivitiesFragmentDirections.actionToOthers());
         });
     }
 }

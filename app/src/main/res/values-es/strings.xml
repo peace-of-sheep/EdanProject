@@ -20,6 +20,9 @@
     <string name="user">Usuario</string>
     <string name="name">Nombre</string>
 
+    <string name="online">Conectado</string>
+    <string name="offline">Desconectado</string>
+
     <string name="default_loading">Cargando</string>
 
     <string name="quantity">Cantidad</string>

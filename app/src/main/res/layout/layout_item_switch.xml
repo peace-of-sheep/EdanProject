@@ -10,17 +10,14 @@
         <variable
             name="holder"
             type="tech.ankainn.edanapplication.model.app.formOne.SelectableItemData" />
-        <variable
-            name="showQuantity"
-            type="boolean"/>
     </data>
 
     <LinearLayout
+        android:orientation="horizontal"
         android:layout_marginTop="@dimen/dim_nor"
         android:layout_marginHorizontal="@dimen/dim_nor"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
         <com.google.android.material.textview.MaterialTextView
             android:text="@{title, default= TITLE}"
@@ -32,9 +29,8 @@
             android:layout_height="wrap_content" />
 
         <com.google.android.material.switchmaterial.SwitchMaterial
-            android:layout_marginHorizontal="@dimen/dim_sma"
+            android:id="@+id/switchView"
             android:checked="@={holder.selection}"
-            app:visibleGone="@{holder.selection != null}"
             app:useMaterialThemeColors="false"
             app:track="@drawable/switch_track"
             android:thumb="@drawable/switch_thumb"
@@ -43,24 +39,6 @@
             android:textOff="@string/no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_gravity="start"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            app:visibleGone="@{showQuantity}"
-            android:hint="@string/quantity"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:text="@={Converter.integerToString(holder.quantity)}"
-                android:imeOptions="actionDone"
-                android:inputType="number"
-                android:maxLength="5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
 </layout>

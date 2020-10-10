@@ -5,7 +5,7 @@
     <data>
         <variable
             name="photo"
-            type="tech.ankainn.edanapplication.model.media.PhotoData" />
+            type="tech.ankainn.edanapplication.model.app.media.PhotoData" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

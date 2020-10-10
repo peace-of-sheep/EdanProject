@@ -11,7 +11,7 @@ import java.util.Objects;
 
 import tech.ankainn.edanapplication.AppExecutors;
 import tech.ankainn.edanapplication.databinding.LayoutItemGalleryBinding;
-import tech.ankainn.edanapplication.model.media.PhotoData;
+import tech.ankainn.edanapplication.model.app.media.PhotoData;
 import tech.ankainn.edanapplication.ui.common.BindingAdapter;
 
 public class GalleryAdapter extends BindingAdapter<PhotoData, LayoutItemGalleryBinding> {

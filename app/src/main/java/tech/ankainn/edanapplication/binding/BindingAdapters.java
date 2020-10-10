@@ -14,8 +14,6 @@ import androidx.databinding.InverseBindingListener;
 
 import com.bumptech.glide.Glide;
 
-import java.util.Objects;
-
 import tech.ankainn.edanapplication.R;
 import tech.ankainn.edanapplication.util.Tagger;
 import timber.log.Timber;
@@ -32,15 +30,14 @@ public class BindingAdapters {
 
     @BindingAdapter(value = "textDropDown")
     public static void setTextDropDown(AutoCompleteTextView view, String value) {
+
         String oldValue = view.getText().toString();
+
         if (TextUtils.isEmpty(oldValue) && TextUtils.isEmpty(value)) return;
 
-        Runnable r = () -> view.setText(value, false);
-        if(view.isLaidOut()) {
-            r.run();
-        } else {
-            view.post(r);
-        }
+        view.setText(null);
+
+        view.postDelayed(() -> view.setText(value, false), 100L);
     }
 
     @InverseBindingAdapter(attribute = "textDropDown", event = "android:textAttrChanged")

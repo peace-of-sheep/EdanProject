@@ -11,6 +11,9 @@
             name="btnText"
             type="String" />
         <variable
+            name="optionsVisibility"
+            type="boolean" />
+        <variable
             name="bottomVisibility"
             type="boolean" />
         <variable
@@ -24,11 +27,11 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.textview.MaterialTextView
+            android:text="@{title, default=Default_title}"
+            android:id="@+id/title_switchable"
             android:layout_margin="@dimen/dim_nor"
             android:textStyle="bold"
             android:textSize="@dimen/text_xxbig"
-            android:text="@{title, default=Default_title}"
-            android:id="@+id/title_switchable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -39,30 +42,56 @@
             android:layout_weight="1"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-        <com.google.android.material.button.MaterialButton
-            app:visibleGone="@{bottomVisibility}"
-            android:text="@{btnText, default=BOTTOM}"
-            android:id="@+id/btn_activities"
-            android:layout_marginHorizontal="@dimen/dim_nor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <LinearLayout
+            visibleGone="@{bottomVisibility}"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_margin="@dimen/dim_nor"
-            android:id="@+id/layout_observation"
+            <com.google.android.material.button.MaterialButton
+                android:text="@{btnText, default=BOTTOM}"
+                android:id="@+id/btn_more"
+                android:layout_marginHorizontal="@dimen/dim_nor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_observation"
+                android:hint="@string/observation"
+                android:layout_marginHorizontal="@dimen/dim_nor"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/text_observation"
+                    android:text="@={data.observation, default=OBS}"
+                    android:ellipsize="end"
+                    android:gravity="top"
+                    android:minLines="4"
+                    android:maxLines="4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            visibleGone="@{optionsVisibility}"
+            android:gravity="end"
+            android:paddingVertical="4dp"
+            android:paddingHorizontal="12dp"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/observation"
-            app:visibleGone="@{bottomVisibility}">
+            app:layout_constraintBottom_toBottomOf="parent">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:text="@={data.observation}"
-                android:id="@+id/text_observation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:minLines="3" />
-
-        </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_accept"
+                android:text="@string/accept"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Flush"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
     </LinearLayout>
 </layout>

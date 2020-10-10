@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:text="@{@string/date_hour_args(formOne.date, formOne.hour), default=TIME}"
+                android:text="@{@string/date_hour_args(formOne.dateEvent, formOne.hourEvent), default=TIME}"
                 android:layout_marginTop="@dimen/dim_nor"
                 android:layout_marginHorizontal="@dimen/dim_nor"
                 android:layout_width="match_parent"

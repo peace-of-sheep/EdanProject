@@ -8,14 +8,12 @@ import timber.log.Timber;
 
 public class BaseApp extends Application {
 
-    private EdanDatabase edanDatabase;
-
     @Override
     public void onCreate() {
         super.onCreate();
 
         Timber.plant(BuildConfig.DEBUG ? new Timber.DebugTree() : new CrashReportingTree());
 
-        edanDatabase = EdanDatabase.getInstance(this);
+        EdanDatabase.getInstance(this);
     }
 }

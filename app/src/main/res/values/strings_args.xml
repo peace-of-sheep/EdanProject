@@ -11,4 +11,7 @@
     <string name="location_args" translatable="false"><b>%s</b> - <b>%s</b> - <b>%s</b></string>
     <string name="internal_id_args" translatable="false">Id: <b>%d</b></string>
     <string name="data_version_args" translatable="false">Version: <b>%d</b></string>
+
+    <string name="not_sent_args">Not sent</string>
+    <string name="sent_args">Sent: Remote id %d</string>
 </resources>

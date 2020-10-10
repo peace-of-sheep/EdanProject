@@ -37,12 +37,14 @@ public class ListFormOneFragment extends BindingFragment<LayoutListBinding> {
                         }
                 ) {}
                 .setOnItemCLick((pos, itemBinding) -> Navigation.findNavController(requireActivity(), R.id.fragment_container)
-                        .navigate(HostFragmentDirections.actionHostToFormOne().setFormOneId(itemBinding.getFormOne().id)))
-                .setOnLongItemClick((pos, itemBinding) ->
-                        Toast.makeText(requireContext(), "Long click", Toast.LENGTH_SHORT).show())
-                .addBindingPayload("loading", (binding, data) -> binding.setLoading(data.first));
+                        .navigate(HostFragmentDirections.actionHostToFormOne().setFormOneId(itemBinding.getFormOne().id)));
         binding().recyclerView.setAdapter(adapter);
 
-        viewModel.getListFormOne().observe(getViewLifecycleOwner(), adapter::submitList);
+        binding().setVisible(true);
+
+        viewModel.getListFormOne().observe(getViewLifecycleOwner(), list -> {
+            binding().setVisible(list == null || list.isEmpty());
+            adapter.submitList(list);
+        });
     }
 }

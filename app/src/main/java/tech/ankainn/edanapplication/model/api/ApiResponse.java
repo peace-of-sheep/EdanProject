@@ -1,4 +1,4 @@
-package tech.ankainn.edanapplication.api;
+package tech.ankainn.edanapplication.model.api;
 
 public class ApiResponse<T> {
 

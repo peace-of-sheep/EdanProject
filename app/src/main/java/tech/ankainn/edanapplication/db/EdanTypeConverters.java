@@ -9,6 +9,8 @@ import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.List;
 
+import tech.ankainn.edanapplication.model.app.formOne.SelectableData;
+
 public class EdanTypeConverters {
 
     private static Gson gson = new Gson();
@@ -39,5 +41,15 @@ public class EdanTypeConverters {
         }
         Type type = new TypeToken<List<Integer>>() {}.getType();
         return gson.fromJson(source, type);
+    }
+
+    @TypeConverter
+    public static String stringSelectableData(SelectableData source) {
+        return gson.toJson(source);
+    }
+
+    @TypeConverter
+    public static SelectableData selectableDataToString(String source) {
+        return gson.fromJson(source, SelectableData.class);
     }
 }

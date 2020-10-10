@@ -1,8 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/form_one_graph"
-    app:startDestination="@id/map_fragment">
+    app:startDestination="@id/header_fragment">
+
+    <fragment
+        android:id="@+id/header_fragment"
+        android:name="tech.ankainn.edanapplication.ui.geninfo.HeaderFragment"
+        android:label="HeaderFragment"/>
+
+    <fragment
+        android:id="@+id/extra_fragment"
+        android:name="tech.ankainn.edanapplication.ui.geninfo.ExtraFragment"
+        android:label="ExtraFragment">
+
+        <argument
+            android:name="visibility"
+            app:argType="boolean"
+            android:defaultValue="false" />
+    </fragment>
 
     <fragment
         android:id="@+id/map_fragment"
@@ -32,10 +49,30 @@
     <fragment
         android:id="@+id/activities_fragment"
         android:label="ActivitiesFragment"
-        android:name="tech.ankainn.edanapplication.ui.formOne.ActivitiesFragment" />
+        android:name="tech.ankainn.edanapplication.ui.formOne.ActivitiesFragment" >
+
+        <action
+            android:id="@+id/action_to_others"
+            app:destination="@id/activities_others_fragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/needs_fragment"
         android:label="NeedsFragment"
-        android:name="tech.ankainn.edanapplication.ui.formOne.NeedsFragment" />
+        android:name="tech.ankainn.edanapplication.ui.formOne.NeedsFragment" >
+
+        <action
+            android:id="@+id/action_to_others"
+            app:destination="@id/needs_others_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/activities_others_fragment"
+        android:label="ActivitiesOthersFragment"
+        android:name="tech.ankainn.edanapplication.ui.formOne.ActivitiesOthersFragment" />
+
+    <fragment
+        android:id="@+id/needs_others_fragment"
+        android:label="NeedsOthersFragment"
+        android:name="tech.ankainn.edanapplication.ui.formOne.NeedsOthersFragment" />
 </navigation>

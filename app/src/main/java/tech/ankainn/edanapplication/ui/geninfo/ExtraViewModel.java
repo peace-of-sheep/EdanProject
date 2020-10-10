@@ -37,25 +37,25 @@ public class ExtraViewModel extends ViewModel {
     public void setLocality(Context context, int pos) {
         String[] data = getDataFromRes(context, arrayLocalityRes);
         currentData.nameLocality = data[pos];
-        currentData.codeLocality = Integer.toString(pos);
+        currentData.codeLocality = Integer.toString(pos + 1);
     }
 
     public void setBSU(Context context, int pos) {
         String[] data = getDataFromRes(context, arrayBSU);
         currentData.typeBSU = data[pos];
-        currentData.codeBSU = Integer.toString(pos);
+        currentData.codeBSU = Integer.toString(pos + 1);
     }
 
     public void setCA(Context context, int pos) {
         String[] data = getDataFromRes(context, arrayCA);
         currentData.typeCA = data[pos];
-        currentData.codeCA = Integer.toString(pos);
+        currentData.codeCA = Integer.toString(pos + 1);
     }
 
     public void setCM(Context context, int pos) {
         String[] data = getDataFromRes(context, arrayCM);
         currentData.typeCM = data[pos];
-        currentData.codeCM = Integer.toString(pos);
+        currentData.codeCM = Integer.toString(pos + 1);
     }
 
     private String[] getDataFromRes(Context context, int arrayRes) {

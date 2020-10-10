@@ -25,7 +25,7 @@ public class LivelihoodFragment extends BindingFragment<FragmentFormTwoBBinding>
                 AppExecutors.getInstance());
         binding().recyclerView.setAdapter(adapter);
 
-        ViewModelProvider.Factory factory = InjectorUtil.provideViewModelFactory(requireContext());
+        ViewModelProvider.Factory factory = InjectorUtil.provideFormTwoViewModelFactory(requireContext());
         LivelihoodViewModel viewModel = new ViewModelProvider(this, factory).get(LivelihoodViewModel.class);
 
         viewModel.getList().observe(getViewLifecycleOwner(), adapter::submitList);
