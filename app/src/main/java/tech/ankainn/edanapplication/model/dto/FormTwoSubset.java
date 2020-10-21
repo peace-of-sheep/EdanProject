@@ -1,6 +1,9 @@
 package tech.ankainn.edanapplication.model.dto;
 
 import androidx.room.ColumnInfo;
+import androidx.room.Ignore;
+
+import com.google.gson.Gson;
 
 public class FormTwoSubset {
 
@@ -23,4 +26,13 @@ public class FormTwoSubset {
 
     @ColumnInfo(name = "form_two_api_id")
     public Integer formTwoApiId;
+
+    @Ignore
+    public boolean loading = false;
+
+    @Override
+    public String toString() {
+        String hash = Integer.toHexString(this.hashCode());
+        return "{"+hash+"}{"+formTwoApiId+"}{"+loading+"}";
+    }
 }

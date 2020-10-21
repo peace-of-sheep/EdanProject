@@ -1,12 +1,15 @@
 package tech.ankainn.edanapplication.repositories;
 
+import androidx.core.util.Pair;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
-
+import androidx.lifecycle.MutableLiveData;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
@@ -26,13 +29,14 @@ import tech.ankainn.edanapplication.model.dto.FormTwoComplete;
 import tech.ankainn.edanapplication.model.app.formTwo.FormTwoData;
 import tech.ankainn.edanapplication.model.dto.FormTwoSubset;
 import tech.ankainn.edanapplication.model.app.geninf.GenInfData;
-import tech.ankainn.edanapplication.model.factory.ModelFactory;
+import tech.ankainn.edanapplication.util.CombinedLiveData;
+import tech.ankainn.edanapplication.util.Utilities;
 import tech.ankainn.edanapplication.util.Tagger;
 import timber.log.Timber;
 
 public class FormTwoRepository {
 
-    private static final LatLng defaultLatLng = new LatLng(-7.146,-75.009);
+    private static final LatLng defaultLatLng = new LatLng(-11.37621439,-75.41892405);
 
     private static FormTwoRepository instance;
 
@@ -65,7 +69,38 @@ public class FormTwoRepository {
     }
 
     public LiveData<List<FormTwoSubset>> loadAllFormTwoSubset() {
-        return formTwoDao.loadAllFormTwoSubset();
+        LiveData<List<FormTwoSubset>> source = formTwoDao.loadAllFormTwoSubset();
+        LiveData<List<Long>> loadingIds = cache.getFormTwoLoading();
+
+        return new CombinedLiveData<>(source, loadingIds, (forms, ids) -> {
+
+            List<Long> tempIds = new ArrayList<>(ids);
+            List<FormTwoSubset> result = new ArrayList<>();
+
+            Timber.tag(Tagger.DUMPER).d("FormTwoRepository.loadAllFormTwoSubset3: ids %s", tempIds);
+            if (forms == null) return result;
+
+            for (FormTwoSubset form : forms) {
+
+                FormTwoSubset toAdd = form;
+
+                Iterator<Long> iter = tempIds.iterator();
+                while (iter.hasNext()) {
+                    Long id = iter.next();
+                    if (id == form.id) {
+                        iter.remove();
+                        toAdd = Utilities.clonePojo(form);
+                        toAdd.loading = true;
+                        break;
+                    }
+                }
+
+                result.add(toAdd);
+            }
+
+            Timber.tag(Tagger.DUMPER).d("FormTwoRepository.loadAllFormTwoSubset3: %s", result);
+            return result;
+        });
     }
 
     public LiveData<HouseholdData> loadHouseholdData() {
@@ -91,8 +126,7 @@ public class FormTwoRepository {
     }
 
     private void createFormTwoData() {
-        FormTwoData formTwoData = ModelFactory.createEmptyFormTwoData();
-        Timber.tag(Tagger.DUMPER).w("FormTwoRepository.createFormTwoData: %s", formTwoData);
+        FormTwoData formTwoData = Utilities.createEmptyFormTwoData();
 
         GenInfData genInfData = cache.getGenInfData().getValue();
         if (genInfData == null) {
@@ -107,7 +141,7 @@ public class FormTwoRepository {
         Calendar calendar = Calendar.getInstance();
 
         int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
+        int month = calendar.get(Calendar.MONTH) + 1;
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
@@ -119,58 +153,76 @@ public class FormTwoRepository {
         formTwoData.genInfData.headerData.dateCreation = dateCreation;
         formTwoData.genInfData.headerData.hourCreation = hourCreation;
 
+        Timber.tag(Tagger.DUMPER).i("FormTwoRepository.createFormTwoData: %s", formTwoData);
+
         cache.setFormTwoData(formTwoData);
     }
 
     private void loadFormTwoDataById(long id) {
         appExecutors.diskIO().execute(() -> {
-
             FormTwoComplete source = formTwoDao.loadFormTwoById(id);
-            Timber.tag(Tagger.DUMPER).w("FormTwoRepository.loadFormTwoDataById: %s", source);
 
-            FormTwoData formTwoData = ModelFactory.dataFromEntityComplete(source);
-            Timber.tag(Tagger.DUMPER).w("FormTwoRepository.loadFormTwoDataById: %s", formTwoData);
+            FormTwoData formTwoData = Utilities.dataFromEntityComplete(source);
+
+            Timber.tag(Tagger.DUMPER).i("FormTwoRepository.loadFormTwoDataById: %s", formTwoData);
 
             cache.setFormTwoData(formTwoData);
             cache.setGenInfData(formTwoData.genInfData);
         });
     }
 
-    public void uploadFormTwoById(long formTwoId) {
-        appExecutors.networkIO().execute(() -> {
+    public LiveData<Boolean> uploadFormTwoById(final long formTwoId) {
+        MutableLiveData<Boolean> result = new MutableLiveData<>();
+
+        List<Long> longLoadings = cache.getFormTwoLoading().getValue();
+        longLoadings.add(formTwoId);
+        cache.setFormTwoLoading(longLoadings);
+
+        appExecutors.diskIO().execute(() -> {
             FormTwoComplete formTwoComplete = formTwoDao.loadFormTwoById(formTwoId);
 
-            if (formTwoComplete.formTwoData.formTwoApiId != -1) {
+            if (formTwoComplete == null || formTwoComplete.formTwoData.formTwoApiId != -1) {
+                result.postValue(false);
+                longLoadings.remove(formTwoId);
                 return;
             }
 
-            FormTwoRemote formTwoRemote = ModelFactory.completeEntityToRemote(formTwoComplete);
+            FormTwoRemote formTwoRemote = Utilities.completeEntityToRemote(formTwoComplete);
 
-            Timber.tag(Tagger.DUMPER).d("uploadFormTwoById: %s", new Gson().toJson(formTwoRemote));
+            Timber.tag(Tagger.DUMPER).d("FormTwoRepository.uploadFormTwoById2: %s", formTwoRemote);
 
             galdosService.postFormTwo(formTwoRemote).enqueue(new Callback<ApiResponse<DataResponse>>() {
                 @Override
                 @EverythingIsNonNull
                 public void onResponse(Call<ApiResponse<DataResponse>> call, Response<ApiResponse<DataResponse>> response) {
-
-                    if (response.code() == 201) {
-                        appExecutors.diskIO().execute(() -> {
+                    appExecutors.diskIO().execute(() -> {
+                        if (response.body() != null && response.body().getData() != null && response.body().getData().getFORM2ACABID() != null) {
                             Integer apiId = response.body().getData().getFORM2ACABID();
 
-                            FormTwoData entity = formTwoComplete.formTwoData;
-                            entity.formTwoApiId = apiId;
-                            formTwoDao.updateFormTwo(entity);
-                        });
-                    }
+                            FormTwoData formTwoData = formTwoComplete.formTwoData;
+                            formTwoData.formTwoApiId = apiId;
+                            formTwoDao.updateFormTwo(formTwoData);
+                            result.postValue(true);
+                        } else {
+                            result.postValue(false);
+                        }
+
+                        longLoadings.remove(formTwoId);
+                        cache.setFormTwoLoading(longLoadings);
+                    });
                 }
 
                 @Override
                 @EverythingIsNonNull
                 public void onFailure(Call<ApiResponse<DataResponse>> call, Throwable t) {
-                    Timber.tag(Tagger.DUMPER).e(t);
+                    result.postValue(false);
+
+                    longLoadings.remove(formTwoId);
+                    cache.setFormTwoLoading(longLoadings);
                 }
             });
         });
+        return result;
     }
 
     public void saveForm() {
@@ -181,14 +233,12 @@ public class FormTwoRepository {
         appExecutors.diskIO().execute(() -> {
             formTwoData.dataVersion++;
 
-            Timber.tag(Tagger.DUMPER).d("FormTwoRepository.saveForm: %s", new Gson().toJson(formTwoData));
-
-            FormTwoComplete formTwoComplete = FormTwoComplete.create(formTwoData, formTwoData.listMemberData, formTwoData.listLivelihood);
+            Timber.tag(Tagger.DUMPER).d("FormTwoRepository.saveForm: %s", formTwoData);
 
             if (formTwoData.id == 0) {
-                formTwoDao.insertFormTwoComplete(formTwoComplete);
+                formTwoDao.insertFormTwoComplete(formTwoData);
             } else {
-                formTwoDao.updateFormTwoComplete(formTwoComplete);
+                formTwoDao.updateFormTwoComplete(formTwoData);
             }
         });
     }

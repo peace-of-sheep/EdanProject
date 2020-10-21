@@ -4,6 +4,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.SecureRandom;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -15,7 +20,8 @@ import tech.ankainn.edanapplication.db.UserDao;
 import tech.ankainn.edanapplication.model.api.auth.AuthCredentials;
 import tech.ankainn.edanapplication.model.api.auth.AuthResponse;
 import tech.ankainn.edanapplication.model.app.auth.UserData;
-import tech.ankainn.edanapplication.model.factory.ModelFactory;
+import tech.ankainn.edanapplication.util.Utilities;
+import timber.log.Timber;
 
 public class UserRepository {
 
@@ -71,15 +77,14 @@ public class UserRepository {
         MediatorLiveData<Boolean> diskSearch = new MediatorLiveData<>();
         diskSearch.addSource(networkSearch, authResponse -> appExecutors.diskIO().execute(() -> {
 
-            //TODO redo this hash xd
-            String hash = authCredentials.getUsername()+authCredentials.getClave();
+            String hash = createHash(authCredentials);
 
             UserData userData;
 
             if (authResponse == null) {
                 userData = userDao.loadUserDataByHash(hash);
             } else {
-                userData = ModelFactory.userFromRemote(authResponse, hash);
+                userData = Utilities.userFromRemote(authResponse, hash);
                 userDao.insertUser(userData);
             }
 
@@ -100,4 +105,51 @@ public class UserRepository {
     private void saveUser(UserData userData) {
         cache.setUserData(userData);
     }
+
+    private String createHash(AuthCredentials authCredentials) {
+        /*byte[] salt = new byte[0];
+        try {
+            salt = getSalt();
+        } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
+            Timber.e(e);
+        }*/
+        String securePass = getSecurePassword(authCredentials.getClave()/*, salt*/);
+        return authCredentials.getUsername()+securePass;
+    }
+
+    private String getSecurePassword(String passwordToHash/*, byte[] salt*/) {
+        String generatedPassword = null;
+        try {
+            // Create MessageDigest instance for MD5
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            //Add password bytes to digest
+            //md.update(salt);
+            //Get the hash's bytes
+            byte[] bytes = md.digest(passwordToHash.getBytes());
+            //This bytes[] has bytes in decimal format;
+            //Convert it to hexadecimal format
+            StringBuilder sb = new StringBuilder();
+            for (byte aByte : bytes) {
+                sb.append(Integer.toString((aByte & 0xff) + 0x100, 16).substring(1));
+            }
+            //Get complete hashed password in hex format
+            generatedPassword = sb.toString();
+        }
+        catch (NoSuchAlgorithmException e) {
+            Timber.e(e);
+        }
+        return generatedPassword;
+    }
+
+    //Add salt
+    /*private byte[] getSalt() {
+        //Always use a SecureRandom generator
+        SecureRandom sr = SecureRandom.getInstance("SHA1PRNG", "SUN");
+        //Create array for salt
+        byte[] salt = new byte[16];
+        //Get a random salt
+        sr.nextBytes(salt);
+        //return salt
+        return salt;
+    }*/
 }

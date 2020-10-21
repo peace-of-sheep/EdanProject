@@ -23,7 +23,7 @@
     <string name="online">Conectado</string>
     <string name="offline">Desconectado</string>
 
-    <string name="default_loading">Cargando</string>
+    <string name="loading">Cargando</string>
 
     <string name="quantity">Cantidad</string>
 
@@ -161,7 +161,7 @@
     <string name="map">Mapa</string>
     <string name="gen_inf">General information</string>
     <string name="household">Vivienda</string>
-    <string name="members">Miembros</string>
+    <string name="members">Miembros de familia</string>
     <string name="back_quit">¿Estás seguro de salir del formulario actual?</string>
 
     <!-- recursos medios de vida -->
@@ -210,4 +210,7 @@
     <string name="birthdate">Fecha de nacimiento</string>
     <string name="household_use">Uso de la instalación</string>
     <string name="surname">Apellido</string>
+    <string name="close">Cerrar</string>
+    <string name="weeks">Semanas</string>
+    <string name="pregnant">Gestante</string>
 </resources>

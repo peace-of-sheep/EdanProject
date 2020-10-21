@@ -24,7 +24,7 @@
             android:paddingBottom="@dimen/dim_nor"
             android:orientation="vertical">
 
-            <com.google.android.material.textfield.TextInputLayout
+            <!--<com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/layout_locality"
                 android:hint="@string/locality"
                 android:labelFor="@id/text_locality"
@@ -41,6 +41,22 @@
                     android:inputType="@{InputType.TYPE_NULL}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>-->
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_locality"
+                android:hint="@string/locality"
+                android:layout_marginTop="@dimen/dim_nor"
+                android:layout_marginHorizontal="@dimen/dim_nor"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:text="@={extraData.nameLocality}"
+                    android:inputType="text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -165,6 +181,21 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:text="@={extraData.nameEPD}"
+                        android:inputType="number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:hint="Id Sinpad"
+                    android:layout_marginTop="@dimen/dim_big"
+                    android:layout_marginHorizontal="@dimen/dim_nor"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:text="@={extraData.numberIdSinpad}"
                         android:inputType="number"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />

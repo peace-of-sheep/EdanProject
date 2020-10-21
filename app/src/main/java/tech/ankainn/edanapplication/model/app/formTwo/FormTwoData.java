@@ -35,10 +35,10 @@ public class FormTwoData {
     public HouseholdData householdData = new HouseholdData();
 
     @Ignore
-    public List<MemberData> listMemberData = new ArrayList<>();
+    public int memberDataCount = 0;
 
     @Ignore
-    public List<LivelihoodData> listLivelihood = new ArrayList<>();
+    public List<MemberData> memberDataList = new ArrayList<>();
 
     @NotNull
     @Override

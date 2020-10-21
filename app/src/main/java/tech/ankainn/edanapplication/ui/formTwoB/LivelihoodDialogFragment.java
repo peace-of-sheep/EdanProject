@@ -1,6 +1,5 @@
 package tech.ankainn.edanapplication.ui.formTwoB;
 
-import android.app.ActionBar;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -9,36 +8,37 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStoreOwner;
-import androidx.navigation.NavBackStackEntry;
-import androidx.navigation.Navigation;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import tech.ankainn.edanapplication.R;
 import tech.ankainn.edanapplication.binding.BindingAdapters;
 import tech.ankainn.edanapplication.databinding.LayoutLivelihoodBinding;
-import tech.ankainn.edanapplication.ui.common.ScopeNavHostFragment;
 import tech.ankainn.edanapplication.util.AutoClearedValue;
 import tech.ankainn.edanapplication.util.InjectorUtil;
 
 public class LivelihoodDialogFragment extends BottomSheetDialogFragment {
 
     private static final String ID_KEY = "id_key";
+    private static final String MEMBER_ID_KEY = "member_id_key";
 
     private AutoClearedValue<LayoutLivelihoodBinding> binding;
 
-    public static void showFragment(FragmentManager fm) {
+    public static void showFragment(FragmentManager fm, long tempMemberId) {
+        Bundle args = new Bundle();
+        args.putLong(MEMBER_ID_KEY, tempMemberId);
+
         DialogFragment fragment = new LivelihoodDialogFragment();
+        fragment.setArguments(args);
         fragment.show(fm, "livelihood");
     }
 
-    public static void showFragment(FragmentManager fm, long tempId) {
+    public static void showFragment(FragmentManager fm, long tempMemberId, long tempId) {
         Bundle args = new Bundle();
+        args.putLong(MEMBER_ID_KEY, tempMemberId);
         args.putLong(ID_KEY, tempId);
 
         DialogFragment fragment = new LivelihoodDialogFragment();
@@ -46,11 +46,11 @@ public class LivelihoodDialogFragment extends BottomSheetDialogFragment {
         fragment.show(fm, "livelihood");
     }
 
-    private static long getIdFromBundle(Bundle args) {
+    private static long getTempId(Bundle args, String key) {
         if (args == null) {
             return 0L;
         } else {
-            return args.getLong(ID_KEY, 0L);
+            return args.getLong(key, 0L);
         }
     }
 
@@ -67,12 +67,13 @@ public class LivelihoodDialogFragment extends BottomSheetDialogFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        long tempId = getIdFromBundle(getArguments());
+        long tempMemberId = getTempId(getArguments(), MEMBER_ID_KEY);
+        long tempId = getTempId(getArguments(), ID_KEY);
 
         ViewModelProvider.Factory factory = InjectorUtil.provideFormTwoViewModelFactory(requireContext());
         LivelihoodViewModel viewModel = new ViewModelProvider(this, factory).get(LivelihoodViewModel.class);
 
-        viewModel.searchLivelihoodById(tempId);
+        viewModel.loadLivelihoodData(tempMemberId, tempId);
 
         binding.get().textLivelihood.setOnItemClickListener((parent, view, position, id) -> {
             binding.get().textType.setText("", false);
@@ -105,12 +106,12 @@ public class LivelihoodDialogFragment extends BottomSheetDialogFragment {
                     return;
             }
             String[] array = getResources().getStringArray(arrayId);
-            BindingAdapters.setDropdown(binding.get().textType, array, null);
+            BindingAdapters.setDropdown(binding.get().textType, array);
         });
 
         binding.get().btnSave.setOnClickListener(v -> {
+            viewModel.saveLivelihoodData();
             dismiss();
-            viewModel.pushActiveItem();
         });
 
         viewModel.getLivelihoodData().observe(getViewLifecycleOwner(), livelihoodData ->

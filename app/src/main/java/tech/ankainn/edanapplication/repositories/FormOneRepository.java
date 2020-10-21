@@ -13,16 +13,16 @@ import tech.ankainn.edanapplication.AppExecutors;
 import tech.ankainn.edanapplication.db.EdanDatabase;
 import tech.ankainn.edanapplication.db.FormOneDao;
 import tech.ankainn.edanapplication.model.app.formOne.FormOneData;
-import tech.ankainn.edanapplication.model.app.formOne.FormOneSubset;
+import tech.ankainn.edanapplication.model.dto.FormOneSubset;
 import tech.ankainn.edanapplication.model.app.geninf.GenInfData;
 import tech.ankainn.edanapplication.api.EdanApiService;
-import tech.ankainn.edanapplication.model.factory.ModelFactory;
+import tech.ankainn.edanapplication.util.Utilities;
 import tech.ankainn.edanapplication.util.Tagger;
 import timber.log.Timber;
 
 public class FormOneRepository {
 
-    private static final LatLng defaultLatLng = new LatLng(-7.146,-75.009);
+    private static final LatLng defaultLatLng = new LatLng(-11.37621439,-75.41892405);
 
     private static FormOneRepository instance;
 
@@ -73,7 +73,7 @@ public class FormOneRepository {
     }
 
     private void createFormOneData() {
-        FormOneData formOneData = ModelFactory.createEmptyFormOneData();
+        FormOneData formOneData = Utilities.createEmptyFormOneData();
 
         GenInfData genInfData = cache.getGenInfData().getValue();
         if (genInfData == null) {

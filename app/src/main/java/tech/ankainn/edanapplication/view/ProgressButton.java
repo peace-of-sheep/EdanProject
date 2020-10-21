@@ -78,7 +78,7 @@ public class ProgressButton extends MaterialButton {
             }
         };
 
-        CharSequence source = progressText + "   ";
+        CharSequence source = progressText + "  ";
 
         SpannableString spannableString = new SpannableString(source);
         int length = spannableString.length();

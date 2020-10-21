@@ -22,9 +22,9 @@ public class ExtraFragment extends BindingFragment<FragmentExtraBinding> {
         ViewModelProvider.Factory factory = InjectorUtil.provideGenInfViewModelFactory(requireContext());
         ExtraViewModel viewModel = new ViewModelProvider(this, factory).get(ExtraViewModel.class);
 
-        binding().textLocality.setOnItemClickListener((p, v, pos, id) -> {
+        /*binding().textLocality.setOnItemClickListener((p, v, pos, id) -> {
             viewModel.setLocality(requireContext(), pos);
-        });
+        });*/
         binding().textBsu.setOnItemClickListener((p, v, pos, id) -> {
             viewModel.setBSU(requireContext(), pos);
         });

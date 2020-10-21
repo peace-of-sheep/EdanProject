@@ -1,19 +1,22 @@
 package tech.ankainn.edanapplication.model.api.formtwo;
 
+import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import org.jetbrains.annotations.NotNull;
 
 public class FormTwoRemote {
 
     @SerializedName("form2a_cab")
     @Expose
-    private FormTwoHeaderRemote form2aCab;
+    public FormTwoHeaderRemote form2aCab;
     @SerializedName("informacion_vivienda")
     @Expose
-    private HouseholdRemote informacionVivienda;
+    public HouseholdRemote informacionVivienda;
     @SerializedName("familias")
     @Expose
-    private FamiliesRemote familias;
+    public FamiliesRemote familias;
 
     public FormTwoHeaderRemote getForm2aCab() {
         return form2aCab;
@@ -37,5 +40,11 @@ public class FormTwoRemote {
 
     public void setFamilias(FamiliesRemote familias) {
         this.familias = familias;
+    }
+
+    @Override
+    @NotNull
+    public String toString() {
+        return new Gson().toJson(this);
     }
 }

@@ -7,11 +7,11 @@ public class HeaderData {
     @ColumnInfo(name = "group_danger")
     public String groupDanger = "";
     @ColumnInfo(name = "code_group_danger")
-    public Integer codeGroupDanger = -1;
+    public String codeGroupDanger = "";
     @ColumnInfo(name = "type_danger")
     public String danger = "";
     @ColumnInfo(name = "code_type_danger")
-    public Integer codeDanger = -1;
+    public String codeDanger = "";
 
     public String department = "";
     @ColumnInfo(name = "code_department")

@@ -8,6 +8,22 @@
         <variable
             name="headerData"
             type="tech.ankainn.edanapplication.model.app.geninf.HeaderData" />
+        <variable
+            name="dangerGroupNames"
+            type="String[]" />
+        <variable
+            name="dangerTypeNames"
+            type="String[]" />
+
+        <variable
+            name="departmentNames"
+            type="String[]" />
+        <variable
+            name="provinceNames"
+            type="String[]" />
+        <variable
+            name="districtNames"
+            type="String[]" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -31,8 +47,9 @@
                 android:layout_height="wrap_content">
 
                 <AutoCompleteTextView
-                    dropdown="@{@stringArray/group_danger}"
+                    dropdown="@{dangerGroupNames}"
                     textDropDown="@{headerData.groupDanger}"
+                    android:ellipsize="end"
                     android:inputType="@{InputType.TYPE_NULL}"
                     android:id="@+id/text_danger_group"
                     android:layout_width="match_parent"
@@ -51,7 +68,7 @@
                 android:layout_height="wrap_content">
 
                 <AutoCompleteTextView
-                    dropdown="@{@stringArray/type_danger}"
+                    dropdown="@{dangerTypeNames}"
                     textDropDown="@{headerData.danger}"
                     android:inputType="@{InputType.TYPE_NULL}"
                     android:id="@+id/text_danger_type"
@@ -71,9 +88,10 @@
                 android:layout_height="wrap_content">
 
                 <AutoCompleteTextView
-                    dropdown="@{@stringArray/departments}"
+                    dropdown="@{departmentNames}"
                     textDropDown="@{headerData.department}"
-                    android:inputType="@{InputType.TYPE_NULL}"
+                    android:inputType="text"
+                    android:maxLines="1"
                     android:id="@+id/text_department"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
@@ -90,9 +108,10 @@
                 android:layout_height="wrap_content">
 
                 <AutoCompleteTextView
-                    dropdown="@{@stringArray/provinces}"
+                    dropdown="@{provinceNames}"
                     textDropDown="@{headerData.province}"
-                    android:inputType="@{InputType.TYPE_NULL}"
+                    android:inputType="text"
+                    android:maxLines="1"
                     android:id="@+id/text_province"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
@@ -109,9 +128,10 @@
                 android:layout_height="wrap_content">
 
                 <AutoCompleteTextView
-                    dropdown="@{@stringArray/districts}"
+                    dropdown="@{districtNames}"
                     textDropDown="@{headerData.district}"
-                    android:inputType="@{InputType.TYPE_NULL}"
+                    android:inputType="text"
+                    android:maxLines="1"
                     android:id="@+id/text_district"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>

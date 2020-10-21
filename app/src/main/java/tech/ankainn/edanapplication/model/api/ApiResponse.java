@@ -1,5 +1,7 @@
 package tech.ankainn.edanapplication.model.api;
 
+import com.google.gson.Gson;
+
 public class ApiResponse<T> {
 
     private String message;
@@ -30,5 +32,10 @@ public class ApiResponse<T> {
 
     public void setData(T data) {
         this.data = data;
+    }
+
+    @Override
+    public String toString() {
+        return new Gson().toJson(this);
     }
 }

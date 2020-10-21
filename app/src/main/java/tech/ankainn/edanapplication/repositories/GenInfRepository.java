@@ -1,7 +1,6 @@
 package tech.ankainn.edanapplication.repositories;
 
 import android.location.Location;
-import android.nfc.Tag;
 
 import androidx.annotation.RequiresPermission;
 import androidx.lifecycle.LiveData;
@@ -10,13 +9,16 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 
+import java.util.List;
+
 import tech.ankainn.edanapplication.AppExecutors;
+import tech.ankainn.edanapplication.danger.DangerGroup;
 import tech.ankainn.edanapplication.model.app.geninf.ExtraData;
 import tech.ankainn.edanapplication.model.app.geninf.GenInfData;
 import tech.ankainn.edanapplication.model.app.geninf.HeaderData;
 import tech.ankainn.edanapplication.model.app.geninf.MapLocationData;
+import tech.ankainn.edanapplication.danger.DangerSource;
 import tech.ankainn.edanapplication.util.Tagger;
-import tech.ankainn.edanapplication.util.Tuple2;
 import timber.log.Timber;
 
 public class GenInfRepository {
@@ -26,21 +28,25 @@ public class GenInfRepository {
     private AppExecutors appExecutors;
     private FusedLocationProviderClient locationProviderClient;
     private Cache cache;
+    private DangerSource dangerSource;
 
     public static GenInfRepository getInstance(AppExecutors appExecutors,
                                                FusedLocationProviderClient client,
+                                               DangerSource dangerSource,
                                                Cache cache) {
         if (instance == null) {
-            instance = new GenInfRepository(appExecutors, client, cache);
+            instance = new GenInfRepository(appExecutors, client, dangerSource, cache);
         }
         return instance;
     }
 
     private GenInfRepository(AppExecutors appExecutors,
                              FusedLocationProviderClient client,
+                             DangerSource dangerSource,
                              Cache cache) {
         this.appExecutors = appExecutors;
         this.locationProviderClient = client;
+        this.dangerSource = dangerSource;
         this.cache = cache;
     }
 
@@ -85,5 +91,9 @@ public class GenInfRepository {
                     fusedLocation.postValue(locationTask.getResult());
                 });
         return fusedLocation;
+    }
+
+    public List<DangerGroup> loadDangerGroupList() {
+        return dangerSource.listDangerGroups;
     }
 }

@@ -1,16 +1,16 @@
-package tech.ankainn.edanapplication.model.danger;
+package tech.ankainn.edanapplication.danger;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DangerGroup {
 
-    public final String idNumber;
     public final String name;
+    public final String code;
     public final List<DangerType> listDangers;
 
-    private DangerGroup(String idNumber, String name, List<DangerType> listDangers) {
-        this.idNumber = idNumber;
+    private DangerGroup(String code, String name, List<DangerType> listDangers) {
+        this.code = code;
         this.name = name;
         this.listDangers = listDangers;
     }

@@ -9,6 +9,9 @@ import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity(tableName = "member_table")
 public class MemberData {
 
@@ -46,6 +49,15 @@ public class MemberData {
     public String personalInjury = "";
     @ColumnInfo(name = "code_personal_injury")
     public String codePersonalInjury = "";
+
+    @ColumnInfo(name = "livelihood_owner")
+    public Boolean livelihoodOwner = false;
+
+    @Ignore
+    public int livelihoodDataCount = 0;
+
+    @Ignore
+    public List<LivelihoodData> livelihoodDataList = new ArrayList<>();
 
     public boolean notEmpty() {
         return checkValue(surname) && checkValue(name) && checkValue(birthdate);

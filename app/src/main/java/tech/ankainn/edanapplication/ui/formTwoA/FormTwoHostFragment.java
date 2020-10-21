@@ -54,7 +54,7 @@ public class FormTwoHostFragment extends BindingFragment<FragmentFormTwoHostBind
 
         childNavController.addOnDestinationChangedListener((controller, destination, arguments) -> {
             binding().navigator.showHideArrows(destination.getId() != R.id.member_fragment &&
-                    destination.getId() != R.id.livelihood_fragment);
+                    destination.getId() != R.id.livelihood_list_fragment);
         });
 
         binding().navigator.setDestinations(destinationsId);
@@ -68,10 +68,10 @@ public class FormTwoHostFragment extends BindingFragment<FragmentFormTwoHostBind
 
         binding().navigator.addItemView(new NavigatorItem(R.drawable.ic_folder_24dp, R.string.short_form_two_b,
                 item -> {
-                    if (childNavController.getCurrentDestination().getId() != R.id.livelihood_fragment) {
+                    if (childNavController.getCurrentDestination().getId() != R.id.livelihood_list_fragment) {
                         binding().navigator.showHideArrows(false);
                         item.setLabel(R.string.short_form_two_a);
-                        childNavController.navigate(R.id.livelihood_fragment);
+                        childNavController.navigate(R.id.livelihood_list_fragment);
                     } else {
                         binding().navigator.showHideArrows(true);
                         item.setLabel(R.string.short_form_two_b);

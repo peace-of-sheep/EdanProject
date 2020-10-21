@@ -15,12 +15,18 @@ public class LivelihoodData {
     @Ignore
     public long tempId;
 
+    @Ignore
+    public long tempMemberId;
+
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "livelihood_id")
     public long id;
 
     @ColumnInfo(name = "form_two_owner_id")
     public long formTwoOwnerId;
+
+    @ColumnInfo(name = "member_owner_id")
+    public long memberOwnerId;
 
     @ColumnInfo(name = "data_version")
     public Integer dataVersion = 0;

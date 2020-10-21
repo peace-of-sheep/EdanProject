@@ -1,4 +1,4 @@
-package tech.ankainn.edanapplication.model.app.formOne;
+package tech.ankainn.edanapplication.model.dto;
 
 import androidx.room.ColumnInfo;
 

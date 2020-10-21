@@ -10,7 +10,7 @@ import androidx.room.Update;
 import java.util.List;
 
 import tech.ankainn.edanapplication.model.app.formOne.FormOneData;
-import tech.ankainn.edanapplication.model.app.formOne.FormOneSubset;
+import tech.ankainn.edanapplication.model.dto.FormOneSubset;
 
 @Dao
 public interface FormOneDao {

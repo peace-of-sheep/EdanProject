@@ -1,9 +1,12 @@
-package tech.ankainn.edanapplication.model.factory;
+package tech.ankainn.edanapplication.util;
+
+import androidx.room.util.StringUtil;
 
 import com.google.gson.Gson;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import tech.ankainn.edanapplication.binding.Converter;
@@ -20,16 +23,15 @@ import tech.ankainn.edanapplication.model.api.formtwo.MaterialTypeRemote;
 import tech.ankainn.edanapplication.model.api.formtwo.ResponsableRemote;
 import tech.ankainn.edanapplication.model.app.auth.UserData;
 import tech.ankainn.edanapplication.model.app.formOne.FormOneData;
-import tech.ankainn.edanapplication.model.app.formOne.SelectableData;
-import tech.ankainn.edanapplication.model.app.formOne.SelectableItemData;
 import tech.ankainn.edanapplication.model.app.geninf.GenInfData;
 import tech.ankainn.edanapplication.model.app.geninf.HeaderData;
 import tech.ankainn.edanapplication.model.dto.FormTwoComplete;
 import tech.ankainn.edanapplication.model.app.formTwo.FormTwoData;
 import tech.ankainn.edanapplication.model.app.formTwo.LivelihoodData;
 import tech.ankainn.edanapplication.model.app.formTwo.MemberData;
+import tech.ankainn.edanapplication.model.dto.MemberComplete;
 
-public class ModelFactory {
+public class Utilities {
 
     public static <T> T clonePojo(T pojo) {
         Gson gson = new Gson();
@@ -41,20 +43,7 @@ public class ModelFactory {
     }
 
     public static FormOneData createEmptyFormOneData() {
-        FormOneData formOneData = new FormOneData();
-
-        /*formOneData.dataVersion = 0;
-
-        formOneData.genInfData = createEmptyGenInf();
-
-        formOneData.damageOne = new SelectableData(createSelectableList(5));
-        formOneData.damageTwo = new SelectableData(createSelectableList(5));
-        formOneData.damageThree = new SelectableData(createSelectableList(4));
-
-        formOneData.activities = new SelectableData(createSelectableList(5));
-        formOneData.needs = new SelectableData(createSelectableList(3));*/
-
-        return formOneData;
+        return new FormOneData();
     }
 
     public static FormTwoData createEmptyFormTwoData() {
@@ -91,15 +80,28 @@ public class ModelFactory {
 
         FormTwoData formTwoData = source.formTwoData;
 
-        List<MemberData> tempMembers = source.memberDataList;
+        List<MemberComplete> memberCompleteList = source.memberCompleteList;
+        List<MemberData> memberDataList = new ArrayList<>();
+        for (MemberComplete memberComplete : memberCompleteList) {
+            memberDataList.add(memberComplete.memberData);
+        }
 
-        if(!tempMembers.isEmpty())
-            formTwoData.listMemberData = tempMembers;
+        formTwoData.memberDataList = memberDataList;
+        formTwoData.memberDataCount = memberDataList.size();
 
-        List<LivelihoodData> tempLivelihoods = source.livelihoodDataList;
 
-        if(!tempLivelihoods.isEmpty())
-            formTwoData.listLivelihood = tempLivelihoods;
+        int countId = 0;
+        for (int i = 0; i < formTwoData.memberDataCount; i++) {
+            MemberData memberData = formTwoData.memberDataList.get(i);
+            memberData.tempId = i + 1;
+
+            memberData.livelihoodDataList = memberCompleteList.get(i).livelihoodDataList;
+            memberData.livelihoodDataCount = memberCompleteList.get(i).livelihoodDataList.size();
+
+            for (int j = 0; j < memberData.livelihoodDataCount; j++) {
+                memberData.livelihoodDataList.get(j).tempId = ++countId;
+            }
+        }
 
         return formTwoData;
     }
@@ -112,7 +114,7 @@ public class ModelFactory {
 
         //***********************************************
         FormTwoHeaderRemote headerRemote = new FormTwoHeaderRemote();
-        headerRemote.setPeligroTipo(headerEntity.codeGroupDanger);
+        headerRemote.setPeligroTipo(Converter.stringToInteger(headerEntity.codeGroupDanger));
         headerRemote.setEvaluacionNro(-1);
 
         String eventDateTime = headerEntity.dateEvent + " " + headerEntity.hourEvent;
@@ -120,11 +122,18 @@ public class ModelFactory {
 
         headerRemote.setOcurrenciaFechaHora(eventDateTime);
         headerRemote.setEmpadronamientoFechaHora(creationDateTime);
+
         headerRemote.setCentroPoblado(data.genInfData.extraData.nameLocality);
         headerRemote.setLocalidad(data.genInfData.extraData.nameLocality);
+        //******************************************************************************
         headerRemote.setCaserio(data.genInfData.extraData.nameCA);
         headerRemote.setCalle(data.genInfData.extraData.nameCM);
+
+        //**********************************************************************************
+
         headerRemote.setPiso(Converter.stringToInteger(data.genInfData.extraData.nameEPD));
+
+        headerRemote.numberIdSinpad = data.genInfData.extraData.numberIdSinpad;
 
         formTwoRemote.setForm2aCab(headerRemote);
 
@@ -151,9 +160,9 @@ public class ModelFactory {
 
         ResponsableRemote responsableRemote = new ResponsableRemote();
 
-        List<MemberData> list = formTwoCompleteEntity.memberDataList;
+        List<MemberComplete> list = formTwoCompleteEntity.memberCompleteList;
         if (list != null && list.size() > 0) {
-            MemberData memberEntity = list.get(0);
+            MemberData memberEntity = list.get(0).memberData;
 
             responsableRemote.setApellidos(memberEntity.surname);
             responsableRemote.setNombres(memberEntity.name);
@@ -172,11 +181,21 @@ public class ModelFactory {
         return formTwoRemote;
     }
 
-    private static List<SelectableItemData> createSelectableList(int number) {
-        List<SelectableItemData> result = new ArrayList<>();
-        for (int i = 0; i < number ; i++) {
-            result.add(new SelectableItemData());
+    public static MemberData findMemberDataByTempId(FormTwoData formTwoData, long tempId) {
+        for (MemberData memberData : formTwoData.memberDataList) {
+            if (memberData.tempId == tempId) {
+                return memberData;
+            }
         }
-        return result;
+        return null;
+    }
+
+    public static LivelihoodData findLivelihoodDataByTempId(MemberData memberData, long tempId) {
+        for (LivelihoodData livelihoodData : memberData.livelihoodDataList) {
+            if (livelihoodData.tempId == tempId) {
+                return livelihoodData;
+            }
+        }
+        return null;
     }
 }

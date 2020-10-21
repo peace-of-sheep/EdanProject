@@ -7,12 +7,14 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
+import tech.ankainn.edanapplication.R;
 import tech.ankainn.edanapplication.databinding.FragmentMemberBinding;
 import tech.ankainn.edanapplication.global.Picker;
 import tech.ankainn.edanapplication.global.PickerFragment;
 import tech.ankainn.edanapplication.ui.common.BindingFragment;
 import tech.ankainn.edanapplication.util.InjectorUtil;
 import tech.ankainn.edanapplication.util.TextInputLayoutUtil;
+import tech.ankainn.edanapplication.view.ProgressButton;
 
 public class MemberFragment extends BindingFragment<FragmentMemberBinding> {
 
@@ -65,5 +67,19 @@ public class MemberFragment extends BindingFragment<FragmentMemberBinding> {
         });
 
         viewModel.getMemberData().observe(getViewLifecycleOwner(), memberData -> binding().setMember(memberData));
+
+        viewModel.getState().observe(getViewLifecycleOwner(), state -> {
+            if (state == MemberViewModel.State.LOADING) {
+                ProgressButton.showProgressUtil(binding().btnSearch, getString(R.string.loading));
+            } else {
+                ProgressButton.hideProgress(binding().btnSearch, getString(R.string.search));
+            }
+        });
+
+        viewModel.getSingleEvent().observe(getViewLifecycleOwner(), state -> {
+            if (state == MemberViewModel.State.ERROR) {
+                Toast.makeText(requireContext(), "DNI not found", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

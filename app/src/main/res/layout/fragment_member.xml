@@ -71,7 +71,7 @@
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_search"
                         android:text="@string/search"
-                        android:layout_width="wrap_content"
+                        android:layout_width="180dp"
                         android:layout_height="wrap_content"
                         app:icon="@drawable/ic_baseline_search_24"
                         android:layout_marginHorizontal="@dimen/dim_nor"
@@ -170,6 +170,21 @@
                         android:layout_height="wrap_content"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:checked="@={member.livelihoodOwner}"
+                    android:layout_marginTop="@dimen/dim_big"
+                    android:layout_marginHorizontal="@dimen/dim_nor"
+                    app:switchPadding="@dimen/dim_nor"
+                    android:text="@string/livelihood"
+                    app:useMaterialThemeColors="false"
+                    app:track="@drawable/switch_track"
+                    android:thumb="@drawable/switch_thumb"
+                    app:showText="true"
+                    android:textOn="@string/yes"
+                    android:textOff="@string/no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/layout_condition"
                     android:hint="@string/condition"
@@ -206,6 +221,76 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_marginTop="@dimen/dim_nor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/pregnant_switch"
+                        app:switchPadding="@dimen/dim_nor"
+                        android:text="@string/pregnant"
+                        app:useMaterialThemeColors="false"
+                        app:track="@drawable/switch_track"
+                        android:thumb="@drawable/switch_thumb"
+                        app:showText="true"
+                        android:textOn="@string/yes"
+                        android:textOff="@string/no"
+                        android:layout_marginHorizontal="@dimen/dim_nor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_marginHorizontal="@dimen/dim_nor"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                        android:hint="@string/weeks"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/pregnant_switch"
+                        app:layout_constraintEnd_toEndOf="parent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:enabled="@{pregnantSwitch.checked}"
+                            android:inputType="number"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:hint="Persona con discapacidad"
+                    android:layout_marginTop="@dimen/dim_nor"
+                    android:layout_marginHorizontal="@dimen/dim_nor"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:inputType="text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:hint="Tipo de enfermedad crónica"
+                    android:layout_marginTop="@dimen/dim_nor"
+                    android:layout_marginHorizontal="@dimen/dim_nor"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:inputType="text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 

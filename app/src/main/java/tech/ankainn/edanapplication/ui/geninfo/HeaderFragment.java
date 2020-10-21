@@ -1,22 +1,18 @@
 package tech.ankainn.edanapplication.ui.geninfo;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
+import android.text.Editable;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
-
-import javax.inject.Inject;
 
 import tech.ankainn.edanapplication.databinding.FragmentHeaderBinding;
 import tech.ankainn.edanapplication.global.Picker;
 import tech.ankainn.edanapplication.global.PickerFragment;
 import tech.ankainn.edanapplication.ui.common.BindingFragment;
 import tech.ankainn.edanapplication.util.InjectorUtil;
-import tech.ankainn.edanapplication.util.Tagger;
+import tech.ankainn.edanapplication.util.OnAfterTextChanged;
 import tech.ankainn.edanapplication.util.TextInputLayoutUtil;
-import timber.log.Timber;
 
 public class HeaderFragment extends BindingFragment<FragmentHeaderBinding> {
 
@@ -41,22 +37,33 @@ public class HeaderFragment extends BindingFragment<FragmentHeaderBinding> {
         });
 
         binding().textDangerGroup.setOnItemClickListener((parent, view, position, id) -> {
-            viewModel.setDangerGroup(requireContext(), position);
+            binding().textDangerType.setText(null);
+            viewModel.onDangerGroupPos(position);
         });
-        binding().textDangerType.setOnItemClickListener((p, v, pos, id) -> {
-            viewModel.setDanger(requireContext(), pos);
-        });
+        binding().textDangerType.setOnItemClickListener((p, v, pos, id) ->
+                viewModel.onDangerTypePos(pos));
+
         binding().textDepartment.setOnItemClickListener((p, v, pos, id) -> {
-            viewModel.setDepartment(requireContext(), pos);
+            binding().textProvince.setText(null);
+            binding().textDistrict.setText(null);
+            viewModel.onDepartmentPos(pos);
         });
         binding().textProvince.setOnItemClickListener((p, v, pos, id) -> {
-            viewModel.setProvince(requireContext(), pos);
+            binding().textDistrict.setText(null);
+            viewModel.onProvincePos(pos);
         });
-        binding().textDistrict.setOnItemClickListener((p, v, pos, id) -> {
-            viewModel.setDistrict(requireContext(), pos);
-        });
+        binding().textDistrict.setOnItemClickListener((p, v, pos, id) -> viewModel.onDistrictPos(pos));
 
         viewModel.getHeaderData().observe(getViewLifecycleOwner(),
                 headerData -> binding().setHeaderData(headerData));
+
+        viewModel.getDangerGroupText().observe(getViewLifecycleOwner(),
+                names -> binding().setDangerGroupNames(names));
+        viewModel.getDangerTypeText().observe(getViewLifecycleOwner(),
+                names -> binding().setDangerTypeNames(names));
+
+        viewModel.getDptosNames().observe(getViewLifecycleOwner(), names -> binding().setDepartmentNames(names));
+        viewModel.getProvNames().observe(getViewLifecycleOwner(), names -> binding().setProvinceNames(names));
+        viewModel.getDistNames().observe(getViewLifecycleOwner(), names -> binding().setDistrictNames(names));
     }
 }

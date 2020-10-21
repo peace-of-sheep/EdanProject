@@ -7,8 +7,6 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 
 import tech.ankainn.edanapplication.R;
 import tech.ankainn.edanapplication.databinding.ViewProgressBarHintTextBinding;
@@ -36,7 +34,7 @@ public class ProgressBarHintTextView extends FrameLayout {
 
     private void init(Context context) {
         binding = ViewProgressBarHintTextBinding.inflate(LayoutInflater.from(context), this);
-        String hintText = context.getString(R.string.default_loading);
+        String hintText = context.getString(R.string.loading);
         setHintText(hintText);
     }
 

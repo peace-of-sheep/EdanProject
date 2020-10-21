@@ -6,6 +6,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.bumptech.glide.Glide;
 
@@ -27,7 +28,7 @@ public class LoginFragment extends BindingFragment<FragmentLoginBinding> {
 
         viewModel.getState().observe(getViewLifecycleOwner(), state -> {
             if (state == LoginViewModel.State.LOADING) {
-                ProgressButton.showProgressUtil(binding().btnLogin, getString(R.string.default_loading));
+                ProgressButton.showProgressUtil(binding().btnLogin, getString(R.string.loading));
             } else {
                 ProgressButton.hideProgress(binding().btnLogin, "Ingresar");
             }
@@ -42,16 +43,14 @@ public class LoginFragment extends BindingFragment<FragmentLoginBinding> {
             }
         });
 
-        /*binding().btnLogin.setOnClickListener(v -> {
+        binding().btnLogin.setOnClickListener(v -> {
             String user = binding().userInput.getText().toString();
             String pass = binding().passInput.getText().toString();
             viewModel.loadUser(new AuthCredentials(user, pass));
-        });*/
-
-        binding().btnLogin.setOnClickListener(v -> {
-            Navigation.findNavController(requireActivity(), R.id.fragment_container)
-                    .navigate(LoginFragmentDirections.actionLoginToMain());
         });
+
+        /*binding().btnLogin.setOnClickListener(v -> NavHostFragment.findNavController(this)
+                .navigate(LoginFragmentDirections.actionLoginToMain()));*/
 
         Glide.with(requireContext().getApplicationContext()).load(R.drawable.wall_image).into(binding().wallImage);
     }

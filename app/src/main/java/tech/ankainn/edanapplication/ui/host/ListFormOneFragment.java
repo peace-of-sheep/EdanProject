@@ -1,7 +1,6 @@
 package tech.ankainn.edanapplication.ui.host;
 
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
@@ -12,7 +11,7 @@ import java.util.Objects;
 import tech.ankainn.edanapplication.R;
 import tech.ankainn.edanapplication.databinding.LayoutItemFormOneBinding;
 import tech.ankainn.edanapplication.databinding.LayoutListBinding;
-import tech.ankainn.edanapplication.model.app.formOne.FormOneSubset;
+import tech.ankainn.edanapplication.model.dto.FormOneSubset;
 import tech.ankainn.edanapplication.ui.common.BindingAdapter2;
 import tech.ankainn.edanapplication.ui.common.BindingFragment;
 import tech.ankainn.edanapplication.util.InjectorUtil;

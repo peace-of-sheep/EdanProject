@@ -14,9 +14,9 @@ import androidx.databinding.InverseBindingListener;
 
 import com.bumptech.glide.Glide;
 
+import java.util.Objects;
+
 import tech.ankainn.edanapplication.R;
-import tech.ankainn.edanapplication.util.Tagger;
-import timber.log.Timber;
 
 public class BindingAdapters {
 
@@ -34,9 +34,9 @@ public class BindingAdapters {
         String oldValue = view.getText().toString();
 
         if (TextUtils.isEmpty(oldValue) && TextUtils.isEmpty(value)) return;
+        if (Objects.equals(oldValue, value)) return;
 
         view.setText(null);
-
         view.postDelayed(() -> view.setText(value, false), 100L);
     }
 
@@ -71,8 +71,8 @@ public class BindingAdapters {
         return temp != null ? (int) temp : -1;
     }
 
-    @BindingAdapter(value = {"dropdown", "defaultSelection"}, requireAll = false)
-    public static void setDropdown(AutoCompleteTextView textView, String[] array, Integer defaultValue) {
+    @BindingAdapter(value = "dropdown")
+    public static void setDropdown(AutoCompleteTextView textView, String[] array) {
         if (array == null) return;
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
@@ -80,10 +80,6 @@ public class BindingAdapters {
                         R.layout.layout_dropdown_menu_item,
                         array);
         textView.setAdapter(adapter);
-
-        if (defaultValue != null) {
-            setTextDropDown(textView, array[defaultValue]);
-        }
     }
 
     @BindingAdapter(value = "imageUri")

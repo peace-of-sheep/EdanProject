@@ -51,8 +51,8 @@
     </fragment>
 
     <fragment
-        android:id="@+id/livelihood_fragment"
-        android:label="LivelihoodFragment"
-        android:name="tech.ankainn.edanapplication.ui.formTwoB.LivelihoodFragment" />
+        android:id="@+id/livelihood_list_fragment"
+        android:label="LivelihoodListFragment"
+        android:name="tech.ankainn.edanapplication.ui.formTwoB.LivelihoodListFragment" />
 
 </navigation>

@@ -5,9 +5,6 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
-import java.util.Arrays;
-import java.util.List;
-
 import tech.ankainn.edanapplication.R;
 import tech.ankainn.edanapplication.databinding.FragmentSwitchableBinding;
 import tech.ankainn.edanapplication.ui.common.BindingFragment;

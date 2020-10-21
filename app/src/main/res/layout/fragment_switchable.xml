@@ -59,6 +59,7 @@
                 android:id="@+id/layout_observation"
                 android:hint="@string/observation"
                 android:layout_marginHorizontal="@dimen/dim_nor"
+                android:layout_marginBottom="@dimen/dim_nor"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -88,7 +89,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_accept"
-                android:text="@string/accept"
+                android:text="@string/close"
                 style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Flush"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>

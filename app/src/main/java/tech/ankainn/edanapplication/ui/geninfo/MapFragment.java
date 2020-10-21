@@ -72,7 +72,7 @@ public class MapFragment extends BindingFragment<FragmentMapBinding> {
 
         viewModel.getMapLocationData().observe(getViewLifecycleOwner(), mapLocationData -> {
             LatLng latLng = new LatLng(mapLocationData.latitude, mapLocationData.longitude);
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 5.5f));
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 8f));
         });
     }
 

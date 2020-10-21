@@ -6,17 +6,16 @@ import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
 import tech.ankainn.edanapplication.R;
@@ -29,7 +28,6 @@ import tech.ankainn.edanapplication.ui.common.BindingAdapter2;
 import tech.ankainn.edanapplication.ui.common.BindingFragment;
 import tech.ankainn.edanapplication.util.InjectorUtil;
 import tech.ankainn.edanapplication.util.Tuple2;
-import timber.log.Timber;
 
 public class ListFormTwoFragment extends BindingFragment<LayoutListBinding> {
 
@@ -42,20 +40,21 @@ public class ListFormTwoFragment extends BindingFragment<LayoutListBinding> {
         ViewModelProvider.Factory factory = InjectorUtil.provideViewModelFactory(requireContext());
         viewModel = new ViewModelProvider(this, factory).get(FilesViewModel.class);
 
-        BindingAdapter2<LayoutItemFormTwoBinding, Tuple2<Boolean, FormTwoSubset>> adapter =
-                new BindingAdapter2<LayoutItemFormTwoBinding, Tuple2<Boolean, FormTwoSubset>>(
-                        (oldItem, newItem) -> oldItem.second.id == newItem.second.id,
-                        (oldItem, newItem) -> Objects.equals(oldItem.second.dataVersion, newItem.second.dataVersion)
-                                && Objects.equals(oldItem.first, newItem.first),
+        BindingAdapter2<LayoutItemFormTwoBinding, FormTwoSubset> adapter =
+                new BindingAdapter2<LayoutItemFormTwoBinding, FormTwoSubset>(
+                        (oldItem, newItem) -> oldItem.id == newItem.id,
+                        (oldItem, newItem) -> Objects.equals(oldItem.dataVersion, newItem.dataVersion)
+                                && Objects.equals(oldItem.formTwoApiId, newItem.formTwoApiId)
+                                && oldItem.loading == newItem.loading,
                         (binding, data) -> {
-                            binding.setFormTwoSubset(data.second);
-                            binding.setLoading(data.first);
-                            setCardColor(binding.colorView, data.second.formTwoApiId);
-                            setTextForRemoteId(binding.textRemoteId, data.second.formTwoApiId);
+                            binding.setFormTwoSubset(data);
+                            binding.setLoading(data.loading);
+                            setCardColor(binding.colorView, data.formTwoApiId);
+                            setTextForRemoteId(binding.textRemoteId, data.formTwoApiId);
                         }
                 ) {}
                 .setOnItemCLick((pos, itemBinding) -> {
-                    viewModel.setActiveFormTwoItem(pos, itemBinding.getFormTwoSubset().id);
+                    viewModel.setTempFormTwoId(itemBinding.getFormTwoSubset().id);
                     new BottomOptionsFragment.Builder("item")
                             .setTitle(R.string.options)
                             .addOption(R.string.upload, R.drawable.ic_cloud_upload_24)
@@ -70,17 +69,21 @@ public class ListFormTwoFragment extends BindingFragment<LayoutListBinding> {
             binding().setVisible(list == null || list.isEmpty());
             adapter.submitList(list);
         });
+        
+        viewModel.getSingleEvent().observe(getViewLifecycleOwner(), state -> {
+            if (state == FilesViewModel.State.ERROR) {
+                Toast.makeText(requireContext(), "Server unable", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         Options.getInstance().observe(getViewLifecycleOwner(), (emitter, option) -> {
             if ("item".equals(emitter)) {
-                long id = viewModel.getActiveFormTwoItemId();
+                long id = viewModel.getTempFormTwoId();
                 switch (option) {
                     case -1:
                         break;
                     case 0:
                         viewModel.uploadFormTwo(id);
-                        int pos = viewModel.getTempPos();
-                        setLoadingItem(adapter, pos, true);
                         break;
                     case 1:
                         NavDirections action = HostFragmentDirections.actionHostToFormTwo()

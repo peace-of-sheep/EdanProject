@@ -2,6 +2,8 @@ package tech.ankainn.edanapplication.model.app.geninf;
 
 import androidx.room.ColumnInfo;
 
+import com.google.gson.annotations.SerializedName;
+
 public class ExtraData {
 
     @ColumnInfo(name = "name_locality")
@@ -32,4 +34,7 @@ public class ExtraData {
 
     @ColumnInfo(name = "name_epd")
     public String nameEPD = "";
+
+    @ColumnInfo(name = "number_id_sinpad")
+    public String numberIdSinpad = "";
 }

@@ -8,11 +8,14 @@ def getLocalProperty(String propName) {
     if (propsFile.exists()) {
         def props = new Properties()
         props.load(new FileInputStream(propsFile))
-        def value = props[propName]
-        return "\"$value\""
+        return props[propName]
     } else {
         throw new NoSuchFieldException("Not defined property: " + propName)
     }
+}
+
+def stringProperty(String value) {
+    return "\"$value\""
 }
 
 android {
@@ -26,12 +29,23 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "EDAN_API_URL", getLocalProperty("edan_url"))
-        buildConfigField("String", "EDAN_API_USER", getLocalProperty("edan_api_user"))
-        buildConfigField("String", "EDAN_API_PASSWORD", getLocalProperty("edan_api_password"))
-        buildConfigField("String", "RENIEC_API_URL", getLocalProperty("reniec_url"))
-        buildConfigField("String", "GALDOS_API_URL", getLocalProperty("galdos_url"))
+        buildConfigField("String", "EDAN_API_URL", stringProperty(getLocalProperty("edan_url")))
+        buildConfigField("String", "EDAN_API_USER", stringProperty(getLocalProperty("edan_api_user")))
+        buildConfigField("String", "EDAN_API_PASSWORD", stringProperty(getLocalProperty("edan_api_password")))
+        buildConfigField("String", "RENIEC_API_URL", stringProperty(getLocalProperty("reniec_url")))
+        buildConfigField("String", "GALDOS_API_URL", stringProperty(getLocalProperty("galdos_url")))
     }
+
+    signingConfigs {
+        sign_conf {
+            keyAlias = getLocalProperty("signing.key.alias")
+            keyPassword = getLocalProperty("signing.key.password")
+
+            storeFile = file(getLocalProperty("signing.store.file"))
+            storePassword = getLocalProperty("signing.store.password")
+        }
+    }
+
     buildTypes {
         release {
             // enable crashlytics on release mode
@@ -39,6 +53,7 @@ android {
 
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.sign_conf
         }
         debug {
             // disable crashlytics on debug mode

@@ -27,16 +27,16 @@ public abstract class FormTwoDao {
     public abstract FormTwoComplete loadFormTwoById(long formTwoId);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public abstract long insertFormTwo(FormTwoData formTwoData);
+    protected abstract long insertFormTwo(FormTwoData formTwoData);
 
     @Update
     public abstract void updateFormTwo(FormTwoData formTwoData);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public abstract void insertMember(MemberData memberData);
+    public abstract long insertMember(MemberData memberData);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public abstract void insertAllMembers(List<MemberData> memberDataList);
+    public abstract long[] insertAllMembers(List<MemberData> memberDataList);
 
     @Update
     public abstract void updateMember(MemberData memberData);
@@ -51,47 +51,50 @@ public abstract class FormTwoDao {
     public abstract void updateLivelihood(LivelihoodData livelihoodData);
 
     @Transaction
-    public void insertFormTwoComplete(FormTwoComplete formTwoComplete) {
-        FormTwoData formTwoData = formTwoComplete.formTwoData;
-        List<MemberData> memberDataList = formTwoComplete.memberDataList;
-        List<LivelihoodData> livelihoodDataList = formTwoComplete.livelihoodDataList;
+    public void insertFormTwoComplete(FormTwoData formTwoData) {
 
         final long formTwoId = insertFormTwo(formTwoData);
 
+        List<MemberData> memberDataList = formTwoData.memberDataList;
         for (MemberData memberData : memberDataList) {
             memberData.formTwoOwnerId = formTwoId;
         }
-        insertAllMembers(memberDataList);
+        final long[] memberIds = insertAllMembers(memberDataList);
 
-        for (LivelihoodData livelihoodData : livelihoodDataList) {
-            livelihoodData.formTwoOwnerId = formTwoId;
+        for (int i = 0; i < memberIds.length; i++) {
+            List<LivelihoodData> livelihoodDataList = memberDataList.get(i).livelihoodDataList;
+            for (LivelihoodData livelihoodData : livelihoodDataList) {
+                livelihoodData.formTwoOwnerId = formTwoId;
+                livelihoodData.memberOwnerId = memberIds[i];
+            }
+            insertAllLivelihoods(livelihoodDataList);
         }
-        insertAllLivelihoods(livelihoodDataList);
     }
 
     @Transaction
-    public void updateFormTwoComplete(FormTwoComplete formTwoComplete) {
-        FormTwoData formTwoData = formTwoComplete.formTwoData;
-        List<MemberData> memberDataList = formTwoComplete.memberDataList;
-        List<LivelihoodData> livelihoodDataList = formTwoComplete.livelihoodDataList;
+    public void updateFormTwoComplete(FormTwoData formTwoData) {
 
         updateFormTwo(formTwoData);
 
+        List<MemberData> memberDataList = formTwoData.memberDataList;
         for (MemberData memberData : memberDataList) {
-            if(memberData.id == 0) {
+            long memberId;
+            if(memberData.id == 0L) {
                 memberData.formTwoOwnerId = formTwoData.id;
-                insertMember(memberData);
+                memberId = insertMember(memberData);
             } else {
                 updateMember(memberData);
+                memberId = memberData.id;
             }
-        }
 
-        for (LivelihoodData livelihoodData : livelihoodDataList) {
-            if (livelihoodData.id == 0) {
-                livelihoodData.formTwoOwnerId = formTwoData.id;
-                insertLivelihood(livelihoodData);
-            } else {
-                updateLivelihood(livelihoodData);
+            for (LivelihoodData livelihoodData : memberData.livelihoodDataList) {
+                if (livelihoodData.id == 0L) {
+                    livelihoodData.formTwoOwnerId = formTwoData.id;
+                    livelihoodData.memberOwnerId = memberId;
+                    insertLivelihood(livelihoodData);
+                } else {
+                    updateLivelihood(livelihoodData);
+                }
             }
         }
     }

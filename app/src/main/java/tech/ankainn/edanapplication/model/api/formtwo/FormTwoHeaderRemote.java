@@ -32,6 +32,9 @@ public class FormTwoHeaderRemote {
     @SerializedName("ocurrencia_fecha_hora")
     @Expose
     private String ocurrenciaFechaHora;
+    @SerializedName("ide_sinpad")
+    @Expose
+    public String numberIdSinpad;
 
     public Integer getPeligroTipo() {
         return peligroTipo;
