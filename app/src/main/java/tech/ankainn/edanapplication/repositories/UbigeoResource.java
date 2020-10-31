@@ -70,7 +70,7 @@ public class UbigeoResource {
         }));
 
         appExecutors.mainThread().execute(() -> result.addSource(apiLiveData, list -> {
-            if (list != null) {
+            if (list != null && !list.isEmpty()) {
                 for (UbigeoLocation ubigeoLocation : list) {
                     ubigeoLocation.ownerCode = ownerCode;
                 }

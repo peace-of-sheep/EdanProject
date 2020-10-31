@@ -19,7 +19,7 @@ import tech.ankainn.edanapplication.model.dto.FormTwoSubset;
 @Dao
 public abstract class FormTwoDao {
 
-    @Query("SELECT form_two_id, form_two_api_id, data_version, department, province, district, date_event, hour_event, lot FROM form_two_table ORDER BY form_two_id DESC")
+    @Query("SELECT form_two_id, form_two_api_id, data_version, department, province, district, date_creation, hour_creation, lot FROM form_two_table ORDER BY form_two_id DESC")
     public abstract LiveData<List<FormTwoSubset>> loadAllFormTwoSubset();
 
     @Transaction

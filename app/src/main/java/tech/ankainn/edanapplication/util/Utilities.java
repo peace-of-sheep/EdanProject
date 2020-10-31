@@ -1,12 +1,9 @@
 package tech.ankainn.edanapplication.util;
 
-import androidx.room.util.StringUtil;
-
 import com.google.gson.Gson;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import tech.ankainn.edanapplication.binding.Converter;
@@ -117,10 +114,10 @@ public class Utilities {
         headerRemote.setPeligroTipo(Converter.stringToInteger(headerEntity.codeGroupDanger));
         headerRemote.setEvaluacionNro(-1);
 
-        String eventDateTime = headerEntity.dateEvent + " " + headerEntity.hourEvent;
+        //String eventDateTime = headerEntity.dateEvent + " " + headerEntity.hourEvent;
         String creationDateTime = headerEntity.dateCreation + " " + headerEntity.hourCreation;
 
-        headerRemote.setOcurrenciaFechaHora(eventDateTime);
+        headerRemote.setOcurrenciaFechaHora(creationDateTime);
         headerRemote.setEmpadronamientoFechaHora(creationDateTime);
 
         headerRemote.setCentroPoblado(data.genInfData.extraData.nameLocality);

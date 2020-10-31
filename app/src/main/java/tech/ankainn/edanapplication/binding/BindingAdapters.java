@@ -14,6 +14,7 @@ import androidx.databinding.InverseBindingListener;
 
 import com.bumptech.glide.Glide;
 
+import java.util.List;
 import java.util.Objects;
 
 import tech.ankainn.edanapplication.R;
@@ -79,6 +80,17 @@ public class BindingAdapters {
                         textView.getContext(),
                         R.layout.layout_dropdown_menu_item,
                         array);
+        textView.setAdapter(adapter);
+    }
+
+    @BindingAdapter(value = "listDropdown")
+    public static void setDropdown2(AutoCompleteTextView textView, List<?> array) {
+        if (array == null) return;
+
+        ArrayAdapter<?> adapter = new ArrayAdapter<>(
+                textView.getContext(),
+                R.layout.layout_dropdown_menu_item,
+                array);
         textView.setAdapter(adapter);
     }
 

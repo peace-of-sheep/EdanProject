@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"/>
 
             <com.google.android.material.textview.MaterialTextView
-                android:text="@{@string/date_hour_args(formTwoSubset.date, formTwoSubset.hour), default=TIME}"
+                android:text="@{@string/date_hour_args(formTwoSubset.dateCreation, formTwoSubset.hourCreation), default=TIME}"
                 android:layout_marginTop="@dimen/dim_nor"
                 android:layout_marginHorizontal="@dimen/dim_nor"
                 android:layout_width="wrap_content"

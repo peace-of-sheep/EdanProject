@@ -82,4 +82,12 @@ public class MemberRepository {
             cache.setFormTwoData(formTwoData);
         }
     }
+
+    public boolean checkHouseholdAffected() {
+        FormTwoData formTwoData = cache.getFormTwoData().getValue();
+        if (formTwoData != null) {
+            return formTwoData.householdData.codeConditionHouse == 1;
+        }
+        return false;
+    }
 }

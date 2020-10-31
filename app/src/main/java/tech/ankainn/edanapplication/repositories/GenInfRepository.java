@@ -12,6 +12,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import java.util.List;
 
 import tech.ankainn.edanapplication.AppExecutors;
+import tech.ankainn.edanapplication.danger.DangerEntity;
 import tech.ankainn.edanapplication.danger.DangerGroup;
 import tech.ankainn.edanapplication.model.app.geninf.ExtraData;
 import tech.ankainn.edanapplication.model.app.geninf.GenInfData;
@@ -93,7 +94,16 @@ public class GenInfRepository {
         return fusedLocation;
     }
 
-    public List<DangerGroup> loadDangerGroupList() {
+    public List<DangerEntity> loadDangers() {
+        return dangerSource.getDangers();
+    }
+
+    public DangerEntity loadGroupDanger(String ownerCode) {
+        return dangerSource.getGroupDanger(ownerCode);
+    }
+
+    /*public List<DangerGroup> loadDangerGroupList() {
         return dangerSource.listDangerGroups;
     }
+    */
 }

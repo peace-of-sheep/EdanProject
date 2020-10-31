@@ -77,7 +77,6 @@ public class FormTwoRepository {
             List<Long> tempIds = new ArrayList<>(ids);
             List<FormTwoSubset> result = new ArrayList<>();
 
-            Timber.tag(Tagger.DUMPER).d("FormTwoRepository.loadAllFormTwoSubset3: ids %s", tempIds);
             if (forms == null) return result;
 
             for (FormTwoSubset form : forms) {
@@ -98,7 +97,6 @@ public class FormTwoRepository {
                 result.add(toAdd);
             }
 
-            Timber.tag(Tagger.DUMPER).d("FormTwoRepository.loadAllFormTwoSubset3: %s", result);
             return result;
         });
     }

@@ -24,6 +24,11 @@ public class FormTwoSubset {
     @ColumnInfo(name = "hour_event")
     public String hour;
 
+    @ColumnInfo(name = "date_creation")
+    public String dateCreation;
+    @ColumnInfo(name = "hour_creation")
+    public String hourCreation;
+
     @ColumnInfo(name = "form_two_api_id")
     public Integer formTwoApiId;
 

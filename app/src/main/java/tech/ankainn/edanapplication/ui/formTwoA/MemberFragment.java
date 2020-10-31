@@ -1,11 +1,14 @@
 package tech.ankainn.edanapplication.ui.formTwoA;
 
 import android.os.Bundle;
+import android.text.Editable;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
+
+import java.util.Calendar;
 
 import tech.ankainn.edanapplication.R;
 import tech.ankainn.edanapplication.databinding.FragmentMemberBinding;
@@ -13,8 +16,11 @@ import tech.ankainn.edanapplication.global.Picker;
 import tech.ankainn.edanapplication.global.PickerFragment;
 import tech.ankainn.edanapplication.ui.common.BindingFragment;
 import tech.ankainn.edanapplication.util.InjectorUtil;
+import tech.ankainn.edanapplication.util.OnAfterTextChanged;
+import tech.ankainn.edanapplication.util.Tagger;
 import tech.ankainn.edanapplication.util.TextInputLayoutUtil;
 import tech.ankainn.edanapplication.view.ProgressButton;
+import timber.log.Timber;
 
 public class MemberFragment extends BindingFragment<FragmentMemberBinding> {
 
@@ -81,5 +87,8 @@ public class MemberFragment extends BindingFragment<FragmentMemberBinding> {
                 Toast.makeText(requireContext(), "DNI not found", Toast.LENGTH_SHORT).show();
             }
         });
+
+        viewModel.getHouseholdCondition().observe(getViewLifecycleOwner(),
+                isAffected -> binding().textCondition.setEnabled(!isAffected));
     }
 }

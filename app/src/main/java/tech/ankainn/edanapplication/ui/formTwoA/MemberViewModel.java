@@ -31,6 +31,8 @@ public class MemberViewModel extends ViewModel {
     private LiveData<List<MemberData>> listMemberData;
     private List<MemberData> currentData;
 
+    private MutableLiveData<Boolean> householdCondition = new MutableLiveData<>();
+
     private MutableLiveData<String> identificationNumber = new MutableLiveData<>();
     private MutableLiveData<Long> tempId = new MutableLiveData<>();
 
@@ -52,9 +54,15 @@ public class MemberViewModel extends ViewModel {
             MemberData memberData = memberRepository.loadMemberData(tempId);
             if (memberData != null) {
                 this.currentMemberData = memberData;
+                if (memberRepository.checkHouseholdAffected()) {
+                    currentMemberData.condition = "Afectado";
+                    currentMemberData.codeCondition = "2";
+                }
                 this.memberData.setValue(memberData);
             }
         });
+
+        householdCondition.setValue(memberRepository.checkHouseholdAffected());
 
         LiveData<ReniecData> sourceReniecData = Transformations.switchMap(identificationNumber,
                 reniecRepository::searchPersonData);
@@ -145,18 +153,22 @@ public class MemberViewModel extends ViewModel {
 
         String[] conditions = getDataFromResource(context, arrayConditionRes);
         currentMemberData.condition = conditions[pos];
-        currentMemberData.codeCondition = Integer.toString(pos);
+        currentMemberData.codeCondition = Integer.toString(pos + 1);
     }
     public void setInjury(Context context, int pos) {
         if (currentMemberData == null) return;
 
         String[] injuries = getDataFromResource(context, arrayInjuryRes);
         currentMemberData.personalInjury = injuries[pos];
-        currentMemberData.codePersonalInjury = Integer.toString(pos);
+        currentMemberData.codePersonalInjury = Integer.toString(pos + 1);
     }
 
     private String[] getDataFromResource(Context context, int arrayRes) {
         return context.getResources().getStringArray(arrayRes);
+    }
+
+    public LiveData<Boolean> getHouseholdCondition() {
+        return householdCondition;
     }
 
     public enum State {
