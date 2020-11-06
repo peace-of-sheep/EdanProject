@@ -2,7 +2,9 @@ package tech.ankainn.edanapplication.model.app.formTwo;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import com.google.gson.Gson;
@@ -12,7 +14,14 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity(tableName = "member_table")
+import tech.ankainn.edanapplication.model.app.auth.UserData;
+
+@Entity(foreignKeys = @ForeignKey(entity = FormTwoData.class,
+                                parentColumns = "form_two_id",
+                                childColumns = "form_two_owner_id",
+                                onDelete = ForeignKey.CASCADE),
+        indices = {@Index(value = "form_two_owner_id")},
+        tableName = "member_table")
 public class MemberData {
 
     @Ignore
@@ -42,6 +51,7 @@ public class MemberData {
     public String gender = "";
     @ColumnInfo(name = "code_gender")
     public String codeGender = "";
+
     public String condition = "";
     @ColumnInfo(name = "code_condition")
     public String codeCondition = "";
@@ -50,8 +60,19 @@ public class MemberData {
     @ColumnInfo(name = "code_personal_injury")
     public String codePersonalInjury = "";
 
+
     @ColumnInfo(name = "livelihood_owner")
     public Boolean livelihoodOwner = false;
+
+    public Boolean pregnant = false;
+
+    @ColumnInfo(name = "pregnant_time")
+    public Integer pregnantTime;
+
+    public String disability = "";
+
+    @ColumnInfo(name = "chronic_disease")
+    public String chronicDisease = "";
 
     @Ignore
     public int livelihoodDataCount = 0;

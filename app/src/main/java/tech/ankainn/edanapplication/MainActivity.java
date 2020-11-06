@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 import java.security.SecureRandom;
 
 import tech.ankainn.edanapplication.databinding.ActivityFragmentContainerBinding;
+import tech.ankainn.edanapplication.model.app.auth.UserData;
 import tech.ankainn.edanapplication.model.app.formOne.FormOneData;
 import tech.ankainn.edanapplication.model.app.formTwo.FormTwoData;
 import tech.ankainn.edanapplication.repositories.Cache;
@@ -49,16 +50,20 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
-            Cache cache = Cache.getInstance();
+        if (BuildConfig.DEBUG) {
+            if(keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
+                Cache cache = Cache.getInstance();
 
-            FormOneData formOneData = cache.getFormOneData().getValue();
-            Timber.tag(Tagger.DUMPER).w("%s", formOneData == null ? "no form one data" : new Gson().toJson(formOneData));
-            FormTwoData formTwoData = cache.getFormTwoData().getValue();
-            Timber.tag(Tagger.DUMPER).w("%s", formTwoData == null ? "no form two data" : new Gson().toJson(formTwoData));
-            return true;
-        } else {
-            return super.onKeyDown(keyCode, event);
+                Timber.tag(Tagger.DUMPER).v("%s", cache.getUserData().getValue());
+                FormOneData formOneData = cache.getFormOneData().getValue();
+                Timber.tag(Tagger.DUMPER).d("%s", formOneData == null ? "no form one data" : new Gson().toJson(formOneData));
+                FormTwoData formTwoData = cache.getFormTwoData().getValue();
+                Timber.tag(Tagger.DUMPER).d("%s", formTwoData == null ? "no form two data" : new Gson().toJson(formTwoData));
+
+                Timber.tag(Tagger.DUMPER).d("MainActivity.onKeyDown: %s", System.currentTimeMillis());
+                return true;
+            }
         }
+        return super.onKeyDown(keyCode, event);
     }
 }

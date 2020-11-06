@@ -3,7 +3,7 @@ package tech.ankainn.edanapplication.model.dto;
 import androidx.room.ColumnInfo;
 import androidx.room.Ignore;
 
-import com.google.gson.Gson;
+import org.jetbrains.annotations.NotNull;
 
 public class FormTwoSubset {
 
@@ -19,11 +19,6 @@ public class FormTwoSubset {
 
     public String lot;
 
-    @ColumnInfo(name = "date_event")
-    public String date;
-    @ColumnInfo(name = "hour_event")
-    public String hour;
-
     @ColumnInfo(name = "date_creation")
     public String dateCreation;
     @ColumnInfo(name = "hour_creation")
@@ -36,6 +31,7 @@ public class FormTwoSubset {
     public boolean loading = false;
 
     @Override
+    @NotNull
     public String toString() {
         String hash = Integer.toHexString(this.hashCode());
         return "{"+hash+"}{"+formTwoApiId+"}{"+loading+"}";

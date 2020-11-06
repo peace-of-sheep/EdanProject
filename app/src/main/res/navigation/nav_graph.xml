@@ -29,6 +29,12 @@
         <action
             android:id="@+id/action_host_to_form_two"
             app:destination="@id/form_two_host_fragment"/>
+
+        <action
+            android:id="@+id/action_host_to_login"
+            app:destination="@id/login_fragment"
+            app:popUpTo="@id/host_fragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -40,6 +46,10 @@
             android:name="form_one_id"
             app:argType="long"
             android:defaultValue="0L" />
+
+        <argument
+            android:name="user_id"
+            app:argType="long" />
 
         <action
             android:id="@+id/action_form_one_to_camera"
@@ -55,6 +65,10 @@
             android:name="form_two_id"
             app:argType="long"
             android:defaultValue="0L" />
+
+        <argument
+            android:name="user_id"
+            app:argType="long" />
 
         <action
             android:id="@+id/action_form_two_to_camera"

@@ -16,7 +16,7 @@
     <string name="piso" translatable="false">Piso</string>
     <string name="dpto" translatable="false">Dpto</string>
 
-
+    <string name="close_session" translatable="false">Cerrar sesión</string>
 
     <string name="hello">Hello</string>
     <string name="user_input">User</string>
@@ -234,4 +234,6 @@
     <string name="close">Close</string>
     <string name="weeks">Weeks</string>
     <string name="pregnant">Pregnant</string>
+    <string name="person_disability">Person with disability</string>
+    <string name="chronic_disease_type">Chronic disease type</string>
 </resources>

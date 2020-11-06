@@ -27,6 +27,9 @@ import tech.ankainn.edanapplication.model.app.formTwo.FormTwoData;
 import tech.ankainn.edanapplication.model.app.formTwo.LivelihoodData;
 import tech.ankainn.edanapplication.model.app.formTwo.MemberData;
 import tech.ankainn.edanapplication.model.dto.MemberComplete;
+import tech.ankainn.edanapplication.repositories.Cache;
+import tech.ankainn.edanapplication.repositories.UserRepository;
+import timber.log.Timber;
 
 public class Utilities {
 
@@ -56,6 +59,8 @@ public class Utilities {
     }
 
     public static UserData userFromRemote(AuthResponse authResponse, String hash) {
+        if (authResponse == null) return null;
+
         UserData userData = new UserData();
 
         userData.hash = hash;
@@ -112,7 +117,7 @@ public class Utilities {
         //***********************************************
         FormTwoHeaderRemote headerRemote = new FormTwoHeaderRemote();
         headerRemote.setPeligroTipo(Converter.stringToInteger(headerEntity.codeGroupDanger));
-        headerRemote.setEvaluacionNro(-1);
+        /*headerRemote.setEvaluacionNro(-1);*/
 
         //String eventDateTime = headerEntity.dateEvent + " " + headerEntity.hourEvent;
         String creationDateTime = headerEntity.dateCreation + " " + headerEntity.hourCreation;

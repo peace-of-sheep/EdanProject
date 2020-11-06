@@ -15,8 +15,8 @@ import tech.ankainn.edanapplication.model.dto.FormOneSubset;
 @Dao
 public interface FormOneDao {
 
-    @Query("SELECT form_one_id, data_version, department, province, district, date_event, hour_event FROM form_one_table ORDER BY form_one_id DESC")
-    LiveData<List<FormOneSubset>> loadAllFormOneSubset();
+    @Query("SELECT form_one_id, data_version, department, province, district, date_event, hour_event FROM form_one_table WHERE user_owner_id = :userId ORDER BY form_one_id DESC")
+    LiveData<List<FormOneSubset>> loadAllFormOneSubset(long userId);
 
     @Query("SELECT * FROM form_one_table WHERE form_one_id = :formOneId")
     FormOneData loadFormOneById(long formOneId);

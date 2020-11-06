@@ -171,6 +171,10 @@ public class MemberViewModel extends ViewModel {
         return householdCondition;
     }
 
+    public void onPregnantChange(boolean isChecked) {
+        currentMemberData.pregnant = isChecked;
+    }
+
     public enum State {
         STILL,
         LOADING,

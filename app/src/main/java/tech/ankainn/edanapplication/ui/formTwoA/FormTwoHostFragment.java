@@ -22,8 +22,8 @@ import static tech.ankainn.edanapplication.util.NavigationUtil.setupWithNavContr
 
 public class FormTwoHostFragment extends BindingFragment<FragmentFormTwoHostBinding> implements OwnerFragment {
 
-    private static final int[] destinationsId = {R.id.header_fragment, R.id.extra_fragment,
-            R.id.map_fragment, R.id.household_fragment, R.id.list_member_fragment};
+    private static final int[] destinationsId = {R.id.header_fragment, R.id.extra_fragment, R.id.map_fragment, R.id.household_fragment, R.id.list_member_fragment
+            };
 
     private FormTwoViewModel viewModel;
 
@@ -40,12 +40,14 @@ public class FormTwoHostFragment extends BindingFragment<FragmentFormTwoHostBind
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        long tempId = FormTwoHostFragmentArgs.fromBundle(requireArguments()).getFormTwoId();
+        FormTwoHostFragmentArgs args = FormTwoHostFragmentArgs.fromBundle(requireArguments());
+        long userId = args.getUserId();
+        long tempId = args.getFormTwoId();
 
         ViewModelProvider.Factory factory = InjectorUtil.provideFormTwoViewModelFactory(requireContext());
         viewModel = new ViewModelProvider(this, factory).get(FormTwoViewModel.class);
 
-        viewModel.setFormTwoId(tempId);
+        viewModel.loadFormTwoData(tempId, userId);
 
         NavController parentNavController = NavHostFragment.findNavController(this);
 

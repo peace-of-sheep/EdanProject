@@ -1,11 +1,10 @@
 package tech.ankainn.edanapplication.repositories;
 
-import androidx.core.util.Pair;
+import androidx.annotation.WorkerThread;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,7 +27,6 @@ import tech.ankainn.edanapplication.model.app.formTwo.HouseholdData;
 import tech.ankainn.edanapplication.model.dto.FormTwoComplete;
 import tech.ankainn.edanapplication.model.app.formTwo.FormTwoData;
 import tech.ankainn.edanapplication.model.dto.FormTwoSubset;
-import tech.ankainn.edanapplication.model.app.geninf.GenInfData;
 import tech.ankainn.edanapplication.util.CombinedLiveData;
 import tech.ankainn.edanapplication.util.Utilities;
 import tech.ankainn.edanapplication.util.Tagger;
@@ -68,11 +66,12 @@ public class FormTwoRepository {
         formTwoDao = edanDatabase.formTwoDao();
     }
 
-    public LiveData<List<FormTwoSubset>> loadAllFormTwoSubset() {
-        LiveData<List<FormTwoSubset>> source = formTwoDao.loadAllFormTwoSubset();
+    public LiveData<List<FormTwoSubset>> loadAllFormTwoSubset(long userId) {
+        LiveData<List<FormTwoSubset>> source = formTwoDao.loadAllFormTwoSubset(userId);
         LiveData<List<Long>> loadingIds = cache.getFormTwoLoading();
 
         return new CombinedLiveData<>(source, loadingIds, (forms, ids) -> {
+            if (ids == null) return forms;
 
             List<Long> tempIds = new ArrayList<>(ids);
             List<FormTwoSubset> result = new ArrayList<>();
@@ -112,21 +111,26 @@ public class FormTwoRepository {
         return result;
     }
 
-    public void loadFormTwoData(long id) {
-        if (cache.getFormTwoData().getValue() != null)
-            return;
+    public void loadFormTwoData(long id, long userId) {
+        FormTwoData oldForm = cache.getFormTwoData().getValue();
+        if (oldForm != null && oldForm.id == id) return;
 
-        if (id == 0L) {
-            createFormTwoData();
-        } else {
-            loadFormTwoDataById(id);
-        }
+        appExecutors.diskIO().execute(() -> {
+
+            FormTwoData formTwoData = id == 0L ? createFormTwoData(userId) : loadFormTwoDataById(id);
+
+            cache.setFormTwoData(formTwoData);
+            cache.setGenInfData(formTwoData.genInfData);
+        });
     }
 
-    private void createFormTwoData() {
+    @WorkerThread
+    private FormTwoData createFormTwoData(long userId) {
         FormTwoData formTwoData = Utilities.createEmptyFormTwoData();
 
-        GenInfData genInfData = cache.getGenInfData().getValue();
+        formTwoData.ownerUserId = userId;
+
+        /*GenInfData genInfData = cache.getGenInfData().getValue();
         if (genInfData == null) {
             formTwoData.genInfData.mapLocationData.latitude = defaultLatLng.latitude;
             formTwoData.genInfData.mapLocationData.longitude = defaultLatLng.longitude;
@@ -134,7 +138,10 @@ public class FormTwoRepository {
             cache.setGenInfData(formTwoData.genInfData);
         } else {
             formTwoData.genInfData = genInfData;
-        }
+        }*/
+
+        formTwoData.genInfData.mapLocationData.latitude = defaultLatLng.latitude;
+        formTwoData.genInfData.mapLocationData.longitude = defaultLatLng.longitude;
 
         Calendar calendar = Calendar.getInstance();
 
@@ -148,25 +155,31 @@ public class FormTwoRepository {
         String dateCreation = String.format(Locale.getDefault(), "%02d/%02d/%04d", day, month, year);
         String hourCreation = String.format(Locale.getDefault(), "%02d:%02d", hour, minute);
 
+        formTwoData.genInfData.headerData.dateEvent = dateCreation;
+        formTwoData.genInfData.headerData.hourEvent = hourCreation;
+
         formTwoData.genInfData.headerData.dateCreation = dateCreation;
         formTwoData.genInfData.headerData.hourCreation = hourCreation;
 
-        Timber.tag(Tagger.DUMPER).i("FormTwoRepository.createFormTwoData: %s", formTwoData);
+        Timber.tag(Tagger.DATA_FLOW).i("FormTwoRepository.createFormTwoData: %s", formTwoData);
 
-        cache.setFormTwoData(formTwoData);
+        /*cache.setFormTwoData(formTwoData);*/
+
+        return formTwoData;
     }
 
-    private void loadFormTwoDataById(long id) {
-        appExecutors.diskIO().execute(() -> {
-            FormTwoComplete source = formTwoDao.loadFormTwoById(id);
+    @WorkerThread
+    private FormTwoData loadFormTwoDataById(long id) {
+        FormTwoComplete source = formTwoDao.loadFormTwoById(id);
 
-            FormTwoData formTwoData = Utilities.dataFromEntityComplete(source);
+        FormTwoData formTwoData = Utilities.dataFromEntityComplete(source);
 
-            Timber.tag(Tagger.DUMPER).i("FormTwoRepository.loadFormTwoDataById: %s", formTwoData);
+        Timber.tag(Tagger.DATA_FLOW).i("FormTwoRepository.loadFormTwoDataById: %s", formTwoData);
 
-            cache.setFormTwoData(formTwoData);
-            cache.setGenInfData(formTwoData.genInfData);
-        });
+        /*cache.setFormTwoData(formTwoData);
+        cache.setGenInfData(formTwoData.genInfData);*/
+
+        return formTwoData;
     }
 
     public LiveData<Boolean> uploadFormTwoById(final long formTwoId) {
@@ -187,7 +200,7 @@ public class FormTwoRepository {
 
             FormTwoRemote formTwoRemote = Utilities.completeEntityToRemote(formTwoComplete);
 
-            Timber.tag(Tagger.DUMPER).d("FormTwoRepository.uploadFormTwoById2: %s", formTwoRemote);
+            Timber.tag(Tagger.DATA_FLOW).i("FormTwoRepository.uploadFormTwoById: %s", formTwoRemote);
 
             galdosService.postFormTwo(formTwoRemote).enqueue(new Callback<ApiResponse<DataResponse>>() {
                 @Override
@@ -231,7 +244,7 @@ public class FormTwoRepository {
         appExecutors.diskIO().execute(() -> {
             formTwoData.dataVersion++;
 
-            Timber.tag(Tagger.DUMPER).d("FormTwoRepository.saveForm: %s", formTwoData);
+            Timber.tag(Tagger.DATA_FLOW).i("FormTwoRepository.saveForm: %s", formTwoData);
 
             if (formTwoData.id == 0) {
                 formTwoDao.insertFormTwoComplete(formTwoData);
@@ -242,6 +255,7 @@ public class FormTwoRepository {
     }
 
     public void clearForm() {
+        cache.setGenInfData(null);
         cache.setFormTwoData(null);
     }
 }

@@ -1,5 +1,6 @@
 package tech.ankainn.edanapplication.repositories;
 
+import androidx.annotation.WorkerThread;
 import androidx.lifecycle.LiveData;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -53,29 +54,41 @@ public class FormOneRepository {
         this.cache = cache;
     }
 
-    public LiveData<List<FormOneSubset>> loadAllFormOneSubset() {
-        return formOneDao.loadAllFormOneSubset();
+    public LiveData<List<FormOneSubset>> loadAllFormOneSubset(long userId) {
+        return formOneDao.loadAllFormOneSubset(userId);
     }
 
     public LiveData<FormOneData> loadCacheFormOneData() {
         return cache.getFormOneData();
     }
 
-    public void loadFormOneDataById(long formOneId) {
-        if(cache.getFormOneData().getValue() != null)
+    public void loadFormOneDataById(long formOneId, long userId) {
+        FormOneData oldValue = cache.getFormOneData().getValue();
+        if(oldValue != null && oldValue.id == formOneId)
             return;
 
-        if (formOneId == 0L) {
-            createFormOneData();
-        } else {
-            loadFormOneData(formOneId);
-        }
+            /*if (formOneId == 0L) {
+                createFormOneData(userId);
+            } else {
+                loadFormOneData(formOneId);
+            }*/
+
+        appExecutors.diskIO().execute(() -> {
+
+            FormOneData formOneData = formOneId == 0L ? createFormOneData(userId) : loadFormOneData(formOneId);
+
+            cache.setFormOneData(formOneData);
+            cache.setGenInfData(formOneData.genInfData);
+        });
     }
 
-    private void createFormOneData() {
+    @WorkerThread
+    private FormOneData createFormOneData(long userId) {
         FormOneData formOneData = Utilities.createEmptyFormOneData();
 
-        GenInfData genInfData = cache.getGenInfData().getValue();
+        formOneData.ownerUserId = userId;
+
+        /*GenInfData genInfData = cache.getGenInfData().getValue();
         if (genInfData == null) {
             formOneData.genInfData.mapLocationData.latitude = defaultLatLng.latitude;
             formOneData.genInfData.mapLocationData.longitude = defaultLatLng.longitude;
@@ -83,7 +96,9 @@ public class FormOneRepository {
             cache.setGenInfData(formOneData.genInfData);
         } else {
             formOneData.genInfData = genInfData;
-        }
+        }*/
+        formOneData.genInfData.mapLocationData.latitude = defaultLatLng.latitude;
+        formOneData.genInfData.mapLocationData.longitude = defaultLatLng.longitude;
 
         Calendar calendar = Calendar.getInstance();
 
@@ -97,19 +112,27 @@ public class FormOneRepository {
         String dateCreation = String.format(Locale.getDefault(), "%02d/%02d/%04d", day, month, year);
         String hourCreation = String.format(Locale.getDefault(), "%02d:%02d", hour, minute);
 
+        formOneData.genInfData.headerData.dateEvent = dateCreation;
+        formOneData.genInfData.headerData.hourEvent = hourCreation;
+
         formOneData.genInfData.headerData.dateCreation = dateCreation;
         formOneData.genInfData.headerData.hourCreation = hourCreation;
 
-        cache.setFormOneData(formOneData);
+        /*cache.setFormOneData(formOneData);*/
+
+        Timber.tag(Tagger.DATA_FLOW).i("FormOneRepository.createFormOneData: %s", formOneData);
+
+        return formOneData;
     }
 
-    private void loadFormOneData(long formOneId) {
-        appExecutors.diskIO().execute(() -> {
-            FormOneData formOneData = formOneDao.loadFormOneById(formOneId);
+    @WorkerThread
+    private FormOneData loadFormOneData(long formOneId) {
+        FormOneData formOneData = formOneDao.loadFormOneById(formOneId);
+        Timber.tag(Tagger.DATA_FLOW).i("FormOneRepository.loadFormOneData: %s", formOneData);
 
-            cache.setFormOneData(formOneData);
-            cache.setGenInfData(formOneData.genInfData);
-        });
+        /*cache.setFormOneData(formOneData);
+            cache.setGenInfData(formOneData.genInfData);*/
+        return formOneData;
     }
 
     public void saveFormOneData() {
@@ -121,7 +144,7 @@ public class FormOneRepository {
         appExecutors.diskIO().execute(() -> {
             formOneData.dataVersion++;
 
-            Timber.tag(Tagger.DUMPER).d("FormOneRepository.saveForm: %s", new Gson().toJson(formOneData));
+            Timber.tag(Tagger.DATA_FLOW).i("FormOneRepository.saveForm: %s", formOneData);
 
             if (formOneData.id == 0L) {
                 formOneDao.insertFormOne(formOneData);
@@ -133,5 +156,6 @@ public class FormOneRepository {
 
     public void clearCacheFormOneData() {
         cache.setFormOneData(null);
+        cache.setGenInfData(null);
     }
 }

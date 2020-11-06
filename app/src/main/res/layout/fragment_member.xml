@@ -228,6 +228,7 @@
                     android:layout_height="wrap_content">
 
                     <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:checked="@{member.pregnant}"
                         android:id="@+id/pregnant_switch"
                         app:switchPadding="@dimen/dim_nor"
                         android:text="@string/pregnant"
@@ -254,7 +255,8 @@
                         app:layout_constraintEnd_toEndOf="parent">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:enabled="@{pregnantSwitch.checked}"
+                            android:id="@+id/text_pregnant"
+                            android:text="@={Converter.integerToString(member.pregnantTime)}"
                             android:inputType="number"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
@@ -262,7 +264,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:hint="Persona con discapacidad"
+                    android:hint="@string/person_disability"
                     android:layout_marginTop="@dimen/dim_nor"
                     android:layout_marginHorizontal="@dimen/dim_nor"
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
@@ -271,12 +273,13 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:inputType="text"
+                        android:text="@={member.disability}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:hint="Tipo de enfermedad crónica"
+                    android:hint="@string/chronic_disease_type"
                     android:layout_marginTop="@dimen/dim_nor"
                     android:layout_marginHorizontal="@dimen/dim_nor"
                     style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
@@ -285,6 +288,7 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:inputType="text"
+                        android:text="@={member.chronicDisease}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </com.google.android.material.textfield.TextInputLayout>

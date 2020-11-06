@@ -2,6 +2,7 @@ package tech.ankainn.edanapplication.ui.formTwoA;
 
 import android.os.Bundle;
 import android.text.Editable;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -90,5 +91,10 @@ public class MemberFragment extends BindingFragment<FragmentMemberBinding> {
 
         viewModel.getHouseholdCondition().observe(getViewLifecycleOwner(),
                 isAffected -> binding().textCondition.setEnabled(!isAffected));
+
+        binding().pregnantSwitch.setOnCheckedChangeListener((view, isChecked) -> {
+            viewModel.onPregnantChange(isChecked);
+            binding().textPregnant.setEnabled(isChecked);
+        });
     }
 }

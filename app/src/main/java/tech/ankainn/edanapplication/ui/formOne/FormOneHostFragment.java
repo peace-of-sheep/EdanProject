@@ -3,11 +3,9 @@ package tech.ankainn.edanapplication.ui.formOne;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
 import androidx.navigation.fragment.NavHostFragment;
 
 import tech.ankainn.edanapplication.R;
@@ -42,12 +40,14 @@ public class FormOneHostFragment extends BindingFragment<FragmentFormOneHostBind
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        long tempId = FormOneHostFragmentArgs.fromBundle(requireArguments()).getFormOneId();
+        FormOneHostFragmentArgs args = FormOneHostFragmentArgs.fromBundle(requireArguments());
+        long userId = args.getUserId();
+        long tempId = args.getFormOneId();
 
         ViewModelProvider.Factory factory = InjectorUtil.provideFormOneViewModelFactory(requireContext());
         FormOneViewModel viewModel = new ViewModelProvider(this, factory).get(FormOneViewModel.class);
 
-        viewModel.setFormOneId(tempId);
+        viewModel.loadFormOne(tempId, userId);
 
         NavController parentNavController = NavHostFragment.findNavController(this);
 

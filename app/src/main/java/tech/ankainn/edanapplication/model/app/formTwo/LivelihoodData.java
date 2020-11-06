@@ -2,14 +2,30 @@ package tech.ankainn.edanapplication.model.app.formTwo;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
 
-@Entity(tableName = "livelihood_table")
+@Entity(foreignKeys = {
+            @ForeignKey(entity = MemberData.class,
+                        parentColumns = "member_id",
+                        childColumns = "member_owner_id",
+                        onDelete = ForeignKey.CASCADE),
+            @ForeignKey(entity = FormTwoData.class,
+                        parentColumns = "form_two_id",
+                        childColumns = "form_two_owner_id",
+                        onDelete = ForeignKey.CASCADE)
+        },
+        indices = {
+            @Index(value = "member_owner_id"),
+            @Index(value = "form_two_owner_id")
+        },
+        tableName = "livelihood_table")
 public class LivelihoodData {
 
     @Ignore

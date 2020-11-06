@@ -213,4 +213,6 @@
     <string name="close">Cerrar</string>
     <string name="weeks">Semanas</string>
     <string name="pregnant">Gestante</string>
+    <string name="person_disability">Persona con discapacidad</string>
+    <string name="chronic_disease_type">Tipo de enfermedad crónica</string>
 </resources>

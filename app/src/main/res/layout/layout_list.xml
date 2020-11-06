@@ -4,7 +4,7 @@
 
     <data>
         <variable
-            name="visible"
+            name="emptyVisible"
             type="boolean" />
     </data>
 
@@ -13,7 +13,7 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            visibleGone="@{visible}"
+            visibleGone="@{emptyVisible}"
             android:gravity="center_horizontal"
             android:layout_gravity="center"
             android:orientation="vertical"

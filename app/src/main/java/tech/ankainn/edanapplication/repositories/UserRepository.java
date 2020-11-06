@@ -3,11 +3,10 @@ package tech.ankainn.edanapplication.repositories;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.SecureRandom;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -20,6 +19,7 @@ import tech.ankainn.edanapplication.db.UserDao;
 import tech.ankainn.edanapplication.model.api.auth.AuthCredentials;
 import tech.ankainn.edanapplication.model.api.auth.AuthResponse;
 import tech.ankainn.edanapplication.model.app.auth.UserData;
+import tech.ankainn.edanapplication.util.Tagger;
 import tech.ankainn.edanapplication.util.Utilities;
 import timber.log.Timber;
 
@@ -58,13 +58,10 @@ public class UserRepository {
             @EverythingIsNonNull
             public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
 
-                AuthResponse authResponse = response.body();
-
-                if (authResponse != null && !authResponse.getApiUser().isEmpty()) {
-                    networkSearch.postValue(authResponse);
-                } else {
+                if (response.isSuccessful())
+                    networkSearch.postValue(response.body());
+                else
                     networkSearch.postValue(null);
-                }
             }
 
             @Override
@@ -79,20 +76,29 @@ public class UserRepository {
 
             String hash = createHash(authCredentials);
 
-            UserData userData;
+            UserData localUser = userDao.loadUserDataByHash(hash);
+            Timber.tag(Tagger.DUMPER).d("UserRepository.loadUser: authResponse? %b, localUsr? %b", authResponse != null, localUser != null);
 
             if (authResponse == null) {
-                userData = userDao.loadUserDataByHash(hash);
+                if (localUser == null) {
+                    diskSearch.postValue(false);
+                } else {
+                    saveUser(localUser);
+                    diskSearch.postValue(true);
+                }
             } else {
-                userData = Utilities.userFromRemote(authResponse, hash);
-                userDao.insertUser(userData);
-            }
+                UserData remoteUser = Utilities.userFromRemote(authResponse, hash);
 
-            if (userData != null) {
-                saveUser(userData);
-            }
+                if (localUser == null) {
+                    remoteUser.id = userDao.insertUser(remoteUser);
+                } else {
+                    remoteUser.id = localUser.id;
+                    userDao.updateUser(remoteUser);
+                }
 
-            diskSearch.postValue(userData != null);
+                saveUser(remoteUser);
+                diskSearch.postValue(true);
+            }
         }));
 
         return diskSearch;
@@ -103,21 +109,16 @@ public class UserRepository {
     }
 
     private void saveUser(UserData userData) {
+
         cache.setUserData(userData);
     }
 
     private String createHash(AuthCredentials authCredentials) {
-        /*byte[] salt = new byte[0];
-        try {
-            salt = getSalt();
-        } catch (NoSuchAlgorithmException | NoSuchProviderException e) {
-            Timber.e(e);
-        }*/
-        String securePass = getSecurePassword(authCredentials.getClave()/*, salt*/);
+        String securePass = getSecurePassword(authCredentials.getClave());
         return authCredentials.getUsername()+securePass;
     }
 
-    private String getSecurePassword(String passwordToHash/*, byte[] salt*/) {
+    private String getSecurePassword(String passwordToHash) {
         String generatedPassword = null;
         try {
             // Create MessageDigest instance for MD5
@@ -141,15 +142,29 @@ public class UserRepository {
         return generatedPassword;
     }
 
-    //Add salt
-    /*private byte[] getSalt() {
-        //Always use a SecureRandom generator
-        SecureRandom sr = SecureRandom.getInstance("SHA1PRNG", "SUN");
-        //Create array for salt
-        byte[] salt = new byte[16];
-        //Get a random salt
-        sr.nextBytes(salt);
-        //return salt
-        return salt;
-    }*/
+    public LiveData<Long> getUserId() {
+        LiveData<UserData> source = cache.getUserData();
+        return Transformations.map(source, user -> user != null ? user.id : -1L);
+    }
+
+    public long getRawUserId() {
+        UserData userData = cache.getUserData().getValue();
+        return userData != null ? userData.id : -1L;
+    }
+
+    public void logout() {
+        clearAllCache();
+    }
+
+    private void clearAllCache() {
+        cache.setUserData(null);
+
+        cache.setGenInfData(null);
+
+        cache.setFormTwoData(null);
+        cache.setFormTwoLoading(null);
+
+        cache.setFormOneData(null);
+        cache.setFormOneLoading(null);
+    }
 }

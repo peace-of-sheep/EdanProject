@@ -1,6 +1,7 @@
 package tech.ankainn.edanapplication.model.dto;
 
 import androidx.room.ColumnInfo;
+import androidx.room.Ignore;
 
 public class FormOneSubset {
 
@@ -18,4 +19,7 @@ public class FormOneSubset {
     public String dateEvent;
     @ColumnInfo(name = "hour_event")
     public String hourEvent;
+
+    @Ignore
+    public boolean loading = false;
 }

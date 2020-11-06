@@ -5,6 +5,10 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.Gson;
+
+import org.jetbrains.annotations.NotNull;
+
 @Entity(tableName = "user_table")
 public class UserData {
 
@@ -24,4 +28,10 @@ public class UserData {
     public boolean online = false;
     @Ignore
     public String token = null;
+
+    @Override
+    @NotNull
+    public String toString() {
+        return new Gson().toJson(this);
+    }
 }

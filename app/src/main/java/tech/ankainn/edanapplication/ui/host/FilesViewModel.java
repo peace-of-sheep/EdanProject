@@ -1,27 +1,26 @@
 package tech.ankainn.edanapplication.ui.host;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import tech.ankainn.edanapplication.model.dto.FormOneSubset;
 import tech.ankainn.edanapplication.model.dto.FormTwoSubset;
 import tech.ankainn.edanapplication.repositories.FormOneRepository;
 import tech.ankainn.edanapplication.repositories.FormTwoRepository;
+import tech.ankainn.edanapplication.repositories.UserRepository;
+import tech.ankainn.edanapplication.util.AbsentLiveData;
 import tech.ankainn.edanapplication.util.SingleLiveData;
-import tech.ankainn.edanapplication.util.Tuple2;
 
 public class FilesViewModel extends ViewModel {
 
     private FormTwoRepository formTwoRepository;
+    private UserRepository userRepository;
 
-    private MediatorLiveData<List<Tuple2<Boolean, FormOneSubset>>> listFormOne = new MediatorLiveData<>();
-    //private MediatorLiveData<List<Pair<Boolean, FormTwoSubset>>> listFormTwo = new MediatorLiveData<>();
+    private LiveData<List<FormOneSubset>> listFormOne;
     private LiveData<List<FormTwoSubset>> listFormTwo;
 
     private MutableLiveData<Long> idUpload = new MutableLiveData<>();
@@ -32,19 +31,19 @@ public class FilesViewModel extends ViewModel {
 
     private int tempPos = -1;
 
-    public FilesViewModel(FormOneRepository formOneRepository, FormTwoRepository formTwoRepository) {
+    public FilesViewModel(FormOneRepository formOneRepository, FormTwoRepository formTwoRepository, UserRepository userRepository) {
         this.formTwoRepository = formTwoRepository;
+        this.userRepository = userRepository;
 
-        listFormTwo = formTwoRepository.loadAllFormTwoSubset();
+        LiveData<Long> userId = userRepository.getUserId();
 
-        LiveData<List<FormOneSubset>> sourceFormOne = formOneRepository.loadAllFormOneSubset();
-        listFormOne.addSource(sourceFormOne, list -> {
-            if (!list.isEmpty()) {
-                List<Tuple2<Boolean, FormOneSubset>> result = new ArrayList<>();
-                for (FormOneSubset formOneSubset : list) result.add(new Tuple2<>(false, formOneSubset));
-                listFormOne.setValue(result);
-            }
-        });
+        listFormTwo = Transformations.switchMap(userId, id ->
+                id == -1L ? AbsentLiveData.create() : formTwoRepository.loadAllFormTwoSubset(id));
+
+        //listFormTwo = formTwoRepository.loadAllFormTwoSubset();
+
+        listFormOne = Transformations.switchMap(userId, id ->
+                id == -1L ? AbsentLiveData.create() : formOneRepository.loadAllFormOneSubset(id));
 
         LiveData<Boolean> resultUpload = Transformations.switchMap(idUpload, formTwoRepository::uploadFormTwoById);
         singleEvent.addSource(resultUpload, result -> {
@@ -56,7 +55,7 @@ public class FilesViewModel extends ViewModel {
         });
     }
 
-    public LiveData<List<Tuple2<Boolean, FormOneSubset>>> getListFormOne() {
+    public LiveData<List<FormOneSubset>> getListFormOne() {
         return listFormOne;
     }
 
@@ -80,6 +79,10 @@ public class FilesViewModel extends ViewModel {
 
     public void uploadFormTwo(long formTwoId) {
         idUpload.setValue(formTwoId);
+    }
+
+    public long getUserId() {
+        return userRepository.getRawUserId();
     }
 
     public enum State {

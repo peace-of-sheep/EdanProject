@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
@@ -15,6 +16,7 @@ import tech.ankainn.edanapplication.global.BottomOptionsFragment;
 import tech.ankainn.edanapplication.global.Options;
 import tech.ankainn.edanapplication.ui.common.BindingFragment;
 import tech.ankainn.edanapplication.ui.common.OwnerFragment;
+import tech.ankainn.edanapplication.util.InjectorUtil;
 
 import static tech.ankainn.edanapplication.util.NavigationUtil.getChildNavController;
 
@@ -23,6 +25,9 @@ public class HostFragment extends BindingFragment<FragmentHostBinding> implement
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        ViewModelProvider.Factory factory = InjectorUtil.provideViewModelFactory(requireContext());
+        HostViewModel viewModel = new ViewModelProvider(this, factory).get(HostViewModel.class);
 
         NavController childNavController = getChildNavController(getChildFragmentManager(), R.id.host_fragment_container);
         NavigationUI.setupWithNavController(binding().bnv, childNavController);
@@ -35,13 +40,14 @@ public class HostFragment extends BindingFragment<FragmentHostBinding> implement
                         .build(getParentFragmentManager()));
 
         Options.getInstance().observe(getViewLifecycleOwner(), (emitter, option) -> {
+            long userId = viewModel.getUserId();
             if ("select".equals(emitter)) {
                 if (option == 0) {
                     Navigation.findNavController(requireActivity(), R.id.fragment_container)
-                            .navigate(HostFragmentDirections.actionHostToFormOne());
+                            .navigate(HostFragmentDirections.actionHostToFormOne(userId));
                 } else if (option == 1) {
                     Navigation.findNavController(requireActivity(), R.id.fragment_container)
-                                .navigate(HostFragmentDirections.actionHostToFormTwo());
+                                .navigate(HostFragmentDirections.actionHostToFormTwo(userId));
                 }
             }
         });

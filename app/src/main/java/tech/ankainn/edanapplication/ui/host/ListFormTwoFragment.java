@@ -14,8 +14,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import tech.ankainn.edanapplication.R;
@@ -27,7 +25,6 @@ import tech.ankainn.edanapplication.model.dto.FormTwoSubset;
 import tech.ankainn.edanapplication.ui.common.BindingAdapter2;
 import tech.ankainn.edanapplication.ui.common.BindingFragment;
 import tech.ankainn.edanapplication.util.InjectorUtil;
-import tech.ankainn.edanapplication.util.Tuple2;
 
 public class ListFormTwoFragment extends BindingFragment<LayoutListBinding> {
 
@@ -63,10 +60,10 @@ public class ListFormTwoFragment extends BindingFragment<LayoutListBinding> {
                 });
         binding().recyclerView.setAdapter(adapter);
 
-        binding().setVisible(true);
+        binding().setEmptyVisible(true);
 
         viewModel.getListFormTwo().observe(getViewLifecycleOwner(), list -> {
-            binding().setVisible(list == null || list.isEmpty());
+            binding().setEmptyVisible(list == null || list.isEmpty());
             adapter.submitList(list);
         });
         
@@ -79,6 +76,7 @@ public class ListFormTwoFragment extends BindingFragment<LayoutListBinding> {
         Options.getInstance().observe(getViewLifecycleOwner(), (emitter, option) -> {
             if ("item".equals(emitter)) {
                 long id = viewModel.getTempFormTwoId();
+                long userId = viewModel.getUserId();
                 switch (option) {
                     case -1:
                         break;
@@ -86,19 +84,13 @@ public class ListFormTwoFragment extends BindingFragment<LayoutListBinding> {
                         viewModel.uploadFormTwo(id);
                         break;
                     case 1:
-                        NavDirections action = HostFragmentDirections.actionHostToFormTwo()
+                        NavDirections action = HostFragmentDirections.actionHostToFormTwo(userId)
                                 .setFormTwoId(id);
                         Navigation.findNavController(requireActivity(), R.id.fragment_container)
                                 .navigate(action);
                 }
             }
         });
-    }
-
-    private void setLoadingItem(BindingAdapter2<?, Tuple2<Boolean, FormTwoSubset>> adapter, int pos, boolean loading) {
-        List<Tuple2<Boolean, FormTwoSubset>> list = new ArrayList<>(adapter.getCurrentList());
-        list.set(pos, new Tuple2<>(loading, list.get(pos).second));
-        adapter.submitList(list);
     }
 
     private static void setCardColor(View colorView, Integer apiId) {

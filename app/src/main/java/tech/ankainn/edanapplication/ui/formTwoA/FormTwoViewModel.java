@@ -3,12 +3,10 @@ package tech.ankainn.edanapplication.ui.formTwoA;
 import android.content.Context;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
 import tech.ankainn.edanapplication.R;
-import tech.ankainn.edanapplication.model.app.formTwo.FormTwoData;
 import tech.ankainn.edanapplication.model.app.formTwo.HouseholdData;
 import tech.ankainn.edanapplication.repositories.FormTwoRepository;
 
@@ -35,8 +33,8 @@ public class FormTwoViewModel extends ViewModel {
         });
     }
 
-    public void setFormTwoId(long formTwoId) {
-        formTwoRepository.loadFormTwoData(formTwoId);
+    public void loadFormTwoData(long formTwoId, long userId) {
+        formTwoRepository.loadFormTwoData(formTwoId, userId);
     }
 
     public LiveData<HouseholdData> getHouseholdData() {

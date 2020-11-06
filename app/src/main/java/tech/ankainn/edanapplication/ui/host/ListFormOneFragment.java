@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
 import java.util.Objects;
@@ -26,23 +27,29 @@ public class ListFormOneFragment extends BindingFragment<LayoutListBinding> {
         ViewModelProvider.Factory factory = InjectorUtil.provideViewModelFactory(requireContext());
         FilesViewModel viewModel = new ViewModelProvider(this, factory).get(FilesViewModel.class);
 
-        BindingAdapter2<LayoutItemFormOneBinding, Tuple2<Boolean, FormOneSubset>> adapter =
-                new BindingAdapter2<LayoutItemFormOneBinding, Tuple2<Boolean, FormOneSubset>>(
-                        (oldItem, newItem) -> oldItem.second.id == newItem.second.id,
-                        (oldItem, newItem) -> Objects.equals(oldItem.second.dataVersion, newItem.second.dataVersion),
+        BindingAdapter2<LayoutItemFormOneBinding, FormOneSubset> adapter =
+                new BindingAdapter2<LayoutItemFormOneBinding, FormOneSubset>(
+                        (oldItem, newItem) -> oldItem.id == newItem.id,
+                        (oldItem, newItem) -> Objects.equals(oldItem.dataVersion, newItem.dataVersion) &&
+                                oldItem.loading == newItem.loading,
                         (binding, data) -> {
-                            binding.setFormOne(data.second);
-                            binding.setLoading(data.first);
+                            binding.setFormOne(data);
+                            binding.setLoading(data.loading);
                         }
                 ) {}
-                .setOnItemCLick((pos, itemBinding) -> Navigation.findNavController(requireActivity(), R.id.fragment_container)
-                        .navigate(HostFragmentDirections.actionHostToFormOne().setFormOneId(itemBinding.getFormOne().id)));
+                .setOnItemCLick((pos, itemBinding) -> {
+                    long userId = viewModel.getUserId();
+                    NavDirections directions = HostFragmentDirections.actionHostToFormOne(userId)
+                            .setFormOneId(itemBinding.getFormOne().id);
+                    Navigation.findNavController(requireActivity(), R.id.fragment_container)
+                            .navigate(directions);
+                });
         binding().recyclerView.setAdapter(adapter);
 
-        binding().setVisible(true);
+        binding().setEmptyVisible(true);
 
         viewModel.getListFormOne().observe(getViewLifecycleOwner(), list -> {
-            binding().setVisible(list == null || list.isEmpty());
+            binding().setEmptyVisible(list == null || list.isEmpty());
             adapter.submitList(list);
         });
     }
