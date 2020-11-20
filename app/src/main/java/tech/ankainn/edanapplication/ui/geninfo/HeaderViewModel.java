@@ -12,7 +12,9 @@ import tech.ankainn.edanapplication.danger.DangerEntity;
 import tech.ankainn.edanapplication.model.app.ubigeo.UbigeoLocation;
 import tech.ankainn.edanapplication.model.app.geninf.HeaderData;
 import tech.ankainn.edanapplication.repositories.GenInfRepository;
-import tech.ankainn.edanapplication.repositories.UbigeoDangerRepository;
+import tech.ankainn.edanapplication.repositories.UbigeoRepository;
+import tech.ankainn.edanapplication.util.Tagger;
+import timber.log.Timber;
 
 public class HeaderViewModel extends ViewModel {
 
@@ -22,22 +24,19 @@ public class HeaderViewModel extends ViewModel {
     private MutableLiveData<List<DangerEntity>> listDangers = new MutableLiveData<>();
     private MutableLiveData<String> dangerOwnerCode = new MutableLiveData<>();
 
-    private LiveData<String[]> dptosNames;
-    private List<UbigeoLocation> dptosUbigeo;
-    private MutableLiveData<Integer> dptosPos = new MutableLiveData<>();
+    private LiveData<List<UbigeoLocation>> listDept;
+    private LiveData<List<UbigeoLocation>> listProv;
+    private LiveData<List<UbigeoLocation>> listDist;
+    private LiveData<List<UbigeoLocation>> listLocal;
 
-    private LiveData<String[]> provNames;
-    private List<UbigeoLocation> provUbigeo;
-    private MutableLiveData<Integer> provPos = new MutableLiveData<>();
-
-    private LiveData<String[]> distNames;
-    private List<UbigeoLocation> distUbigeo;
-    private MutableLiveData<Integer> distPos = new MutableLiveData<>();
+    private MutableLiveData<String> codeDept = new MutableLiveData<>();
+    private MutableLiveData<String> codeProv = new MutableLiveData<>();
+    private MutableLiveData<String> codeDist = new MutableLiveData<>();
 
     private LiveData<HeaderData> headerData;
     private HeaderData currentData;
 
-    public HeaderViewModel(GenInfRepository genInfRepository, UbigeoDangerRepository ubigeoDangerRepository) {
+    public HeaderViewModel(GenInfRepository genInfRepository, UbigeoRepository ubigeoRepository) {
         this.genInfRepository = genInfRepository;
 
         LiveData<HeaderData> source = genInfRepository.loadHeaderData();
@@ -56,51 +55,10 @@ public class HeaderViewModel extends ViewModel {
             nameDangerGroup.setValue(groupDanger.name);
         });
 
-        LiveData<List<UbigeoLocation>> dptosSource = ubigeoDangerRepository.loadDptosList();
-        dptosNames = Transformations.map(dptosSource, list -> {
-            if (list == null) {
-                return null;
-            } else {
-                dptosUbigeo = list;
-                String[] names = new String[list.size()];
-                for (int i = 0; i < list.size(); i++) {
-                    names[i] = list.get(i).name;
-                }
-                return names;
-            }
-        });
-
-        LiveData<List<UbigeoLocation>> provSource = Transformations.switchMap(dptosPos, pos -> {
-            String dptoCode = dptosUbigeo.get(pos).code;
-            return ubigeoDangerRepository.loadProvList(dptoCode);
-        });
-        provNames = Transformations.map(provSource, list -> {
-            if (list != null) {
-                provUbigeo = list;
-                String[] names = new String[list.size()];
-                for (int i = 0; i < list.size(); i++) {
-                    names[i] = list.get(i).name;
-                }
-                return names;
-            }
-            return null;
-        });
-
-        LiveData<List<UbigeoLocation>> distSource = Transformations.switchMap(provPos, pos -> {
-            String provCode = provUbigeo.get(pos).code;
-            return ubigeoDangerRepository.loadDistList(provCode);
-        });
-        distNames = Transformations.map(distSource, list -> {
-            if (list != null) {
-                distUbigeo = list;
-                String[] names = new String[list.size()];
-                for (int i = 0; i < list.size(); i++) {
-                    names[i] = list.get(i).name;
-                }
-                return names;
-            }
-            return null;
-        });
+        listDept = ubigeoRepository.loadDptosList();
+        listProv = Transformations.switchMap(codeDept, ubigeoRepository::loadProvList);
+        listDist = Transformations.switchMap(codeProv, ubigeoRepository::loadDistList);
+        listLocal = Transformations.switchMap(codeDist, ubigeoRepository::loadLocalList);
     }
 
     public LiveData<HeaderData> getHeaderData() {
@@ -114,14 +72,17 @@ public class HeaderViewModel extends ViewModel {
         return listDangers;
     }
 
-    public LiveData<String[]> getDptosNames() {
-        return dptosNames;
+    public LiveData<List<UbigeoLocation>> getListDept() {
+        return listDept;
     }
-    public LiveData<String[]> getProvNames() {
-        return provNames;
+    public LiveData<List<UbigeoLocation>> getListProv() {
+        return listProv;
     }
-    public LiveData<String[]> getDistNames() {
-        return distNames;
+    public LiveData<List<UbigeoLocation>> getListDist() {
+        return listDist;
+    }
+    public LiveData<List<UbigeoLocation>> getListLocal() {
+        return listLocal;
     }
 
     public void onDanger(DangerEntity danger) {
@@ -130,20 +91,30 @@ public class HeaderViewModel extends ViewModel {
         dangerOwnerCode.setValue(danger.ownerCode);
     }
 
-    public void onDepartmentPos(int pos) {
-        currentData.department = dptosUbigeo.get(pos).name;
-        currentData.codeDepartment = dptosUbigeo.get(pos).code;
+    public void onDepartment(UbigeoLocation ubigeoLocation) {
+        currentData.department = ubigeoLocation.name;
+        currentData.codeDepartment = ubigeoLocation.code;
 
-        dptosPos.setValue(pos);
-    }
-    public void onProvincePos(int pos) {
-        currentData.province = provUbigeo.get(pos).name;
-        currentData.codeProvince = provUbigeo.get(pos).code;
+        Timber.tag(Tagger.DUMPER).d("HeaderViewModel.onDepartment: %s", ubigeoLocation.dump());
 
-        provPos.setValue(pos);
+        codeDept.setValue(ubigeoLocation.code);
     }
-    public void onDistrictPos(int pos) {
-        currentData.district = distUbigeo.get(pos).name;
-        currentData.codeDistrict = distUbigeo.get(pos).code;
+    public void onProvince(UbigeoLocation ubigeoLocation) {
+        currentData.province = ubigeoLocation.name;
+        currentData.codeProvince = ubigeoLocation.code;
+
+        Timber.tag(Tagger.DUMPER).d("HeaderViewModel.onProvince: %s", ubigeoLocation.dump());
+
+        codeProv.setValue(ubigeoLocation.code);
+    }
+    public void onDistrict(UbigeoLocation ubigeoLocation) {
+        currentData.district = ubigeoLocation.name;
+        currentData.codeDistrict = ubigeoLocation.code;
+
+        codeDist.setValue(ubigeoLocation.code);
+    }
+    public void onLocality(UbigeoLocation ubigeoLocation) {
+        currentData.locality = ubigeoLocation.name;
+        currentData.codeLocality = ubigeoLocation.code;
     }
 }

@@ -42,12 +42,13 @@ public class FormOneHostFragment extends BindingFragment<FragmentFormOneHostBind
 
         FormOneHostFragmentArgs args = FormOneHostFragmentArgs.fromBundle(requireArguments());
         long userId = args.getUserId();
+        String username = args.getUsername();
         long tempId = args.getFormOneId();
 
         ViewModelProvider.Factory factory = InjectorUtil.provideFormOneViewModelFactory(requireContext());
         FormOneViewModel viewModel = new ViewModelProvider(this, factory).get(FormOneViewModel.class);
 
-        viewModel.loadFormOne(tempId, userId);
+        viewModel.loadFormOne(tempId, userId, username);
 
         NavController parentNavController = NavHostFragment.findNavController(this);
 

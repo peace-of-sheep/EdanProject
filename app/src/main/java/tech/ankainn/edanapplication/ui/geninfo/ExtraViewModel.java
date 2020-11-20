@@ -16,7 +16,6 @@ public class ExtraViewModel extends ViewModel {
 
     private ExtraData currentData;
 
-    private final int arrayLocalityRes = R.array.departments;
     private final int arrayBSU = R.array.bsu;
     private final int arrayCA = R.array.ca;
     private final int arrayCM = R.array.cm;
@@ -34,11 +33,11 @@ public class ExtraViewModel extends ViewModel {
         return extraData;
     }
 
-    public void setLocality(Context context, int pos) {
+    /*public void setLocality(Context context, int pos) {
         String[] data = getDataFromRes(context, arrayLocalityRes);
         currentData.nameLocality = data[pos];
         currentData.codeLocality = Integer.toString(pos + 1);
-    }
+    }*/
 
     public void setBSU(Context context, int pos) {
         String[] data = getDataFromRes(context, arrayBSU);

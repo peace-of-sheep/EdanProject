@@ -114,6 +114,7 @@
     <string name="wall">Wall</string>
     <string name="floor">Floor</string>
 
+    <string name="no_affected">No affected</string>
     <string name="affected">Affected</string>
     <string name="uninhabitable">Uninhabitable</string>
     <string name="destroyed">Destroyed</string>
@@ -236,4 +237,9 @@
     <string name="pregnant">Pregnant</string>
     <string name="person_disability">Person with disability</string>
     <string name="chronic_disease_type">Chronic disease type</string>
+    <string name="remove_file">Remove file</string>
+    <string name="user_not_found">User not found</string>
+    <string name="no_username">Please enter a valid username</string>
+    <string name="no_password">Please enter a valid password</string>
+    <string name="to_delete">Are you sure you want to remove this file?</string>
 </resources>

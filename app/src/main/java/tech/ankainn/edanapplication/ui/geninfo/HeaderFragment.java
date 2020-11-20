@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 import tech.ankainn.edanapplication.R;
 import tech.ankainn.edanapplication.danger.DangerEntity;
 import tech.ankainn.edanapplication.databinding.FragmentHeaderBinding;
+import tech.ankainn.edanapplication.model.app.ubigeo.UbigeoLocation;
 import tech.ankainn.edanapplication.ui.common.BindingFragment;
 import tech.ankainn.edanapplication.util.InjectorUtil;
 
@@ -33,19 +34,35 @@ public class HeaderFragment extends BindingFragment<FragmentHeaderBinding> {
             viewModel.onDanger(danger);
         });
 
-        viewModel.getDptosNames().observe(getViewLifecycleOwner(), names -> binding().setDepartmentNames(names));
-        viewModel.getProvNames().observe(getViewLifecycleOwner(), names -> binding().setProvinceNames(names));
-        viewModel.getDistNames().observe(getViewLifecycleOwner(), names -> binding().setDistrictNames(names));
+        viewModel.getListDept().observe(getViewLifecycleOwner(), list -> binding().setListDept(list));
+        viewModel.getListProv().observe(getViewLifecycleOwner(), list -> binding().setListProv(list));
+        viewModel.getListDist().observe(getViewLifecycleOwner(), list -> binding().setListDist(list));
+        viewModel.getListLocal().observe(getViewLifecycleOwner(), list -> binding().setListLocal(list));
 
         binding().textDepartment.setOnItemClickListener((p, v, pos, id) -> {
             binding().textProvince.setText(null);
             binding().textDistrict.setText(null);
-            viewModel.onDepartmentPos(pos);
+            binding().textLocality.setText(null);
+
+            UbigeoLocation u = (UbigeoLocation) binding().textDepartment.getAdapter().getItem(pos);
+            viewModel.onDepartment(u);
         });
         binding().textProvince.setOnItemClickListener((p, v, pos, id) -> {
             binding().textDistrict.setText(null);
-            viewModel.onProvincePos(pos);
+            binding().textLocality.setText(null);
+
+            UbigeoLocation u = (UbigeoLocation) binding().textProvince.getAdapter().getItem(pos);
+            viewModel.onProvince(u);
         });
-        binding().textDistrict.setOnItemClickListener((p, v, pos, id) -> viewModel.onDistrictPos(pos));
+        binding().textDistrict.setOnItemClickListener((p, v, pos, id) -> {
+            binding().textLocality.setText(null);
+
+            UbigeoLocation u = (UbigeoLocation) binding().textDistrict.getAdapter().getItem(pos);
+            viewModel.onDistrict(u);
+        });
+        binding().textLocality.setOnItemClickListener((p, v, pos, id) -> {
+            UbigeoLocation u = (UbigeoLocation) binding().textLocality.getAdapter().getItem(pos);
+            viewModel.onLocality(u);
+        });
     }
 }

@@ -34,6 +34,9 @@ public class LivelihoodData {
     @Ignore
     public long tempMemberId;
 
+    @Ignore
+    public boolean toRemove = false;
+
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "livelihood_id")
     public long id;

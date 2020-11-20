@@ -27,9 +27,6 @@ import tech.ankainn.edanapplication.model.app.formTwo.FormTwoData;
 import tech.ankainn.edanapplication.model.app.formTwo.LivelihoodData;
 import tech.ankainn.edanapplication.model.app.formTwo.MemberData;
 import tech.ankainn.edanapplication.model.dto.MemberComplete;
-import tech.ankainn.edanapplication.repositories.Cache;
-import tech.ankainn.edanapplication.repositories.UserRepository;
-import timber.log.Timber;
 
 public class Utilities {
 
@@ -67,12 +64,18 @@ public class Utilities {
 
         ApiUser apiUser = authResponse.getApiUser().get(0);
 
-        userData.surname = apiUser.getAPPAT() + " " + apiUser.getAPMAT();
-        userData.name = apiUser.getNOMBRE();
-        userData.email = apiUser.getEMAIL();
-        userData.idenNum = apiUser.getDOCUMENTO();
+        userData.username = apiUser.username;
+        userData.surname = apiUser.appat + " " + apiUser.apmat;
+        userData.name = apiUser.name;
+        userData.ubigeo = apiUser.ubigeo;
+        userData.typeUbigeo = apiUser.tipo_ubigeo;
+        // userData.email = apiUser.
+        // userData.surname = apiUser.getAPPAT() + " " + apiUser.getAPMAT();
+        // userData.name = apiUser.getNOMBRE();
+        // userData.email = apiUser.getEMAIL();
+        // userData.idenNum = apiUser.getDOCUMENTO();
 
-        userData.online = true;
+        // userData.online = true;
         userData.token = authResponse.getToken();
 
         return userData;
@@ -125,8 +128,9 @@ public class Utilities {
         headerRemote.setOcurrenciaFechaHora(creationDateTime);
         headerRemote.setEmpadronamientoFechaHora(creationDateTime);
 
-        headerRemote.setCentroPoblado(data.genInfData.extraData.nameLocality);
-        headerRemote.setLocalidad(data.genInfData.extraData.nameLocality);
+        headerRemote.setCentroPoblado(headerEntity.locality);
+        headerRemote.setLocalidad(headerEntity.locality);
+
         //******************************************************************************
         headerRemote.setCaserio(data.genInfData.extraData.nameCA);
         headerRemote.setCalle(data.genInfData.extraData.nameCM);
@@ -135,7 +139,7 @@ public class Utilities {
 
         headerRemote.setPiso(Converter.stringToInteger(data.genInfData.extraData.nameEPD));
 
-        headerRemote.numberIdSinpad = data.genInfData.extraData.numberIdSinpad;
+        // headerRemote.numberIdSinpad = data.genInfData.extraData.numberIdSinpad;
 
         formTwoRemote.setForm2aCab(headerRemote);
 

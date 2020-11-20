@@ -62,6 +62,7 @@
     </string-array>
     
     <string-array name="household_condition">
+        <item>@string/no_affected</item>
         <item>@string/affected</item>
         <item>@string/uninhabitable</item>
         <item>@string/destroyed</item>

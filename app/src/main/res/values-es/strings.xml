@@ -97,6 +97,7 @@
     <string name="affected">Afectado</string>
     <string name="uninhabitable">Inhabitable</string>
     <string name="destroyed">Destruido</string>
+    <string name="no_affected">Sin afectación</string>
 
     <string name="family_info">Información por familia</string>
     <string name="family_head">Jefe de familia</string>
@@ -215,4 +216,9 @@
     <string name="pregnant">Gestante</string>
     <string name="person_disability">Persona con discapacidad</string>
     <string name="chronic_disease_type">Tipo de enfermedad crónica</string>
+    <string name="remove_file">Eliminar archivo</string>
+    <string name="user_not_found">Usuario no encontrado</string>
+    <string name="no_username">Porfavor ingrese un usario válido</string>
+    <string name="no_password">Porfavor ingrese una contraseña válida</string>
+    <string name="to_delete">¿Seguro que quieres eliminar este archivo?</string>
 </resources>

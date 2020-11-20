@@ -1,15 +1,11 @@
 package tech.ankainn.edanapplication.ui.formTwoA;
 
 import android.os.Bundle;
-import android.text.Editable;
-import android.widget.CompoundButton;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
-
-import java.util.Calendar;
 
 import tech.ankainn.edanapplication.R;
 import tech.ankainn.edanapplication.databinding.FragmentMemberBinding;
@@ -17,11 +13,8 @@ import tech.ankainn.edanapplication.global.Picker;
 import tech.ankainn.edanapplication.global.PickerFragment;
 import tech.ankainn.edanapplication.ui.common.BindingFragment;
 import tech.ankainn.edanapplication.util.InjectorUtil;
-import tech.ankainn.edanapplication.util.OnAfterTextChanged;
-import tech.ankainn.edanapplication.util.Tagger;
 import tech.ankainn.edanapplication.util.TextInputLayoutUtil;
 import tech.ankainn.edanapplication.view.ProgressButton;
-import timber.log.Timber;
 
 public class MemberFragment extends BindingFragment<FragmentMemberBinding> {
 
@@ -51,9 +44,9 @@ public class MemberFragment extends BindingFragment<FragmentMemberBinding> {
         binding().textGender.setOnItemClickListener((p, v, pos, id) -> {
             viewModel.setGender(requireContext(), pos);
         });
-        binding().textCondition.setOnItemClickListener((p, v, pos, id) -> {
+        /*binding().textCondition.setOnItemClickListener((p, v, pos, id) -> {
             viewModel.setCondition(requireContext(), pos);
-        });
+        });*/
         binding().textPersonalInjury.setOnItemClickListener((p, v, pos, id) -> {
             viewModel.setInjury(requireContext(), pos);
         });
@@ -89,8 +82,8 @@ public class MemberFragment extends BindingFragment<FragmentMemberBinding> {
             }
         });
 
-        viewModel.getHouseholdCondition().observe(getViewLifecycleOwner(),
-                isAffected -> binding().textCondition.setEnabled(!isAffected));
+        /*viewModel.getHouseholdCondition().observe(getViewLifecycleOwner(),
+                isAffected -> binding().textCondition.setEnabled(!isAffected));*/
 
         binding().pregnantSwitch.setOnCheckedChangeListener((view, isChecked) -> {
             viewModel.onPregnantChange(isChecked);

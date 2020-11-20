@@ -20,35 +20,35 @@
             android:layout_height="wrap_content" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:text="@{user.surname}"
+            android:text="@{@string/surname_arg(user.surname)}"
             android:layout_marginTop="@dimen/dim_xxbig"
             android:layout_marginHorizontal="@dimen/dim_xxbig"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
         <com.google.android.material.textview.MaterialTextView
-            android:text="@{user.name}"
+            android:text="@{@string/name_arg(user.name)}"
             android:layout_marginTop="@dimen/dim_xbig"
             android:layout_marginHorizontal="@dimen/dim_xxbig"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <com.google.android.material.textview.MaterialTextView
+        <!--<com.google.android.material.textview.MaterialTextView
             android:text="@{user.idenNum}"
             android:layout_marginTop="@dimen/dim_xbig"
             android:layout_marginHorizontal="@dimen/dim_xxbig"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content" />-->
 
-        <com.google.android.material.textview.MaterialTextView
+        <!--<com.google.android.material.textview.MaterialTextView
             android:text="@{user.email}"
             android:layout_marginTop="@dimen/dim_xbig"
             android:layout_marginHorizontal="@dimen/dim_xxbig"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content" />-->
 
         <com.google.android.material.textview.MaterialTextView
-            android:text="@{user.online ? @string/online : @string/offline}"
+            android:text="@{@string/ubigeo_arg(user.ubigeo)}"
             android:layout_marginTop="@dimen/dim_xbig"
             android:layout_marginHorizontal="@dimen/dim_xxbig"
             android:layout_width="match_parent"

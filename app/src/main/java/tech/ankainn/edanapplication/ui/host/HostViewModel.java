@@ -15,4 +15,8 @@ public class HostViewModel extends ViewModel {
     public long getUserId() {
         return userRepository.getRawUserId();
     }
+
+    public String getUsername() {
+        return userRepository.getRawUsername();
+    }
 }

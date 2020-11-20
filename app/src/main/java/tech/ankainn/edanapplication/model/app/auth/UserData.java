@@ -18,11 +18,17 @@ public class UserData {
 
     public String hash = "";
 
+    public String username = "";
+
     public String surname = "";
     public String name = "";
-    public String email = "";
-    @ColumnInfo(name = "identification")
-    public String idenNum = "";
+    //public String email = "";
+    //@ColumnInfo(name = "identification")
+    //public String idenNum = "";
+
+    public String ubigeo = "";
+    @ColumnInfo(name = "type_ubigeo")
+    public String typeUbigeo = "";
 
     @Ignore
     public boolean online = false;

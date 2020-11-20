@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="surname_arg">Apellidos: %s</string>
+    <string name="name_arg">Nombre: %s</string>
+
     <string name="address_args">Dirección: <b>%s</b></string>
     <string name="lot_args">Lote: <b>%s</b></string>
 

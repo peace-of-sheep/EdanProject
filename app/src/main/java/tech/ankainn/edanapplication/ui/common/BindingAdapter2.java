@@ -20,7 +20,7 @@ import tech.ankainn.edanapplication.AppExecutors;
 import tech.ankainn.edanapplication.util.Tuple2;
 import tech.ankainn.edanapplication.util.ViewBindingUtil;
 
-public class BindingAdapter2<VB extends ViewBinding, D> extends ListAdapter<D, BindingViewHolder<VB>> {
+public abstract class BindingAdapter2<VB extends ViewBinding, D> extends ListAdapter<D, BindingViewHolder<VB>> {
 
     private boolean attached;
 
@@ -29,9 +29,11 @@ public class BindingAdapter2<VB extends ViewBinding, D> extends ListAdapter<D, B
     private OnItemClick<VB> onItemClick;
     private OnLongItemClick<VB> onLongItemClick;
 
-    private List<Tuple2<String, OnBindingPayload<VB, D>>> listPayloads;
+    private final OnHolderCreation<VB> onHolderCreation = holder -> {
 
-    protected BindingAdapter2(@NonNull OnItemsTheSame<D> diffItems,
+    };
+
+    public BindingAdapter2(@NonNull OnItemsTheSame<D> diffItems,
                               @NonNull OnContentTheSame<D> diffContents,
                               @NotNull OnBinding<VB, D> onBinding) {
         super(new AsyncDifferConfig.Builder<>(
@@ -48,7 +50,6 @@ public class BindingAdapter2<VB extends ViewBinding, D> extends ListAdapter<D, B
                 })
                 .setBackgroundThreadExecutor(AppExecutors.getInstance().diskIO()).build());
         this.onBinding = onBinding;
-        listPayloads = new ArrayList<>();
         attached = false;
     }
 
@@ -65,14 +66,6 @@ public class BindingAdapter2<VB extends ViewBinding, D> extends ListAdapter<D, B
             throw new RuntimeException("Don't set listener after setting adapter");
         }
         this.onLongItemClick = onLongItemClick;
-        return this;
-    }
-
-    public BindingAdapter2<VB, D> addBindingPayload(String payload, OnBindingPayload<VB, D> onBindingPayload) {
-        if (attached) {
-            throw new RuntimeException("Don't set listener after setting adapter");
-        }
-        listPayloads.add(new Tuple2<>(payload, onBindingPayload));
         return this;
     }
 
@@ -112,22 +105,6 @@ public class BindingAdapter2<VB extends ViewBinding, D> extends ListAdapter<D, B
         }
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull BindingViewHolder<VB> holder, int position, @NonNull List<Object> payloads) {
-        if (payloads.isEmpty()) {
-            super.onBindViewHolder(holder, position, payloads);
-        } else {
-            D item = getItem(position);
-            for (Object payload : payloads) {
-                for (Tuple2<String, OnBindingPayload<VB, D>> listPayload : listPayloads) {
-                    if (payload.equals(listPayload.first)) {
-                        listPayload.second.bindPayload(holder.binding, item);
-                    }
-                }
-            }
-        }
-    }
-
     public interface OnItemsTheSame<D> {
         boolean areItemTheSame(D oldItem, D newItem);
     }
@@ -148,7 +125,15 @@ public class BindingAdapter2<VB extends ViewBinding, D> extends ListAdapter<D, B
         void bind(VB binding, T data);
     }
 
-    public interface OnBindingPayload<VB extends ViewBinding, T> {
-        void bindPayload(VB binding, T data);
+    public interface OnItemClick2<I> {
+        void onClick(I item);
+    }
+
+    public interface OnItemLongClick2<I> {
+        void onLongClick(I item);
+    }
+
+    public interface OnHolderCreation<VB extends ViewBinding> {
+        void onHolderCreation(BindingViewHolder<VB> holder);
     }
 }

@@ -27,6 +27,9 @@ public class MemberData {
     @Ignore
     public long tempId;
 
+    @Ignore
+    public boolean toRemove = false;
+
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "member_id")
     public long id;

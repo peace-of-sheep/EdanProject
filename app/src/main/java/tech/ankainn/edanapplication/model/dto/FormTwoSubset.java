@@ -33,7 +33,6 @@ public class FormTwoSubset {
     @Override
     @NotNull
     public String toString() {
-        String hash = Integer.toHexString(this.hashCode());
-        return "{"+hash+"}{"+formTwoApiId+"}{"+loading+"}";
+        return "{"+id+"}{"+formTwoApiId+"}{"+loading+"}";
     }
 }

@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import tech.ankainn.edanapplication.repositories.GenInfRepository;
-import tech.ankainn.edanapplication.repositories.UbigeoDangerRepository;
+import tech.ankainn.edanapplication.repositories.UbigeoRepository;
 import tech.ankainn.edanapplication.ui.geninfo.ExtraViewModel;
 import tech.ankainn.edanapplication.ui.geninfo.HeaderViewModel;
 import tech.ankainn.edanapplication.ui.geninfo.MapLocationViewModel;
@@ -13,9 +13,9 @@ import tech.ankainn.edanapplication.ui.geninfo.MapLocationViewModel;
 public class GenInfViewModelFactory implements ViewModelProvider.Factory {
 
     private GenInfRepository genInfRepository;
-    private UbigeoDangerRepository ubigeoDangerRepository;
+    private UbigeoRepository ubigeoDangerRepository;
 
-    public GenInfViewModelFactory(GenInfRepository genInfRepository, UbigeoDangerRepository ubigeoDangerRepository) {
+    public GenInfViewModelFactory(GenInfRepository genInfRepository, UbigeoRepository ubigeoDangerRepository) {
         this.genInfRepository = genInfRepository;
         this.ubigeoDangerRepository = ubigeoDangerRepository;
     }

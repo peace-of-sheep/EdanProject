@@ -12,8 +12,8 @@ public class FormOneViewModel extends ViewModel {
         this.formOneRepository = formOneRepository;
     }
 
-    public void loadFormOne(long formOneId, long userId) {
-        formOneRepository.loadFormOneDataById(formOneId, userId);
+    public void loadFormOne(long formOneId, long userId, String username) {
+        formOneRepository.loadFormOneDataById(formOneId, userId, username);
     }
 
     public void saveFormOne() {

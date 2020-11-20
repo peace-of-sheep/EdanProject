@@ -1,13 +1,14 @@
 package tech.ankainn.edanapplication.repositories;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.Transformations;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import tech.ankainn.edanapplication.AppExecutors;
+import tech.ankainn.edanapplication.db.EdanDatabase;
+import tech.ankainn.edanapplication.db.FormTwoDao;
 import tech.ankainn.edanapplication.model.app.formTwo.FormTwoData;
 import tech.ankainn.edanapplication.model.app.formTwo.MemberData;
 import tech.ankainn.edanapplication.util.Utilities;
@@ -17,21 +18,23 @@ public class MemberRepository {
     private static MemberRepository instance;
 
     private AppExecutors appExecutors;
+    private FormTwoDao formTwoDao;
     private Cache cache;
 
-    public static MemberRepository getInstance(Cache cache) {
+    public static MemberRepository getInstance(Cache cache, AppExecutors appExecutors, EdanDatabase edanDatabase) {
         if(instance == null) {
             synchronized (MemberRepository.class) {
                 if(instance == null) {
-                    instance = new MemberRepository(cache);
+                    instance = new MemberRepository(cache, appExecutors, edanDatabase);
                 }
             }
         }
         return instance;
     }
 
-    private MemberRepository(Cache cache) {
+    private MemberRepository(Cache cache, AppExecutors appExecutors, EdanDatabase edanDatabase) {
         this.appExecutors = appExecutors;
+        formTwoDao = edanDatabase.formTwoDao();
         this.cache = cache;
     }
 
@@ -89,5 +92,24 @@ public class MemberRepository {
             return formTwoData.householdData.codeConditionHouse == 1;
         }
         return false;
+    }
+
+    public void removeMember(MemberData memberData) {
+        FormTwoData formTwoData = cache.getFormTwoData().getValue();
+        if (formTwoData != null) {
+            appExecutors.diskIO().execute(() -> {
+                List<MemberData> copyList = new ArrayList<>(formTwoData.memberDataList);
+
+                for (int i = 0; i < copyList.size(); i++) {
+                    if (copyList.get(i).tempId == memberData.tempId) {
+                        memberData.toRemove = true;
+                        break;
+                    }
+                }
+
+                formTwoData.memberDataList = copyList;
+                cache.setFormTwoData(formTwoData);
+            });
+        }
     }
 }

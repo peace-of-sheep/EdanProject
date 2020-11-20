@@ -28,27 +28,19 @@ public class MemberViewModel extends ViewModel {
 
     private MemberRepository memberRepository;
 
-    private LiveData<List<MemberData>> listMemberData;
-    private List<MemberData> currentData;
+    private MediatorLiveData<MemberData> memberData = new MediatorLiveData<>();
+    private MemberData currentMemberData;
 
     private MutableLiveData<Boolean> householdCondition = new MutableLiveData<>();
 
     private MutableLiveData<String> identificationNumber = new MutableLiveData<>();
     private MutableLiveData<Long> tempId = new MutableLiveData<>();
 
-    private MediatorLiveData<MemberData> memberData = new MediatorLiveData<>();
-    private MemberData currentMemberData;
     private MutableLiveData<State> state = new MutableLiveData<>();
     private SingleLiveData<State> singleEvent = new SingleLiveData<>();
 
     public MemberViewModel(MemberRepository memberRepository, ReniecRepository reniecRepository) {
         this.memberRepository = memberRepository;
-
-        LiveData<List<MemberData>> source = memberRepository.loadListMemberData();
-        listMemberData = Transformations.map(source, listMemberData -> {
-            this.currentData = listMemberData;
-            return listMemberData;
-        });
 
         memberData.addSource(tempId, tempId -> {
             MemberData memberData = memberRepository.loadMemberData(tempId);
@@ -91,9 +83,6 @@ public class MemberViewModel extends ViewModel {
         singleEvent.addSource(state, state -> singleEvent.setValue(state));
     }
 
-    public LiveData<List<MemberData>> getListMemberData() {
-        return listMemberData;
-    }
     public LiveData<MemberData> getMemberData() {
         return memberData;
     }

@@ -33,8 +33,8 @@ public class FormTwoViewModel extends ViewModel {
         });
     }
 
-    public void loadFormTwoData(long formTwoId, long userId) {
-        formTwoRepository.loadFormTwoData(formTwoId, userId);
+    public void loadFormTwoData(long formTwoId, long userId, String username) {
+        formTwoRepository.loadFormTwoData(formTwoId, userId, username);
     }
 
     public LiveData<HouseholdData> getHouseholdData() {

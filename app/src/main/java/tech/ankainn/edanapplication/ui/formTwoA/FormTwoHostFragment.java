@@ -42,12 +42,13 @@ public class FormTwoHostFragment extends BindingFragment<FragmentFormTwoHostBind
 
         FormTwoHostFragmentArgs args = FormTwoHostFragmentArgs.fromBundle(requireArguments());
         long userId = args.getUserId();
+        String username = args.getUsername();
         long tempId = args.getFormTwoId();
 
         ViewModelProvider.Factory factory = InjectorUtil.provideFormTwoViewModelFactory(requireContext());
         viewModel = new ViewModelProvider(this, factory).get(FormTwoViewModel.class);
 
-        viewModel.loadFormTwoData(tempId, userId);
+        viewModel.loadFormTwoData(tempId, userId, username);
 
         NavController parentNavController = NavHostFragment.findNavController(this);
 

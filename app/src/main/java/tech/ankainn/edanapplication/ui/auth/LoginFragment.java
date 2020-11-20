@@ -32,6 +32,14 @@ public class LoginFragment extends BindingFragment<FragmentLoginBinding> {
             } else {
                 ProgressButton.hideProgress(binding().btnLogin, "Ingresar");
             }
+
+            if (state == LoginViewModel.State.ERROR) {
+                binding().setTextError(getString(R.string.user_not_found));
+            } else if (state == LoginViewModel.State.NO_USER) {
+                binding().setTextError(getString(R.string.no_username));
+            } else if (state == LoginViewModel.State.NO_PASS) {
+                binding().setTextError(getString(R.string.no_password));
+            }
         });
 
         viewModel.getSingleEvent().observe(getViewLifecycleOwner(), event -> {
@@ -39,7 +47,7 @@ public class LoginFragment extends BindingFragment<FragmentLoginBinding> {
                 Navigation.findNavController(requireActivity(), R.id.fragment_container)
                         .navigate(LoginFragmentDirections.actionLoginToMain());
             } else if (event == LoginViewModel.State.ERROR) {
-                Toast.makeText(requireContext(), "Not User found", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), getString(R.string.user_not_found), Toast.LENGTH_SHORT).show();
             }
         });
 

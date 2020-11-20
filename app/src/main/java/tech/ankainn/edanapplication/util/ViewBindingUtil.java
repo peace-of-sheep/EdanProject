@@ -3,6 +3,7 @@ package tech.ankainn.edanapplication.util;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import androidx.databinding.ViewDataBinding;
 import androidx.viewbinding.ViewBinding;
 
 import org.jetbrains.annotations.NotNull;
@@ -24,6 +25,24 @@ public class ViewBindingUtil {
         try {
             final Type type = clazz.getGenericSuperclass();
             final Class<VB> bindingClazz = (Class<VB>) ((ParameterizedType) type).getActualTypeArguments()[0];
+            final Method inflateMethod = bindingClazz
+                    .getMethod("inflate", LayoutInflater.class, ViewGroup.class, boolean.class);
+            return (VB) inflateMethod.invoke(null, inflater, container, attach);
+        } catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+            Timber.wtf(e, "This shouldn't happen!!");
+        }
+        throw new RuntimeException("Call the police!!");
+    }
+
+    @NotNull
+    @SuppressWarnings({"unchecked", "ConstantConditions"})
+    public static <VB extends ViewDataBinding> VB inflate2(Class<? super VB> bindingClazz,
+                                                           LayoutInflater inflater,
+                                                           ViewGroup container,
+                                                           boolean attach) {
+        try {
+            /*final Type type = clazz.getGenericSuperclass();
+            final Class<VB> bindingClazz = (Class<VB>) ((ParameterizedType) type).getActualTypeArguments()[0];*/
             final Method inflateMethod = bindingClazz
                     .getMethod("inflate", LayoutInflater.class, ViewGroup.class, boolean.class);
             return (VB) inflateMethod.invoke(null, inflater, container, attach);

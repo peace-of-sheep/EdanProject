@@ -22,6 +22,9 @@ public class HeaderData {
     public String district = "";
     @ColumnInfo(name = "code_district")
     public String codeDistrict = "";
+    public String locality = "";
+    @ColumnInfo(name = "code_locality")
+    public String codeLocality = "";
 
     @ColumnInfo(name = "date_event")
     public String dateEvent = "";

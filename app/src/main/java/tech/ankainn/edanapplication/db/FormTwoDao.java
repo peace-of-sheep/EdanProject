@@ -2,12 +2,14 @@ package tech.ankainn.edanapplication.db;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
 import androidx.room.Update;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import tech.ankainn.edanapplication.model.app.formTwo.FormTwoData;
@@ -32,6 +34,9 @@ public abstract class FormTwoDao {
     @Update
     public abstract void updateFormTwo(FormTwoData formTwoData);
 
+    @Query("DELETE FROM form_two_table WHERE form_two_id = :formTwoId")
+    public abstract void deleteFormTwo(long formTwoId);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract long insertMember(MemberData memberData);
 
@@ -40,6 +45,9 @@ public abstract class FormTwoDao {
 
     @Update
     public abstract void updateMember(MemberData memberData);
+
+    @Delete
+    public abstract void deleteMember(MemberData memberData);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract void insertLivelihood(LivelihoodData livelihoodData);
@@ -55,9 +63,13 @@ public abstract class FormTwoDao {
 
         final long formTwoId = insertFormTwo(formTwoData);
 
-        List<MemberData> memberDataList = formTwoData.memberDataList;
-        for (MemberData memberData : memberDataList) {
-            memberData.formTwoOwnerId = formTwoId;
+        List<MemberData> memberDataList = new ArrayList<>(formTwoData.memberDataList);
+        for (MemberData memberData : formTwoData.memberDataList) {
+            if (memberData.toRemove) {
+                memberDataList.remove(memberData);
+            } else {
+                memberData.formTwoOwnerId = formTwoId;
+            }
         }
         final long[] memberIds = insertAllMembers(memberDataList);
 
@@ -78,6 +90,14 @@ public abstract class FormTwoDao {
 
         List<MemberData> memberDataList = formTwoData.memberDataList;
         for (MemberData memberData : memberDataList) {
+
+            if (memberData.toRemove) {
+                if (memberData.id != 0L) {
+                    deleteMember(memberData);
+                }
+                continue;
+            }
+
             long memberId;
             if(memberData.id == 0L) {
                 memberData.formTwoOwnerId = formTwoData.id;

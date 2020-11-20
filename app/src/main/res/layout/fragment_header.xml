@@ -7,19 +7,23 @@
         <variable
             name="headerData"
             type="tech.ankainn.edanapplication.model.app.geninf.HeaderData" />
+
         <variable
             name="listDangers"
             type="java.util.List" />
 
         <variable
-            name="departmentNames"
-            type="String[]" />
+            name="listDept"
+            type="java.util.List" />
         <variable
-            name="provinceNames"
-            type="String[]" />
+            name="listProv"
+            type="java.util.List" />
         <variable
-            name="districtNames"
-            type="String[]" />
+            name="listDist"
+            type="java.util.List" />
+        <variable
+            name="listLocal"
+            type="java.util.List" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -82,11 +86,11 @@
                 android:layout_height="wrap_content">
 
                 <AutoCompleteTextView
-                    dropdown="@{departmentNames}"
-                    textDropDown="@{headerData.department}"
-                    android:inputType="text"
-                    android:maxLines="1"
                     android:id="@+id/text_department"
+                    listDropdown="@{listDept}"
+                    textDropDown="@{headerData.department}"
+                    android:inputType="@{InputType.TYPE_NULL}"
+                    android:maxLines="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -102,11 +106,11 @@
                 android:layout_height="wrap_content">
 
                 <AutoCompleteTextView
-                    dropdown="@{provinceNames}"
-                    textDropDown="@{headerData.province}"
-                    android:inputType="text"
-                    android:maxLines="1"
                     android:id="@+id/text_province"
+                    listDropdown="@{listProv}"
+                    textDropDown="@{headerData.province}"
+                    android:inputType="@{InputType.TYPE_NULL}"
+                    android:maxLines="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -122,16 +126,36 @@
                 android:layout_height="wrap_content">
 
                 <AutoCompleteTextView
-                    dropdown="@{districtNames}"
-                    textDropDown="@{headerData.district}"
-                    android:inputType="text"
-                    android:maxLines="1"
                     android:id="@+id/text_district"
+                    listDropdown="@{listDist}"
+                    textDropDown="@{headerData.district}"
+                    android:inputType="@{InputType.TYPE_NULL}"
+                    android:maxLines="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_locality"
+                android:hint="@string/locality"
+                android:labelFor="@id/text_locality"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+                android:layout_marginTop="@dimen/dim_nor"
+                android:layout_marginHorizontal="@dimen/dim_nor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <AutoCompleteTextView
+                    android:id="@+id/text_locality"
+                    listDropdown="@{listLocal}"
+                    textDropDown="@{headerData.locality}"
+                    android:inputType="@{InputType.TYPE_NULL}"
+                    android:maxLines="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!--<com.google.android.material.textfield.TextInputLayout
                 android:hint="@string/occurrence_date"
                 app:endIconMode="custom"
                 app:endIconDrawable="@drawable/ic_arrow_drop_down_24"
@@ -165,7 +189,7 @@
                     android:inputType="@{InputType.TYPE_NULL}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
-            </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>-->
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

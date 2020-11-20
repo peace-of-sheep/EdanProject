@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="surname_arg">Surname: %s</string>
+    <string name="name_arg">Name: %s</string>
+    <string name="ubigeo_arg" translatable="false">Ubigeo: %s</string>
+
     <string name="address_args">Address: <b>%s</b></string>
     <string name="lot_args">Lot: <b>%s</b></string>
 

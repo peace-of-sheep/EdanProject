@@ -39,7 +39,8 @@ public class ListFormOneFragment extends BindingFragment<LayoutListBinding> {
                 ) {}
                 .setOnItemCLick((pos, itemBinding) -> {
                     long userId = viewModel.getUserId();
-                    NavDirections directions = HostFragmentDirections.actionHostToFormOne(userId)
+                    String username = viewModel.getUsername();
+                    NavDirections directions = HostFragmentDirections.actionHostToFormOne(userId, username)
                             .setFormOneId(itemBinding.getFormOne().id);
                     Navigation.findNavController(requireActivity(), R.id.fragment_container)
                             .navigate(directions);

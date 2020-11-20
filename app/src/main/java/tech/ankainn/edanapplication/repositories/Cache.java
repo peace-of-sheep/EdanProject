@@ -22,8 +22,8 @@ public class Cache {
     private MutableLiveData<FormTwoData> formTwoData = new MutableLiveData<>();
     private MutableLiveData<FormOneData> formOneData = new MutableLiveData<>();
 
-    private MutableLiveData<List<Long>> formTwoLoading = new MutableLiveData<>(new ArrayList<>());
-    private MutableLiveData<List<Long>> formOneLoading = new MutableLiveData<>(new ArrayList<>());
+    private MutableLiveData<List<Pair<Long, Boolean>>> formTwoLoading = new MutableLiveData<>(null);
+    private MutableLiveData<List<Pair<Long, Boolean>>> formOneLoading = new MutableLiveData<>(null);
 
     public static Cache getInstance() {
         return instance;
@@ -45,10 +45,10 @@ public class Cache {
         return genInfData;
     }
 
-    public LiveData<List<Long>> getFormTwoLoading() {
+    public LiveData<List<Pair<Long, Boolean>>> getFormTwoLoading() {
         return formTwoLoading;
     }
-    public LiveData<List<Long>> getFormOneLoading() {
+    public LiveData<List<Pair<Long, Boolean>>> getFormOneLoading() {
         return formOneLoading;
     }
 
@@ -65,10 +65,10 @@ public class Cache {
         this.genInfData.postValue(genInfData);
     }
 
-    public void setFormTwoLoading(List<Long> list) {
+    public void setFormTwoLoading(List<Pair<Long, Boolean>> list) {
         this.formTwoLoading.postValue(list);
     }
-    public void setFormOneLoading(List<Long> list) {
+    public void setFormOneLoading(List<Pair<Long, Boolean>> list) {
         this.formOneLoading.postValue(list);
     }
 }

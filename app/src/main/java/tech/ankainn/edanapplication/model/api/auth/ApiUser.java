@@ -7,6 +7,31 @@ public class ApiUser {
 
     @SerializedName("USERNAME")
     @Expose
+    public String username;
+    @SerializedName("NOMBRE")
+    @Expose
+    public String name;
+    @SerializedName("APMAT")
+    @Expose
+    public String apmat;
+    @SerializedName("APPAT")
+    @Expose
+    public String appat;
+    @SerializedName("AREA")
+    @Expose
+    public Object area;
+    @SerializedName("CARGO")
+    @Expose
+    public Object cargo;
+    @SerializedName("UBIGEO")
+    @Expose
+    public String ubigeo;
+    @SerializedName("TIPO_UBIGEO")
+    @Expose
+    public String tipo_ubigeo;
+
+    /*@SerializedName("USERNAME")
+    @Expose
     private String uSERNAME;
     @SerializedName("PASSWORD")
     @Expose
@@ -290,5 +315,5 @@ public class ApiUser {
 
     public void setFECBAJA(Object fECBAJA) {
         this.fECBAJA = fECBAJA;
-    }
+    }*/
 }

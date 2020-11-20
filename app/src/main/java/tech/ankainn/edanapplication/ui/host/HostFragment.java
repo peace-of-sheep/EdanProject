@@ -41,13 +41,14 @@ public class HostFragment extends BindingFragment<FragmentHostBinding> implement
 
         Options.getInstance().observe(getViewLifecycleOwner(), (emitter, option) -> {
             long userId = viewModel.getUserId();
+            String username = viewModel.getUsername();
             if ("select".equals(emitter)) {
                 if (option == 0) {
                     Navigation.findNavController(requireActivity(), R.id.fragment_container)
-                            .navigate(HostFragmentDirections.actionHostToFormOne(userId));
+                            .navigate(HostFragmentDirections.actionHostToFormOne(userId, username));
                 } else if (option == 1) {
                     Navigation.findNavController(requireActivity(), R.id.fragment_container)
-                                .navigate(HostFragmentDirections.actionHostToFormTwo(userId));
+                                .navigate(HostFragmentDirections.actionHostToFormTwo(userId, username));
                 }
             }
         });

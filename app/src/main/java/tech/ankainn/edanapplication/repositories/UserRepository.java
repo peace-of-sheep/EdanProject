@@ -51,7 +51,7 @@ public class UserRepository {
         return instance;
     }
 
-    public LiveData<Boolean> loadUser(AuthCredentials authCredentials) {
+    public LiveData<UserData> loadUser(AuthCredentials authCredentials) {
         final MutableLiveData<AuthResponse> networkSearch = new MutableLiveData<>();
         galdosService.postLogin(authCredentials).enqueue(new Callback<AuthResponse>() {
             @Override
@@ -71,20 +71,19 @@ public class UserRepository {
             }
         });
 
-        MediatorLiveData<Boolean> diskSearch = new MediatorLiveData<>();
+        MediatorLiveData<UserData> diskSearch = new MediatorLiveData<>();
         diskSearch.addSource(networkSearch, authResponse -> appExecutors.diskIO().execute(() -> {
 
             String hash = createHash(authCredentials);
 
             UserData localUser = userDao.loadUserDataByHash(hash);
-            Timber.tag(Tagger.DUMPER).d("UserRepository.loadUser: authResponse? %b, localUsr? %b", authResponse != null, localUser != null);
 
             if (authResponse == null) {
                 if (localUser == null) {
-                    diskSearch.postValue(false);
+                    diskSearch.postValue(null);
                 } else {
                     saveUser(localUser);
-                    diskSearch.postValue(true);
+                    diskSearch.postValue(localUser);
                 }
             } else {
                 UserData remoteUser = Utilities.userFromRemote(authResponse, hash);
@@ -97,7 +96,7 @@ public class UserRepository {
                 }
 
                 saveUser(remoteUser);
-                diskSearch.postValue(true);
+                diskSearch.postValue(remoteUser);
             }
         }));
 
@@ -166,5 +165,10 @@ public class UserRepository {
 
         cache.setFormOneData(null);
         cache.setFormOneLoading(null);
+    }
+
+    public String getRawUsername() {
+        UserData userData = cache.getUserData().getValue();
+        return userData != null ? userData.username : "";
     }
 }

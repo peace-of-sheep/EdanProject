@@ -77,12 +77,19 @@ public class FilesViewModel extends ViewModel {
         return copy;
     }
 
+    public long getUserId() {
+        return userRepository.getRawUserId();
+    }
+    public String getUsername() {
+        return userRepository.getRawUsername();
+    }
+
     public void uploadFormTwo(long formTwoId) {
         idUpload.setValue(formTwoId);
     }
 
-    public long getUserId() {
-        return userRepository.getRawUserId();
+    public void removeFormTwo(long formTwoId) {
+        formTwoRepository.removeForTwo(formTwoId);
     }
 
     public enum State {

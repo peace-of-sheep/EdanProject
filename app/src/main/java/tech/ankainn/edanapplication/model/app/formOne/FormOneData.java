@@ -38,6 +38,8 @@ public class FormOneData {
     @ColumnInfo(name = "data_version")
     public Integer dataVersion = 0;
 
+    public String username = "";
+
     @Embedded
     public GenInfData genInfData = new GenInfData();
 

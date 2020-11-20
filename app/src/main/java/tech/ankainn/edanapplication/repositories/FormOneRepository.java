@@ -4,7 +4,6 @@ import androidx.annotation.WorkerThread;
 import androidx.lifecycle.LiveData;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.google.gson.Gson;
 
 import java.util.Calendar;
 import java.util.List;
@@ -15,7 +14,6 @@ import tech.ankainn.edanapplication.db.EdanDatabase;
 import tech.ankainn.edanapplication.db.FormOneDao;
 import tech.ankainn.edanapplication.model.app.formOne.FormOneData;
 import tech.ankainn.edanapplication.model.dto.FormOneSubset;
-import tech.ankainn.edanapplication.model.app.geninf.GenInfData;
 import tech.ankainn.edanapplication.api.EdanApiService;
 import tech.ankainn.edanapplication.util.Utilities;
 import tech.ankainn.edanapplication.util.Tagger;
@@ -62,7 +60,7 @@ public class FormOneRepository {
         return cache.getFormOneData();
     }
 
-    public void loadFormOneDataById(long formOneId, long userId) {
+    public void loadFormOneDataById(long formOneId, long userId, String username) {
         FormOneData oldValue = cache.getFormOneData().getValue();
         if(oldValue != null && oldValue.id == formOneId)
             return;
@@ -75,7 +73,7 @@ public class FormOneRepository {
 
         appExecutors.diskIO().execute(() -> {
 
-            FormOneData formOneData = formOneId == 0L ? createFormOneData(userId) : loadFormOneData(formOneId);
+            FormOneData formOneData = formOneId == 0L ? createFormOneData(userId, username) : loadFormOneData(formOneId);
 
             cache.setFormOneData(formOneData);
             cache.setGenInfData(formOneData.genInfData);
@@ -83,10 +81,11 @@ public class FormOneRepository {
     }
 
     @WorkerThread
-    private FormOneData createFormOneData(long userId) {
+    private FormOneData createFormOneData(long userId, String username) {
         FormOneData formOneData = Utilities.createEmptyFormOneData();
 
         formOneData.ownerUserId = userId;
+        formOneData.username = username;
 
         /*GenInfData genInfData = cache.getGenInfData().getValue();
         if (genInfData == null) {

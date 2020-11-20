@@ -1,5 +1,7 @@
 package tech.ankainn.edanapplication.ui.auth;
 
+import android.text.TextUtils;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -7,7 +9,10 @@ import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
 import tech.ankainn.edanapplication.model.api.auth.AuthCredentials;
+import tech.ankainn.edanapplication.model.app.auth.UserData;
+import tech.ankainn.edanapplication.repositories.UbigeoRepository;
 import tech.ankainn.edanapplication.repositories.UserRepository;
+import tech.ankainn.edanapplication.util.AbsentLiveData;
 import tech.ankainn.edanapplication.util.SingleLiveData;
 
 public class LoginViewModel extends ViewModel {
@@ -18,11 +23,31 @@ public class LoginViewModel extends ViewModel {
 
     private SingleLiveData<State> singleEvent = new SingleLiveData<>();
 
-    public LoginViewModel(UserRepository userRepository) {
+    public LoginViewModel(UserRepository userRepository, UbigeoRepository ubigeoRepository) {
 
-        LiveData<Boolean> result = Transformations.switchMap(authCredentials, userRepository::loadUser);
+        LiveData<UserData> userResult = Transformations.switchMap(authCredentials, authCredentials -> {
 
-        singleEvent.addSource(result, loaded -> {
+            if (TextUtils.isEmpty(authCredentials.getUsername())) {
+                state.setValue(State.NO_USER);
+                return null;
+            } else if (TextUtils.isEmpty(authCredentials.getClave())) {
+                state.setValue(State.NO_PASS);
+                return null;
+            } else {
+
+                state.setValue(State.LOADING);
+                return userRepository.loadUser(authCredentials);
+            }
+        });
+
+        LiveData<Boolean> ubigeoResult = Transformations.switchMap(userResult, user -> {
+            if (user == null) return new MutableLiveData<>(false);
+            else {
+                return ubigeoRepository.loadUbigeos(user.ubigeo);
+            }
+        });
+
+        singleEvent.addSource(ubigeoResult, loaded -> {
             State state = loaded ? State.SUCCESSFUL : State.ERROR;
             this.state.setValue(state);
             this.singleEvent.setValue(state);
@@ -30,7 +55,6 @@ public class LoginViewModel extends ViewModel {
     }
 
     public void loadUser(AuthCredentials authCredentials) {
-        state.setValue(State.LOADING);
         this.authCredentials.setValue(authCredentials);
     }
 
@@ -45,6 +69,8 @@ public class LoginViewModel extends ViewModel {
     public enum State {
         STILL,
         LOADING,
+        NO_USER,
+        NO_PASS,
         ERROR,
         SUCCESSFUL
     }

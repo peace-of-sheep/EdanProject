@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import tech.ankainn.edanapplication.repositories.FormOneRepository;
 import tech.ankainn.edanapplication.repositories.FormTwoRepository;
+import tech.ankainn.edanapplication.repositories.UbigeoRepository;
 import tech.ankainn.edanapplication.repositories.UserRepository;
 import tech.ankainn.edanapplication.ui.auth.LoginViewModel;
 import tech.ankainn.edanapplication.ui.host.FilesViewModel;
@@ -15,14 +16,17 @@ import tech.ankainn.edanapplication.ui.host.UserViewModel;
 public class EdanViewModelFactory implements ViewModelProvider.Factory {
 
     private UserRepository userRepository;
+    private UbigeoRepository ubigeoRepository;
 
     private FormOneRepository formOneRepository;
     private FormTwoRepository formTwoRepository;
 
     public EdanViewModelFactory(UserRepository userRepository,
+                                UbigeoRepository ubigeoRepository,
                                 FormOneRepository formOneRepository,
                                 FormTwoRepository formTwoRepository) {
         this.userRepository = userRepository;
+        this.ubigeoRepository = ubigeoRepository;
         this.formOneRepository = formOneRepository;
         this.formTwoRepository = formTwoRepository;
     }
@@ -32,7 +36,7 @@ public class EdanViewModelFactory implements ViewModelProvider.Factory {
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         if (modelClass == LoginViewModel.class)
-            return (T) new LoginViewModel(userRepository);
+            return (T) new LoginViewModel(userRepository, ubigeoRepository);
         if (modelClass == HostViewModel.class)
             return (T) new HostViewModel(userRepository);
         if (modelClass == FilesViewModel.class)

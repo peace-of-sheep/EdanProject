@@ -1,16 +1,18 @@
 package tech.ankainn.edanapplication.repositories;
 
 import androidx.annotation.WorkerThread;
+import androidx.core.util.Pair;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
+
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -22,8 +24,8 @@ import tech.ankainn.edanapplication.api.GaldosService;
 import tech.ankainn.edanapplication.db.EdanDatabase;
 import tech.ankainn.edanapplication.db.FormTwoDao;
 import tech.ankainn.edanapplication.model.api.formtwo.DataResponse;
-import tech.ankainn.edanapplication.model.api.formtwo.FormTwoRemote;
 import tech.ankainn.edanapplication.model.app.formTwo.HouseholdData;
+import tech.ankainn.edanapplication.model.app.formTwo.MemberData;
 import tech.ankainn.edanapplication.model.dto.FormTwoComplete;
 import tech.ankainn.edanapplication.model.app.formTwo.FormTwoData;
 import tech.ankainn.edanapplication.model.dto.FormTwoSubset;
@@ -34,7 +36,7 @@ import timber.log.Timber;
 
 public class FormTwoRepository {
 
-    private static final LatLng defaultLatLng = new LatLng(-11.37621439,-75.41892405);
+    private static final LatLng defaultLatLng = new LatLng(-11.37621439, -75.41892405);
 
     private static FormTwoRepository instance;
 
@@ -49,9 +51,9 @@ public class FormTwoRepository {
                                                 GaldosService galdosService,
                                                 EdanDatabase edanDatabase,
                                                 Cache cache) {
-        if(instance == null) {
+        if (instance == null) {
             synchronized (FormTwoRepository.class) {
-                if(instance == null) {
+                if (instance == null) {
                     instance = new FormTwoRepository(appExecutors, galdosService, edanDatabase, cache);
                 }
             }
@@ -66,37 +68,49 @@ public class FormTwoRepository {
         formTwoDao = edanDatabase.formTwoDao();
     }
 
+    @SuppressWarnings("ConstantConditions")
     public LiveData<List<FormTwoSubset>> loadAllFormTwoSubset(long userId) {
         LiveData<List<FormTwoSubset>> source = formTwoDao.loadAllFormTwoSubset(userId);
-        LiveData<List<Long>> loadingIds = cache.getFormTwoLoading();
+        LiveData<List<Pair<Long, Boolean>>> listSource = cache.getFormTwoLoading();
 
-        return new CombinedLiveData<>(source, loadingIds, (forms, ids) -> {
-            if (ids == null) return forms;
+        return new CombinedLiveData<>(source, listSource, (forms, loadings) -> {
 
-            List<Long> tempIds = new ArrayList<>(ids);
-            List<FormTwoSubset> result = new ArrayList<>();
+            if (forms == null || loadings == null || loadings.isEmpty()) {
+                return forms;
+            }
 
-            if (forms == null) return result;
+            List<FormTwoSubset> newListForms = new ArrayList<>();
+            List<Pair<Long, Boolean>> newListLoadings = new ArrayList<>(loadings);
 
-            for (FormTwoSubset form : forms) {
 
-                FormTwoSubset toAdd = form;
+            for (int i = 0; i < forms.size(); i++) {
+                FormTwoSubset formTwoSubset = Utilities.clonePojo(forms.get(i));
 
-                Iterator<Long> iter = tempIds.iterator();
-                while (iter.hasNext()) {
-                    Long id = iter.next();
-                    if (id == form.id) {
-                        iter.remove();
-                        toAdd = Utilities.clonePojo(form);
-                        toAdd.loading = true;
-                        break;
+                Pair<Long, Boolean> loadingPair = newListLoadings.isEmpty() ? null : newListLoadings.remove(0);
+
+                if (loadingPair == null) {
+                    loadings.add(Pair.create(formTwoSubset.id, formTwoSubset.loading));
+
+                } else {
+                    while (formTwoSubset.id < loadingPair.first) {
+                        loadingPair = newListLoadings.remove(0);
+                        loadings.remove(0);
+                    }
+
+                    if (formTwoSubset.id > loadingPair.first) {
+                        newListLoadings.add(i, loadingPair);
+                        loadings.add(i, Pair.create(formTwoSubset.id, formTwoSubset.loading));
+                    }
+
+                    if (formTwoSubset.id == loadingPair.first) {
+                        formTwoSubset.loading = loadingPair.second;
                     }
                 }
 
-                result.add(toAdd);
+                newListForms.add(formTwoSubset);
             }
 
-            return result;
+            return newListForms;
         });
     }
 
@@ -111,13 +125,13 @@ public class FormTwoRepository {
         return result;
     }
 
-    public void loadFormTwoData(long id, long userId) {
+    public void loadFormTwoData(long id, long userId, String username) {
         FormTwoData oldForm = cache.getFormTwoData().getValue();
         if (oldForm != null && oldForm.id == id) return;
 
         appExecutors.diskIO().execute(() -> {
 
-            FormTwoData formTwoData = id == 0L ? createFormTwoData(userId) : loadFormTwoDataById(id);
+            FormTwoData formTwoData = id == 0L ? createFormTwoData(userId, username) : loadFormTwoDataById(id);
 
             cache.setFormTwoData(formTwoData);
             cache.setGenInfData(formTwoData.genInfData);
@@ -125,10 +139,11 @@ public class FormTwoRepository {
     }
 
     @WorkerThread
-    private FormTwoData createFormTwoData(long userId) {
+    private FormTwoData createFormTwoData(long userId, String username) {
         FormTwoData formTwoData = Utilities.createEmptyFormTwoData();
 
         formTwoData.ownerUserId = userId;
+        formTwoData.username = username;
 
         /*GenInfData genInfData = cache.getGenInfData().getValue();
         if (genInfData == null) {
@@ -183,26 +198,27 @@ public class FormTwoRepository {
     }
 
     public LiveData<Boolean> uploadFormTwoById(final long formTwoId) {
-        MutableLiveData<Boolean> result = new MutableLiveData<>();
 
-        List<Long> longLoadings = cache.getFormTwoLoading().getValue();
-        longLoadings.add(formTwoId);
-        cache.setFormTwoLoading(longLoadings);
+        MutableLiveData<Boolean> result = new MutableLiveData<>();
 
         appExecutors.diskIO().execute(() -> {
             FormTwoComplete formTwoComplete = formTwoDao.loadFormTwoById(formTwoId);
 
             if (formTwoComplete == null || formTwoComplete.formTwoData.formTwoApiId != -1) {
                 result.postValue(false);
-                longLoadings.remove(formTwoId);
                 return;
             }
 
-            FormTwoRemote formTwoRemote = Utilities.completeEntityToRemote(formTwoComplete);
+            saveLoading(cache, formTwoId, true);
 
-            Timber.tag(Tagger.DATA_FLOW).i("FormTwoRepository.uploadFormTwoById: %s", formTwoRemote);
+            FormTwoData formTwoData = Utilities.dataFromEntityComplete(formTwoComplete);
+            Timber.tag(Tagger.DATA_FLOW).i("FormTwoRepository.uploadFormTwoById: %s", formTwoData);
+            /*FormTwoRemote formTwoRemote = Utilities.completeEntityToRemote(formTwoComplete);
 
-            galdosService.postFormTwo(formTwoRemote).enqueue(new Callback<ApiResponse<DataResponse>>() {
+            Timber.tag(Tagger.DATA_FLOW).i("FormTwoRepository.uploadFormTwoById: %s", formTwoRemote);*/
+
+
+            galdosService.postFormTwo(formTwoData).enqueue(new Callback<ApiResponse<DataResponse>>() {
                 @Override
                 @EverythingIsNonNull
                 public void onResponse(Call<ApiResponse<DataResponse>> call, Response<ApiResponse<DataResponse>> response) {
@@ -210,7 +226,7 @@ public class FormTwoRepository {
                         if (response.body() != null && response.body().getData() != null && response.body().getData().getFORM2ACABID() != null) {
                             Integer apiId = response.body().getData().getFORM2ACABID();
 
-                            FormTwoData formTwoData = formTwoComplete.formTwoData;
+                            /*FormTwoData formTwoData = formTwoComplete.formTwoData;*/
                             formTwoData.formTwoApiId = apiId;
                             formTwoDao.updateFormTwo(formTwoData);
                             result.postValue(true);
@@ -218,8 +234,7 @@ public class FormTwoRepository {
                             result.postValue(false);
                         }
 
-                        longLoadings.remove(formTwoId);
-                        cache.setFormTwoLoading(longLoadings);
+                        saveLoading(cache, formTwoId, false);
                     });
                 }
 
@@ -228,8 +243,7 @@ public class FormTwoRepository {
                 public void onFailure(Call<ApiResponse<DataResponse>> call, Throwable t) {
                     result.postValue(false);
 
-                    longLoadings.remove(formTwoId);
-                    cache.setFormTwoLoading(longLoadings);
+                    saveLoading(cache, formTwoId, false);
                 }
             });
         });
@@ -244,6 +258,8 @@ public class FormTwoRepository {
         appExecutors.diskIO().execute(() -> {
             formTwoData.dataVersion++;
 
+            setHouseholdConditionForMembers(formTwoData);
+
             Timber.tag(Tagger.DATA_FLOW).i("FormTwoRepository.saveForm: %s", formTwoData);
 
             if (formTwoData.id == 0) {
@@ -257,5 +273,52 @@ public class FormTwoRepository {
     public void clearForm() {
         cache.setGenInfData(null);
         cache.setFormTwoData(null);
+    }
+
+    public void removeForTwo(long formTwoId) {
+        appExecutors.diskIO().execute(() -> formTwoDao.deleteFormTwo(formTwoId));
+    }
+
+    private void saveLoading(Cache cache, long id, boolean loading) {
+        List<Pair<Long, Boolean>> loadings = cache.getFormTwoLoading().getValue();
+
+        if (loadings == null) {
+            List<Pair<Long, Boolean>> newLoadings = new ArrayList<>();
+            newLoadings.add(Pair.create(id, loading));
+            cache.setFormTwoLoading(newLoadings);
+        } else {
+            int size = loadings.size();
+            for (int i = 0; i < size; i++) {
+                if (Objects.equals(loadings.get(i).first, id)) {
+                    loadings.set(i, Pair.create(id, loading));
+                }
+            }
+            cache.setFormTwoLoading(loadings);
+        }
+    }
+
+    private void setHouseholdConditionForMembers(FormTwoData formTwoData) {
+        for (MemberData memberData : formTwoData.memberDataList) {
+            memberData.condition = selectConditionByCode(formTwoData.householdData.codeConditionHouse);
+            memberData.codeCondition = selectCodeConditionByCode(formTwoData.householdData.codeConditionHouse);
+        }
+    }
+    private String selectConditionByCode(Integer condition) {
+        if (condition == 0 || condition == 1) {
+            return "Afectado";
+        } else if (condition == 2 || condition == 3) {
+            return "Damnificado";
+        } else {
+            return "";
+        }
+    }
+    private String selectCodeConditionByCode(Integer condition) {
+        if (condition == 0 || condition == 1) {
+            return "2";
+        } else if (condition == 2 || condition == 3) {
+            return "1";
+        } else {
+            return "";
+        }
     }
 }

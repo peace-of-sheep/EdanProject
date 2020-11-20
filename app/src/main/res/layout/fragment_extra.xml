@@ -43,7 +43,7 @@
                     android:layout_height="wrap_content"/>
             </com.google.android.material.textfield.TextInputLayout>-->
 
-            <com.google.android.material.textfield.TextInputLayout
+            <!--<com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/layout_locality"
                 android:hint="@string/locality"
                 android:layout_marginTop="@dimen/dim_nor"
@@ -57,14 +57,14 @@
                     android:inputType="text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-            </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>-->
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/layout_bsu"
                 android:hint="@{Converter.appendBySlash(@string/barrio, @string/sector, @string/urbanizacion), default=B_S_U}"
                 android:labelFor="@id/text_bsu"
                 android:layout_marginHorizontal="@dimen/dim_nor"
-                android:layout_marginTop="@dimen/dim_big"
+                android:layout_marginTop="@dimen/dim_nor"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -186,7 +186,7 @@
                         android:layout_height="wrap_content" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
+                <!--<com.google.android.material.textfield.TextInputLayout
                     android:hint="Id Sinpad"
                     android:layout_marginTop="@dimen/dim_big"
                     android:layout_marginHorizontal="@dimen/dim_nor"
@@ -199,7 +199,7 @@
                         android:inputType="number"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
-                </com.google.android.material.textfield.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>-->
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

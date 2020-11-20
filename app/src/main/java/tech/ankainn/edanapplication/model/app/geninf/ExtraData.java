@@ -6,11 +6,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class ExtraData {
 
-    @ColumnInfo(name = "name_locality")
-    public String nameLocality = "";
-    @ColumnInfo(name = "code_locality")
-    public String codeLocality = "";
-
     @ColumnInfo(name = "type_bsu")
     public String typeBSU = "";
     @ColumnInfo(name = "code_bsu")
@@ -35,6 +30,6 @@ public class ExtraData {
     @ColumnInfo(name = "name_epd")
     public String nameEPD = "";
 
-    @ColumnInfo(name = "number_id_sinpad")
-    public String numberIdSinpad = "";
+    /*@ColumnInfo(name = "number_id_sinpad")
+    public String numberIdSinpad = "";*/
 }

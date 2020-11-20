@@ -9,6 +9,7 @@ import tech.ankainn.edanapplication.repositories.LivelihoodRepository;
 import tech.ankainn.edanapplication.repositories.MemberRepository;
 import tech.ankainn.edanapplication.repositories.ReniecRepository;
 import tech.ankainn.edanapplication.ui.formTwoA.FormTwoViewModel;
+import tech.ankainn.edanapplication.ui.formTwoA.ListMemberViewModel;
 import tech.ankainn.edanapplication.ui.formTwoA.MemberViewModel;
 import tech.ankainn.edanapplication.ui.formTwoB.LivelihoodViewModel;
 
@@ -36,6 +37,8 @@ public class FormTwoViewModelFactory implements ViewModelProvider.Factory {
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         if (modelClass == FormTwoViewModel.class)
             return (T) new FormTwoViewModel(formTwoRepository);
+        if (modelClass == ListMemberViewModel.class)
+            return (T) new ListMemberViewModel(memberRepository);
         if (modelClass == MemberViewModel.class)
             return (T) new MemberViewModel(memberRepository, reniecRepository);
         if (modelClass == LivelihoodViewModel.class)
