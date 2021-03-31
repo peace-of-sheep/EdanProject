@@ -123,6 +123,12 @@
         <item>@string/deceased</item>
     </string-array>
 
+    <string-array name="injury_severity">
+        <item>@string/mild</item>
+        <item>@string/moderate</item>
+        <item>@string/serious</item>
+    </string-array>
+
     <string-array name="group_danger">
         <item>Group1</item>
         <item>Group2</item>

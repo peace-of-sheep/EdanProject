@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel;
 
 import tech.ankainn.edanapplication.model.api.auth.AuthCredentials;
 import tech.ankainn.edanapplication.model.app.auth.UserData;
+import tech.ankainn.edanapplication.repositories.DataRepository;
 import tech.ankainn.edanapplication.repositories.UbigeoRepository;
 import tech.ankainn.edanapplication.repositories.UserRepository;
 import tech.ankainn.edanapplication.util.AbsentLiveData;
@@ -23,7 +24,7 @@ public class LoginViewModel extends ViewModel {
 
     private SingleLiveData<State> singleEvent = new SingleLiveData<>();
 
-    public LoginViewModel(UserRepository userRepository, UbigeoRepository ubigeoRepository) {
+    public LoginViewModel(UserRepository userRepository, DataRepository dataRepository) {
 
         LiveData<UserData> userResult = Transformations.switchMap(authCredentials, authCredentials -> {
 
@@ -34,7 +35,6 @@ public class LoginViewModel extends ViewModel {
                 state.setValue(State.NO_PASS);
                 return null;
             } else {
-
                 state.setValue(State.LOADING);
                 return userRepository.loadUser(authCredentials);
             }
@@ -43,14 +43,16 @@ public class LoginViewModel extends ViewModel {
         LiveData<Boolean> ubigeoResult = Transformations.switchMap(userResult, user -> {
             if (user == null) return new MutableLiveData<>(false);
             else {
-                return ubigeoRepository.loadUbigeos(user.ubigeo);
+                return dataRepository.loadData(user.ubigeo);
             }
         });
 
         singleEvent.addSource(ubigeoResult, loaded -> {
-            State state = loaded ? State.SUCCESSFUL : State.ERROR;
-            this.state.setValue(state);
-            this.singleEvent.setValue(state);
+            if (loaded != null) {
+                State state = loaded ? State.SUCCESSFUL : State.ERROR;
+                this.state.setValue(state);
+                this.singleEvent.setValue(state);
+            }
         });
     }
 

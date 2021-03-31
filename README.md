@@ -16,4 +16,4 @@ You can see the build.grale (app module) the required fields, some of them are t
 - signing.key.alias
 - signing.key.password
 - signing.store.file
-- signing.store.password 
+- signing.store.password

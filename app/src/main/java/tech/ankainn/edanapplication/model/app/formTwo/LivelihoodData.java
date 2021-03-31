@@ -50,8 +50,13 @@ public class LivelihoodData {
     @ColumnInfo(name = "data_version")
     public Integer dataVersion = 0;
 
+    public Integer code = -1;
     public String name = "";
+
+    @ColumnInfo(name = "code_type")
+    public Integer codeType = -1;
     public String type = "";
+
     @ColumnInfo(name = "amount_lost")
     public Integer amountLost;
     @ColumnInfo(name = "amount_affected")

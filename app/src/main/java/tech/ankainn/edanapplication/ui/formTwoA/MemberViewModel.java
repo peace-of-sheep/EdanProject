@@ -164,6 +164,11 @@ public class MemberViewModel extends ViewModel {
         currentMemberData.pregnant = isChecked;
     }
 
+    public void setInjurySeverity(String item, int pos) {
+        currentMemberData.textInjurySeverity = item;
+        currentMemberData.codeInjurySeverity = Integer.toString(pos + 1);
+    }
+
     public enum State {
         STILL,
         LOADING,

@@ -4,8 +4,8 @@
     <data>
         <import type="android.text.InputType" />
         <variable
-            name="names"
-            type="String[]" />
+            name="members"
+            type="java.util.List" />
     </data>
 
     <LinearLayout
@@ -19,18 +19,20 @@
             android:layout_marginHorizontal="@dimen/dim_nor"
             android:layout_marginTop="@dimen/dim_nor"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
+            android:labelFor="@id/combo_box"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <AutoCompleteTextView
                 android:id="@+id/combo_box"
-                dropdown="@{names}"
+                listDropdown="@{members}"
                 android:inputType="@{InputType.TYPE_NULL}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <FrameLayout
+            android:visibility="gone"
             android:layout_gravity="bottom"
             android:id="@+id/btn_add"
             android:clickable="true"

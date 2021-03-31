@@ -63,6 +63,11 @@ public class MemberData {
     @ColumnInfo(name = "code_personal_injury")
     public String codePersonalInjury = "";
 
+    @ColumnInfo(name = "text_injury_severity")
+    public String textInjurySeverity = "";
+    @ColumnInfo(name = "code_injury_severity")
+    public String codeInjurySeverity = "";
+
 
     @ColumnInfo(name = "livelihood_owner")
     public Boolean livelihoodOwner = false;
@@ -94,6 +99,6 @@ public class MemberData {
     @NotNull
     @Override
     public String toString() {
-        return new Gson().toJson(this);
+        return name + " " + surname;
     }
 }

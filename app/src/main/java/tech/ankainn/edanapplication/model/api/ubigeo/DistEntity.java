@@ -1,15 +1,11 @@
-package tech.ankainn.edanapplication.model.app.ubigeo;
-
-import androidx.room.Entity;
-import androidx.room.Ignore;
+package tech.ankainn.edanapplication.model.api.ubigeo;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-@Entity
-public class DeptEntity {
+public class DistEntity {
 
     @SerializedName("code")
     @Expose
@@ -19,8 +15,7 @@ public class DeptEntity {
     @Expose
     public String name;
 
-    @SerializedName("prov")
+    @SerializedName("local")
     @Expose
-    @Ignore
-    public List<ProvEntity> prov = null;
+    public List<LocalEntity> local = null;
 }

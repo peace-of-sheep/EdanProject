@@ -13,8 +13,9 @@ import tech.ankainn.edanapplication.model.api.formtwo.DataResponse;
 import tech.ankainn.edanapplication.model.api.auth.AuthCredentials;
 import tech.ankainn.edanapplication.model.api.auth.AuthResponse;
 import tech.ankainn.edanapplication.model.api.formtwo.FormTwoRemote;
+import tech.ankainn.edanapplication.model.api.livelihood.LivelihoodRemote;
 import tech.ankainn.edanapplication.model.app.formTwo.FormTwoData;
-import tech.ankainn.edanapplication.model.app.ubigeo.DeptEntity;
+import tech.ankainn.edanapplication.model.api.ubigeo.DeptEntity;
 import tech.ankainn.edanapplication.model.app.ubigeo.UbigeoLocation;
 
 public interface GaldosService {
@@ -23,13 +24,13 @@ public interface GaldosService {
     Call<AuthResponse> postLogin(@Body AuthCredentials authCredentials);
 
     @POST("api/form2A-cab")
-    Call<ApiResponse<DataResponse>> postFormTwo(@Body FormTwoRemote formTwoRemote);
-
-    @POST("api/form2A-cab")
     Call<ApiResponse<DataResponse>> postFormTwo(@Body FormTwoData formTwoData);
 
     @GET("api/list-ubigeo-user/{ubigeo}")
     Call<ResponseWrapper<List<DeptEntity>>> getUbigeos(@Path("ubigeo") String ubigeo);
+
+    @GET("api/half-life")
+    Call<ResponseWrapper<List<LivelihoodRemote>>> getLivelihoodsCodes();
 
     @GET("api/list-dptos")
     Call<ResponseWrapper<List<UbigeoLocation>>> getDptos();

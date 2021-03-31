@@ -12,14 +12,16 @@ import tech.ankainn.edanapplication.model.app.formOne.FormOneData;
 import tech.ankainn.edanapplication.model.app.formTwo.FormTwoData;
 import tech.ankainn.edanapplication.model.app.formTwo.LivelihoodData;
 import tech.ankainn.edanapplication.model.app.formTwo.MemberData;
+import tech.ankainn.edanapplication.model.app.master.DataEntity;
 
-@Database(entities = {UserData.class, FormOneData.class, FormTwoData.class, MemberData.class, LivelihoodData.class, UbigeoLocation.class}, version = 1, exportSchema = false)
+@Database(entities = {UserData.class, FormOneData.class, FormTwoData.class, MemberData.class, LivelihoodData.class, UbigeoLocation.class, DataEntity.class}, version = 1, exportSchema = false)
 public abstract class EdanDatabase extends RoomDatabase {
 
     public abstract UserDao userDao();
     public abstract FormTwoDao formTwoDao();
     public abstract FormOneDao formOneDao();
     public abstract UbigeoDao ubigeoDao();
+    public abstract DataCodesDao dataCodesDao();
 
     private static volatile EdanDatabase instance;
 

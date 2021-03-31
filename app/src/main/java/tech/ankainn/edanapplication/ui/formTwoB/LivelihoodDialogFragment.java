@@ -1,7 +1,6 @@
 package tech.ankainn.edanapplication.ui.formTwoB;
 
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +13,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-import tech.ankainn.edanapplication.R;
-import tech.ankainn.edanapplication.binding.BindingAdapters;
 import tech.ankainn.edanapplication.databinding.LayoutLivelihoodBinding;
+import tech.ankainn.edanapplication.model.app.master.DataEntity;
 import tech.ankainn.edanapplication.util.AutoClearedValue;
 import tech.ankainn.edanapplication.util.InjectorUtil;
 
@@ -75,46 +73,28 @@ public class LivelihoodDialogFragment extends BottomSheetDialogFragment {
 
         viewModel.loadLivelihoodData(tempMemberId, tempId);
 
-        binding.get().textLivelihood.setOnItemClickListener((parent, view, position, id) -> {
-            binding.get().textType.setText("", false);
+        viewModel.getLivelihoodNames().observe(getViewLifecycleOwner(),
+                livelihoodNames -> binding.get().setLivelihoodList(livelihoodNames));
+        viewModel.getLivelihoodTypeNames().observe(getViewLifecycleOwner(),
+                livelihoodTypeNames -> binding.get().setTypeList(livelihoodTypeNames));
 
-            if(position != 5) {
-                binding.get().textLivelihood.setInputType(InputType.TYPE_NULL);
-            }
+        binding.get().textLivelihood.setOnItemClickListener((p, v, pos, id) -> {
+            binding.get().textType.setText(null);
 
-            int arrayId;
-
-            switch (position) {
-                case 0:
-                    arrayId = R.array.farming;
-                    break;
-                case 1:
-                    arrayId = R.array.livestock;
-                    break;
-                case 2:
-                    arrayId = R.array.commerce;
-                    break;
-                case 3:
-                    arrayId = R.array.tourism;
-                    break;
-                case 4:
-                    arrayId = R.array.fishing;
-                    break;
-                default:
-                    binding.get().textType.setAdapter(null);
-                    binding.get().textType.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
-                    return;
-            }
-            String[] array = getResources().getStringArray(arrayId);
-            BindingAdapters.setDropdown(binding.get().textType, array);
+            DataEntity data = (DataEntity) binding.get().textLivelihood.getAdapter().getItem(pos);
+            viewModel.onLivelihoodName(data);
         });
+        binding.get().textType.setOnItemClickListener((p, v, pos, id) -> {
+            DataEntity data = (DataEntity) binding.get().textType.getAdapter().getItem(pos);
+            viewModel.onLivelihoodTypeName(data);
+        });
+
+        viewModel.getLivelihoodData().observe(getViewLifecycleOwner(), livelihoodData ->
+                binding.get().setLivelihood(livelihoodData));
 
         binding.get().btnSave.setOnClickListener(v -> {
             viewModel.saveLivelihoodData();
             dismiss();
         });
-
-        viewModel.getLivelihoodData().observe(getViewLifecycleOwner(), livelihoodData ->
-                binding.get().setLivelihood(livelihoodData));
     }
 }

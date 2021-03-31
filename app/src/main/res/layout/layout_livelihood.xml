@@ -7,6 +7,12 @@
         <variable
             name="livelihood"
             type="tech.ankainn.edanapplication.model.app.formTwo.LivelihoodData" />
+        <variable
+            name="livelihoodList"
+            type="java.util.List" />
+        <variable
+            name="typeList"
+            type="java.util.List" />
     </data>
 
     <LinearLayout
@@ -27,8 +33,8 @@
             <AutoCompleteTextView
                 android:imeOptions="actionDone"
                 android:id="@+id/text_livelihood"
-                textDropDown="@={livelihood.name}"
-                dropdown="@{@stringArray/livelihood}"
+                textDropDown="@{livelihood.name}"
+                listDropdown="@{livelihoodList}"
                 android:inputType="@{InputType.TYPE_NULL}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
@@ -45,7 +51,8 @@
             <AutoCompleteTextView
                 android:imeOptions="actionDone"
                 android:id="@+id/text_type"
-                textDropDown="@={livelihood.type}"
+                textDropDown="@{livelihood.type}"
+                listDropdown="@{typeList}"
                 android:inputType="@{InputType.TYPE_NULL}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>

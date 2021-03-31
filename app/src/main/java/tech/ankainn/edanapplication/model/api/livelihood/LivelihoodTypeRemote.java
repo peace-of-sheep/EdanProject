@@ -1,14 +1,13 @@
-package tech.ankainn.edanapplication.model.app.ubigeo;
+package tech.ankainn.edanapplication.model.api.livelihood;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class LocalEntity {
+public class LivelihoodTypeRemote {
 
     @SerializedName("code")
     @Expose
-    public String code;
-
+    public Integer code;
     @SerializedName("name")
     @Expose
     public String name;

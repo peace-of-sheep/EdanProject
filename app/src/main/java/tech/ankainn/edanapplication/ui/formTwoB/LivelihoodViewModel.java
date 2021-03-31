@@ -11,6 +11,7 @@ import java.util.List;
 
 import tech.ankainn.edanapplication.model.app.formTwo.LivelihoodData;
 import tech.ankainn.edanapplication.model.app.formTwo.MemberData;
+import tech.ankainn.edanapplication.model.app.master.DataEntity;
 import tech.ankainn.edanapplication.repositories.LivelihoodRepository;
 import tech.ankainn.edanapplication.repositories.MemberRepository;
 
@@ -18,70 +19,47 @@ public class LivelihoodViewModel extends ViewModel {
 
     private LivelihoodRepository livelihoodRepository;
 
-    private LiveData<String[]> nameMembers;
-    private List<MemberData> currentMembers;
+    private LiveData<List<DataEntity>> livelihoodNames;
+    private MutableLiveData<DataEntity> selectedLivelihoodName = new MutableLiveData<>();
 
-    private MutableLiveData<Integer> position = new MutableLiveData<>();
-    private LiveData<List<LivelihoodData>> livelihoodDataList;
+    private LiveData<List<DataEntity>> livelihoodTypeNames;
 
     private MutableLiveData<Pair<Long, Long>> tempIds = new MutableLiveData<>();
     private MediatorLiveData<LivelihoodData> livelihoodData = new MediatorLiveData<>();
     private LivelihoodData currentLivelihoodData;
 
-    public LivelihoodViewModel(LivelihoodRepository livelihoodRepository, MemberRepository memberRepository) {
+    public LivelihoodViewModel(LivelihoodRepository livelihoodRepository) {
         this.livelihoodRepository = livelihoodRepository;
-
-        LiveData<List<MemberData>> source = memberRepository.loadListMemberData();
-
-        nameMembers = Transformations.map(source, memberDataList -> {
-            this.currentMembers = memberDataList;
-
-            String[] names = new String[memberDataList.size()];
-            for (int i = 0; i < memberDataList.size(); i++) {
-                String name = memberDataList.get(i).name + " " + memberDataList.get(i).surname;
-                names[i] = name;
-            }
-            return names;
-        });
-
-        livelihoodDataList = Transformations.switchMap(position,
-                pos -> livelihoodRepository.loadLivelihoodDataList(currentMembers.get(pos).tempId));
 
         livelihoodData.addSource(tempIds, pair -> {
             LivelihoodData livelihoodData = livelihoodRepository.loadLivelihoodData(pair.first, pair.second);
 
-            if (livelihoodData != null)
+            if (livelihoodData != null) {
                 this.currentLivelihoodData = livelihoodData;
                 this.livelihoodData.setValue(livelihoodData);
+            }
         });
-    }
 
-    public LiveData<String[]> getNameMembers() {
-        return nameMembers;
-    }
+        livelihoodNames = livelihoodRepository.loadLivelihoodNames();
 
-    public LiveData<List<LivelihoodData>> getLivelihoodDataList() {
-        return livelihoodDataList;
+        livelihoodTypeNames = Transformations.switchMap(selectedLivelihoodName,
+                data -> livelihoodRepository.loadLivelihoodTypeNames(data.code));
     }
 
     public LiveData<LivelihoodData> getLivelihoodData() {
         return livelihoodData;
     }
 
-    public void onOption(int position) {
-        this.position.setValue(position);
+    public LiveData<List<DataEntity>> getLivelihoodNames() {
+        return livelihoodNames;
+    }
+
+    public LiveData<List<DataEntity>> getLivelihoodTypeNames() {
+        return livelihoodTypeNames;
     }
 
     public void loadLivelihoodData(long tempMemberId, long tempId) {
         this.tempIds.setValue(Pair.create(tempMemberId, tempId));
-    }
-
-    public long getCurrentMemberId() {
-        Integer pos = position.getValue();
-        if (pos != null) {
-            return currentMembers.get(pos).tempId;
-        }
-        return -1;
     }
 
     public void saveLivelihoodData() {
@@ -89,5 +67,16 @@ public class LivelihoodViewModel extends ViewModel {
             currentLivelihoodData.dataVersion++;
             livelihoodRepository.saveLivelihoodData(currentLivelihoodData);
         }
+    }
+
+    public void onLivelihoodName(DataEntity data) {
+        currentLivelihoodData.code = data.code;
+        currentLivelihoodData.name = data.name;
+        selectedLivelihoodName.setValue(data);
+    }
+
+    public void onLivelihoodTypeName(DataEntity data) {
+        currentLivelihoodData.codeType = data.code;
+        currentLivelihoodData.type = data.name;
     }
 }

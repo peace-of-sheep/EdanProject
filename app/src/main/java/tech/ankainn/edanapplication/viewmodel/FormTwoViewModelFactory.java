@@ -11,6 +11,7 @@ import tech.ankainn.edanapplication.repositories.ReniecRepository;
 import tech.ankainn.edanapplication.ui.formTwoA.FormTwoViewModel;
 import tech.ankainn.edanapplication.ui.formTwoA.ListMemberViewModel;
 import tech.ankainn.edanapplication.ui.formTwoA.MemberViewModel;
+import tech.ankainn.edanapplication.ui.formTwoB.LivelihoodListViewModel;
 import tech.ankainn.edanapplication.ui.formTwoB.LivelihoodViewModel;
 
 public class FormTwoViewModelFactory implements ViewModelProvider.Factory {
@@ -41,8 +42,10 @@ public class FormTwoViewModelFactory implements ViewModelProvider.Factory {
             return (T) new ListMemberViewModel(memberRepository);
         if (modelClass == MemberViewModel.class)
             return (T) new MemberViewModel(memberRepository, reniecRepository);
+        if (modelClass == LivelihoodListViewModel.class)
+            return (T) new LivelihoodListViewModel(livelihoodRepository, memberRepository);
         if (modelClass == LivelihoodViewModel.class)
-            return (T) new LivelihoodViewModel(livelihoodRepository, memberRepository);
+            return (T) new LivelihoodViewModel(livelihoodRepository);
         throw new RuntimeException("Don't use this factory");
     }
 }

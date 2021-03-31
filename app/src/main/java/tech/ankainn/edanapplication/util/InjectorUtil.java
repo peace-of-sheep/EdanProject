@@ -8,6 +8,7 @@ import tech.ankainn.edanapplication.AppExecutors;
 import tech.ankainn.edanapplication.danger.DangerSource;
 import tech.ankainn.edanapplication.db.EdanDatabase;
 import tech.ankainn.edanapplication.repositories.Cache;
+import tech.ankainn.edanapplication.repositories.DataRepository;
 import tech.ankainn.edanapplication.repositories.FormOneRepository;
 import tech.ankainn.edanapplication.repositories.FormTwoRepository;
 import tech.ankainn.edanapplication.repositories.GenInfRepository;
@@ -54,16 +55,22 @@ public class InjectorUtil {
         return MemberRepository.getInstance(Cache.getInstance(), AppExecutors.getInstance(), EdanDatabase.getInstance(context));
     }
 
-    private static LivelihoodRepository getLivelihoodRepository() {
-        return LivelihoodRepository.getInstance(Cache.getInstance());
+    private static LivelihoodRepository getLivelihoodRepository(Context context) {
+        return LivelihoodRepository.getInstance(AppExecutors.getInstance(), Cache.getInstance(), EdanDatabase.getInstance(context).dataCodesDao());
     }
 
     private static ReniecRepository getReniecRepository() {
         return ReniecRepository.getInstance(AppExecutors.getInstance(), ApiService.getReniecService());
     }
 
+    private static DataRepository getDataRepository(Context context) {
+        EdanDatabase edanDatabase = EdanDatabase.getInstance(context);
+        return DataRepository.getInstance(AppExecutors.getInstance(), ApiService.getGaldosService(),
+                edanDatabase.ubigeoDao(), edanDatabase.dataCodesDao());
+    }
+
     private static UbigeoRepository getUbigeoRepository(Context context) {
-        return UbigeoRepository.getInstance(AppExecutors.getInstance(), ApiService.getGaldosService(),
+        return UbigeoRepository.getInstance(AppExecutors.getInstance(),
                 EdanDatabase.getInstance(context.getApplicationContext()).ubigeoDao(), Cache.getInstance());
     }
 
@@ -73,11 +80,11 @@ public class InjectorUtil {
 
     public static FormTwoViewModelFactory provideFormTwoViewModelFactory(Context context) {
         return new FormTwoViewModelFactory(getFormTwoRepository(context), getMemberRepository(context),
-                getLivelihoodRepository(), getReniecRepository());
+                getLivelihoodRepository(context), getReniecRepository());
     }
 
     public static EdanViewModelFactory provideViewModelFactory(Context context) {
-        return new EdanViewModelFactory(getUserRepository(context), getUbigeoRepository(context), getFormOneRepository(context),
+        return new EdanViewModelFactory(getUserRepository(context), getDataRepository(context), getFormOneRepository(context),
                 getFormTwoRepository(context));
     }
 

@@ -1,5 +1,6 @@
 package tech.ankainn.edanapplication.model.api.auth;
 
+import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -39,5 +40,9 @@ public class AuthResponse {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String dump() {
+        return new Gson().toJson(this);
     }
 }

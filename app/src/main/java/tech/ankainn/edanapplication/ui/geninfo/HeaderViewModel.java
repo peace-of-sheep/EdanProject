@@ -95,15 +95,11 @@ public class HeaderViewModel extends ViewModel {
         currentData.department = ubigeoLocation.name;
         currentData.codeDepartment = ubigeoLocation.code;
 
-        Timber.tag(Tagger.DUMPER).d("HeaderViewModel.onDepartment: %s", ubigeoLocation.dump());
-
         codeDept.setValue(ubigeoLocation.code);
     }
     public void onProvince(UbigeoLocation ubigeoLocation) {
         currentData.province = ubigeoLocation.name;
         currentData.codeProvince = ubigeoLocation.code;
-
-        Timber.tag(Tagger.DUMPER).d("HeaderViewModel.onProvince: %s", ubigeoLocation.dump());
 
         codeProv.setValue(ubigeoLocation.code);
     }

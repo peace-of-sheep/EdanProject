@@ -221,4 +221,8 @@
     <string name="no_username">Porfavor ingrese un usario válido</string>
     <string name="no_password">Porfavor ingrese una contraseña válida</string>
     <string name="to_delete">¿Seguro que quieres eliminar este archivo?</string>
+    <string name="injury_severity">Tipo de lesión</string>
+    <string name="mild">Leve</string>
+    <string name="moderate">Moderado</string>
+    <string name="serious">Grave</string>
 </resources>

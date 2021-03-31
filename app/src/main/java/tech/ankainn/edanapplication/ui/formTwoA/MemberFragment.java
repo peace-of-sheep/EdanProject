@@ -48,7 +48,18 @@ public class MemberFragment extends BindingFragment<FragmentMemberBinding> {
             viewModel.setCondition(requireContext(), pos);
         });*/
         binding().textPersonalInjury.setOnItemClickListener((p, v, pos, id) -> {
+            if (pos == 0) {
+                binding().textInjurySeverity.setEnabled(true);
+            } else {
+                binding().textInjurySeverity.setEnabled(false);
+                binding().textInjurySeverity.setText("");
+            }
+
             viewModel.setInjury(requireContext(), pos);
+        });
+        binding().textInjurySeverity.setOnItemClickListener((p, v, pos, id) -> {
+            String item = (String) binding().textInjurySeverity.getAdapter().getItem(pos);
+            viewModel.setInjurySeverity(item, pos);
         });
 
         Picker.getInstance().observe(getViewLifecycleOwner(), (emitter, value) -> {

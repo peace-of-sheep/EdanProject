@@ -19,7 +19,6 @@ import tech.ankainn.edanapplication.db.UserDao;
 import tech.ankainn.edanapplication.model.api.auth.AuthCredentials;
 import tech.ankainn.edanapplication.model.api.auth.AuthResponse;
 import tech.ankainn.edanapplication.model.app.auth.UserData;
-import tech.ankainn.edanapplication.util.Tagger;
 import tech.ankainn.edanapplication.util.Utilities;
 import timber.log.Timber;
 
@@ -57,7 +56,6 @@ public class UserRepository {
             @Override
             @EverythingIsNonNull
             public void onResponse(Call<AuthResponse> call, Response<AuthResponse> response) {
-
                 if (response.isSuccessful())
                     networkSearch.postValue(response.body());
                 else

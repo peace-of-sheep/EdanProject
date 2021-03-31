@@ -242,4 +242,8 @@
     <string name="no_username">Please enter a valid username</string>
     <string name="no_password">Please enter a valid password</string>
     <string name="to_delete">Are you sure you want to remove this file?</string>
+    <string name="injury_severity">Injury severity</string>
+    <string name="mild">Mild</string>
+    <string name="moderate">Moderate</string>
+    <string name="serious">Serious</string>
 </resources>
